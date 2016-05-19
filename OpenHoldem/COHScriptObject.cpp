@@ -1,15 +1,15 @@
-//*******************************************************************************
+//******************************************************************************
 //
 // This file is part of the OpenHoldem project
 //   Download page:         http://code.google.com/p/openholdembot/
 //   Forums:                http://www.maxinmontreal.com/forums/index.php
 //   Licensed under GPL v3: http://www.gnu.org/licenses/gpl.html
 //
-//*******************************************************************************
+//******************************************************************************
 //
 // Purpose:
 //
-//*******************************************************************************
+//******************************************************************************
 
 #include "stdafx.h"
 #include "COHScriptObject.h"
@@ -17,27 +17,25 @@
 #include "CFormulaParser.h"
 #include "CFunctionCollection.h"
 
-COHScriptObject::COHScriptObject()
-{
+COHScriptObject::COHScriptObject() {
 	_name = "";
 	_function_text = "";
   _starting_line_of_function = 0;
 }
 
 COHScriptObject::COHScriptObject(
-    CString *new_name, 
-    CString *new_function_text,
+    CString new_name, 
+    CString new_function_text,
     int starting_line_of_function) {
-  _name = *new_name;
-  _function_text = *new_function_text;
+  _name = new_name;
+  _function_text = new_function_text;
   _starting_line_of_function = starting_line_of_function;
 }
 
-COHScriptObject::~COHScriptObject()
-{}
+COHScriptObject::~COHScriptObject() {
+}
 
-double COHScriptObject::Evaluate(bool log /* = false */)
-{
+double COHScriptObject::Evaluate(bool log /* = false */) {
 	bool this_method_should_always_get_overwritten_and_never_called = false;
 	assert(this_method_should_always_get_overwritten_and_never_called);
 	return 0.0;
@@ -46,6 +44,16 @@ double COHScriptObject::Evaluate(bool log /* = false */)
 // virtual
 bool COHScriptObject::EvaluatesToBinaryNumber() {
   return false;
+}
+
+bool COHScriptObject::IsOpenPPLSymbol(CString name) { 
+  // "Random" is no longer an OpenPPL-symbol
+  // from a technical point of view
+  // as it is implemented internally to avoid caching.
+  // IsOpenPPLSymbol() needs to consider this fact
+  // as it affects e.g. the autoplayer-trace.
+  if (name == "Random") return false;
+  return isupper(name[0]); 
 }
 
 bool COHScriptObject::IsMainOpenPPLFunction(CString name) {

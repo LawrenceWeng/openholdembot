@@ -11,11 +11,11 @@
 #include "NumericalFunctions.h"
 
 COHScriptList::COHScriptList(
-    CString *new_name, 
-    CString *new_function_text,
+    CString new_name, 
+    CString new_function_text,
     int absolute_line) {
-  _name = ((new_name != NULL) ? *new_name : "");
-  _function_text = ((new_function_text != NULL) ? *new_function_text : "");
+  _name = new_name;
+  _function_text = new_function_text;
   _starting_line_of_function = absolute_line;
   Clear();
 }

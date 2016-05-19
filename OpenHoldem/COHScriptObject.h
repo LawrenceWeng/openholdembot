@@ -1,15 +1,15 @@
-//*******************************************************************************
+//******************************************************************************
 //
 // This file is part of the OpenHoldem project
 //   Download page:         http://code.google.com/p/openholdembot/
 //   Forums:                http://www.maxinmontreal.com/forums/index.php
 //   Licensed under GPL v3: http://www.gnu.org/licenses/gpl.html
 //
-//*******************************************************************************
+//******************************************************************************
 //
 // Purpose: virtual base-class for CFunction and COHList
 //
-//*******************************************************************************
+//******************************************************************************
 
 #ifndef INC_COHSCRIPTOBJECT_H
 #define INC_COHSCRIPTOBJECT_H
@@ -18,10 +18,10 @@ class COHScriptObject {
  public:
   COHScriptObject(); 
   COHScriptObject(
-      CString *new_name, 
-      CString *new_function_text,
+      CString new_name, 
+      CString new_function_text,
       int starting_line_of_function);
-  ~COHScriptObject();
+  virtual ~COHScriptObject();
  public:
   CString name()			      { return _name; }
   virtual CString function_text() { return _function_text; }
@@ -33,7 +33,7 @@ class COHScriptObject {
  public:
   static bool IsFunction(CString name)      { return name.Left(2) ==  "f$"; }
   static bool IsList(CString name)          { return name.Left(4) ==  "list"; }
-  static bool IsOpenPPLSymbol(CString name) { return isupper(name[0]); }
+  static bool IsOpenPPLSymbol(CString name);
   // f$preflop, f$flop, f$turn, f$river
   static bool IsMainOpenPPLFunction(CString name);
  public:

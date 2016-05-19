@@ -1,15 +1,15 @@
-//*******************************************************************************
+//******************************************************************************
 //
 // This file is part of the OpenHoldem project
 //   Download page:         http://code.google.com/p/openholdembot/
 //   Forums:                http://www.maxinmontreal.com/forums/index.php
 //   Licensed under GPL v3: http://www.gnu.org/licenses/gpl.html
 //
-//*******************************************************************************
+//******************************************************************************
 //
 // Purpose:
 //
-//*******************************************************************************
+//******************************************************************************
 
 #include "stdafx.h"
 #include "CFilenames.h"
@@ -221,7 +221,7 @@ CString CFilenames::VersusPath() {
 }
 
 CString CFilenames::OpenPPLLibraryPath() {
-  CString result = OpenHoldemDirectory() + "\OpenPPL_Library.ohf";
+  CString result = OpenHoldemDirectory() + "\\OpenPPL_Library.ohf";
   Log("OpenPPLLibraryPath", result.GetString());
 	return result;
 }   

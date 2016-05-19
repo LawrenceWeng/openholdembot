@@ -1,15 +1,15 @@
-//*******************************************************************************
+//******************************************************************************
 //
 // This file is part of the OpenHoldem project
 //   Download page:         http://code.google.com/p/openholdembot/
 //   Forums:                http://www.maxinmontreal.com/forums/index.php
 //   Licensed under GPL v3: http://www.gnu.org/licenses/gpl.html
 //
-//*******************************************************************************
+//******************************************************************************
 //
 // Purpose:
 //
-//*******************************************************************************
+//******************************************************************************
 
 #include "stdafx.h"
 #include "CFormulaFileSplitter.h"
@@ -57,13 +57,8 @@ void CFormulaFileSplitter::ScanForNextFunctionOrList(CArchive &formula_file) {
   _function_header = _next_line;
   _function_text = ""; 
   while (true) {
-    try {
-      if (!formula_file.ReadString(_next_line)) {
-	      break;
-      }
-    }
-    catch (CException *e) {
-	    // break;
+    if (!formula_file.ReadString(_next_line)) {
+	    break;
     }
     ++_total_line_processed;
     // Avoid problems with "empty" lines before first function header

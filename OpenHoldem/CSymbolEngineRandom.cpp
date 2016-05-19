@@ -1,15 +1,15 @@
-//*******************************************************************************
+//******************************************************************************
 //
 // This file is part of the OpenHoldem project
 //   Download page:         http://code.google.com/p/openholdembot/
 //   Forums:                http://www.maxinmontreal.com/forums/index.php
 //   Licensed under GPL v3: http://www.gnu.org/licenses/gpl.html
 //
-//*******************************************************************************
+//******************************************************************************
 //
 // Purpose:
 //
-//*******************************************************************************
+//******************************************************************************
 
 #include "stdafx.h"
 #include "CSymbolEngineRandom.h"
@@ -62,6 +62,13 @@ double CSymbolEngineRandom::Random_0_1() {
 }
 
 bool CSymbolEngineRandom::EvaluateSymbol(const char *name, double *result, bool log /* = false */) {
+  if (memcmp(name, "Random", 6) == 0 && strlen(name) == 6) {
+    // The OpenPPL-symbol "Random" is no longer implemented in the library
+    // but as a built-in symbol to prevent symbol-caching.
+    // http://www.maxinmontreal.com/forums/viewtopic.php?f=111&t=19611
+    *result = Random(100);
+    return true;
+  }
   FAST_EXIT_ON_OPENPPL_SYMBOLS(name);
 	if (memcmp(name, "random", 6) == 0)	{
 		if (memcmp(name, "randomheartbeat", 15)==0 && strlen(name)==15)	{
@@ -84,5 +91,7 @@ bool CSymbolEngineRandom::EvaluateSymbol(const char *name, double *result, bool 
 }
 
 CString CSymbolEngineRandom::SymbolsProvided() {
-  return "random randomheartbeat randomhand randomround ";
+  return "Random "
+    "random "
+    "randomheartbeat randomhand randomround ";
 }

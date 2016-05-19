@@ -1,15 +1,15 @@
-//*******************************************************************************
+//******************************************************************************
 //
 // This file is part of the OpenHoldem project
 //   Download page:         http://code.google.com/p/openholdembot/
 //   Forums:                http://www.maxinmontreal.com/forums/index.php
 //   Licensed under GPL v3: http://www.gnu.org/licenses/gpl.html
 //
-//*******************************************************************************
+//******************************************************************************
 //
 // Purpose:
 //
-//*******************************************************************************
+//******************************************************************************
 
 #include "stdafx.h" 
 #include "CParseTreeOperatorNode.h"
@@ -37,22 +37,9 @@ CParseTreeOperatorNode::CParseTreeOperatorNode(int relative_line_number) :
 }
 
 CParseTreeOperatorNode::~CParseTreeOperatorNode() {
-  delete _first_sibbling;
-  _first_sibbling = NULL;
-  delete _second_sibbling;
-  _second_sibbling = NULL;
-  if (!IsOpenEndedWhenCondition()) {
-    // Be carefull with open-ended when-conditions.
-    // They create graphs, no longer pure trees/
-    // The 3rd node is reachable on two paths.
-    delete _third_sibbling;
-    _third_sibbling = NULL;
-  }
-
 }
 
-void CParseTreeOperatorNode::MakeUnaryOperator(int node_type, TPParseTreeNode first_sibbling)
-{
+void CParseTreeOperatorNode::MakeUnaryOperator(int node_type, TPParseTreeNode first_sibbling) {
 	_node_type = node_type;
 	_first_sibbling = first_sibbling;
 }
@@ -143,9 +130,7 @@ double CParseTreeOperatorNode::Evaluate(bool log /* = false */) {
       raise_by_amount_in_bblinds,
       final_betsize_in_bblinds);
     return final_betsize_in_bblinds;
-  } else if (TokenIsElementaryAction(_node_type)) {
-		return (0 - _node_type);
-  }
+  } 
 	// Finally operators
 	else if (TokenIsUnary(_node_type)) {
 		return EvaluateUnaryExpression(log);
@@ -203,7 +188,7 @@ double CParseTreeOperatorNode::EvaluateBinaryExpression(bool log) {
 	// Short circuiting
 	// Don't evaluate unnecessary parts of expressions
 	if (_node_type == kTokenOperatorLogicalAnd)	{
-		if (value_of_first_sibbling == false) {
+		if (value_of_first_sibbling == double(false)) {
 			return false;
 		}
 		value_of_second_sibbling = EvaluateSibbling(_second_sibbling, log);
