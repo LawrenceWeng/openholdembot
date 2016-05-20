@@ -187,7 +187,7 @@ POKERTRACKER_DLL_API double	PT_DLL_GetStatOpp(CString symbol_name, int chair) {
 		return kUndefined;
 	}
 	else if (chair == kAverage) {
-		return stats[stats_index].average;
+		return stats[stats_index].average_opp;
 	}
 	else
 	{
@@ -201,6 +201,7 @@ POKERTRACKER_DLL_API void PT_DLL_SetStat(int stats_index, int chair, double valu
 	if (chair == kAverage)
 	{
 		stats[stats_index].average = value;
+		stats[stats_index].average_opp = opp;
 	}
 	else
 	{

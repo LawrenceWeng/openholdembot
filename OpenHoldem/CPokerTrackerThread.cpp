@@ -308,23 +308,23 @@ bool CPokerTrackerThread::CheckIfNameHasChanged(int chair)
 }
 
 
-void CPokerTrackerThread::SetPlayerName(int chr, bool found, const char* pt_name, const char* scraped_name)
+void CPokerTrackerThread::SetPlayerName(int chair, bool found, const char* pt_name, const char* scraped_name)
 {
-	_player_data[chr].found = found;
+	_player_data[chair].found = found;
 	bool logResult = false;
-	if (0 != memcmp(_player_data[chr].pt_name, pt_name, kMaxLengthOfPlayername) )
+	if (0 != memcmp(_player_data[chair].pt_name, pt_name, kMaxLengthOfPlayername) )
 	{
-		memcpy(_player_data[chr].pt_name, pt_name, kMaxLengthOfPlayername);
+		memcpy(_player_data[chair].pt_name, pt_name, kMaxLengthOfPlayername);
 		logResult = true;
 	}
-	if (0 != memcmp(_player_data[chr].scraped_name, scraped_name, kMaxLengthOfPlayername) )
+	if (0 != memcmp(_player_data[chair].scraped_name, scraped_name, kMaxLengthOfPlayername) )
 	{
-		memcpy(_player_data[chr].scraped_name, scraped_name, kMaxLengthOfPlayername);
+		memcpy(_player_data[chair].scraped_name, scraped_name, kMaxLengthOfPlayername);
 		logResult = true;
 	}
 	if (logResult)
 	{
-		 write_log(preferences.debug_pokertracker(), "[PokerTracker] SetPlayerName[%d]: Done. ptname[%s] scrapedName[%s]\n", chr, _player_data[chr].pt_name, _player_data[chr].scraped_name);
+		 write_log(preferences.debug_pokertracker(), "[PokerTracker] SetPlayerName[%d]: Done. ptname[%s] scrapedName[%s]\n", chair, _player_data[chair].pt_name, _player_data[chair].scraped_name);
 	}
 }
 
@@ -410,7 +410,7 @@ double CPokerTrackerThread::UpdateStat(int m_chr, int stat)
 	}
 	else
 	{
-		strcpy(playerName, "");
+		strcpy(playerName, "%");
 	}
 	assert(stat >= 0);
 	assert(stat < PT_DLL_GetNumberOfStatTypes());
@@ -427,8 +427,8 @@ double CPokerTrackerThread::UpdateStat(int m_chr, int stat)
 	{
 		// See if we can find the player name in the database
 		 write_log(preferences.debug_pokertracker(),
-		 "[PokerTracker] Querying for m_chr %d: %s\n",
-			 m_chr, query);
+		 "[PokerTracker] Querying %d for m_chr %d: %s\n",
+			 stat, m_chr, query);
 		res = PQexec(_pgconn, query);
 	}
 	catch (_com_error &e)
@@ -503,8 +503,8 @@ double CPokerTrackerThread::UpdateStat(int m_chr, int stat)
 					// update cache with new values
 					PT_DLL_SetStat(stat, m_chr, result, opp);
 					 write_log(preferences.debug_pokertracker(), 
-						"[PokerTracker] Query for m_chr %d success: %f\n", 
-						m_chr, result);
+						"[PokerTracker] Query %d for m_chr %d success: %f\n", 
+						 stat, m_chr, result);
 				}
 			}
 		}
@@ -821,11 +821,11 @@ UINT CPokerTrackerThread::PokertrackerThreadFunction(LPVOID pParam)
 				for (int i = 0; i < PT_DLL_GetNumberOfStatTypes(); i++)
 				{
 					pParent->UpdateStat(kAverage, i);
+					/* Verify therad_stop is false */
+					if (LightSleep(0, pParent))
+						break;
 				}
 				averages_set = true;
-				/* Verify therad_stop is false */
-				if (LightSleep(0, pParent))
-					break;
 			}
 			for (int chair = 0; chair < p_tablemap->nchairs(); ++chair)
 			{
