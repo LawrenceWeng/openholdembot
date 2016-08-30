@@ -247,7 +247,7 @@ bool CSymbolEnginePokerTracker::EvaluateSymbol(const char *name, double *result,
 		CString last_character = symbol.Right(1);
     if (!isdigit(last_character[0])) {
       CString error_message;
-      error_message.Format("Invalid PokerTracker Symbol: &s",
+      error_message.Format("Invalid PokerTracker Symbol: %s",
         symbol);
       OH_MessageBox_Formula_Error(error_message, "ERROR");
 		  *result = kUndefined;
@@ -325,8 +325,10 @@ CString CSymbolEnginePokerTracker::SymbolsProvided() {
 
     // Add symbols for all chairs, indexed by trailing numbers
     for (int j=0; j<kMaxNumberOfPlayers; j++) {
-	    new_symbol.Format("pt_%s%i", basic_symbol_name, j); 
-	    list.AppendFormat(" %s", new_symbol);
+		new_symbol.Format("pt_%s%i", basic_symbol_name, j);
+		list.AppendFormat(" %s", new_symbol);
+		new_symbol.Format("pt_%s%i_opp", basic_symbol_name, j);
+		list.AppendFormat(" %s", new_symbol);
     }
   }
   return list;

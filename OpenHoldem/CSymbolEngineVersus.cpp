@@ -113,6 +113,66 @@ void CSymbolEngineVersus::ClearWinTieLosData() {
   }
 }
 
+double CSymbolEngineVersus::ExpectedWinHandVsHand(int plCard0, int plCard1, int oppCard0, int oppCard1) {
+	int betround = p_betround_calculator->betround();
+	long pos = 0;
+	int wintemp = 0, lostemp = 0;
+	int nwin = 0, ntie = 0, nlos = 0, nhands = 0;
+	BYTE byte[8] = { 0 };
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// PREFLOP
+	if (betround == kBetroundPreflop) {
+		if (plCard0 >= plCard1) {
+			SwapInts(&plCard0, &plCard1);
+		}
+		if (oppCard0 >= oppCard1) {
+			SwapInts(&oppCard0, &oppCard1);
+		}
+		// figure out offset into file
+		unsigned int offset = 0;
+		//for (int i=1; i<card_player[0]; i++)  offset += (52-i)*1225;
+		offset += card0_offset[plCard0];
+		offset += (plCard1 - plCard0 - 1) * 1225;
+
+		//reduce oppcard0 if > pl0 and if 1
+		int oppCard0_mod = oppCard0;
+		if (oppCard0 > plCard0)
+			oppCard0_mod--;
+		if (oppCard0 > plCard1)
+			oppCard0_mod--;
+
+		offset += oppCard0_mod * 49 - (oppCard0_mod*oppCard0_mod - oppCard0_mod) / 2;
+
+		//reduce oppcard1 if > pl0 and if 1
+		int oppCard1_mod = oppCard1 - oppCard0 - 1;
+		if (oppCard1 > plCard0 && plCard0 > oppCard0)
+			oppCard1_mod--;
+		if (oppCard1 > plCard1 && plCard1 > oppCard0)
+			oppCard1_mod--;
+		offset += oppCard1_mod;
+
+		offset *= sizeof(byte);
+
+		// seek to right position in file
+		if ((pos = _lseek(_versus_fh, offset, SEEK_SET)) == long(kUndefined)) {
+			return false;
+		}
+
+		_read(_versus_fh, &byte, sizeof(byte));
+		memcpy(&wintemp, &byte[0], sizeof(unsigned int));
+		memcpy(&lostemp, &byte[4], sizeof(unsigned int));
+
+		nwin += wintemp;
+		ntie += 1712304 - wintemp - lostemp;
+		nlos += lostemp;
+		nhands = nhands + 1;
+	}
+	//else flop, etc
+	return nwin / (nwin + nlos);
+	//return (nwin + ntie / 2) / nhands;
+}
+
 bool CSymbolEngineVersus::GetCounts() {
 	if (_versus_fh == kUndefined) return false;
 
@@ -434,7 +494,7 @@ bool CSymbolEngineVersus::EvaluateVersusHandListSymbol(const char *name, double 
         int c1_OHrank = c1rank + 2;
          write_log(preferences.debug_versus(),
           "[CVersus] Hand %d %d %s\n", 
-          c0_OHrank, c1_OHrank, (c0_OHrank ? "suited": "offsuited"));
+          c0_OHrank, c1_OHrank, (is_suited ? "suited": "offsuited"));
         if (hand_list->IsOnList(c0_OHrank, c1_OHrank, is_suited)) {
            write_log(preferences.debug_versus(), "[CVersus] Hand on list\n");
           // Hand in list

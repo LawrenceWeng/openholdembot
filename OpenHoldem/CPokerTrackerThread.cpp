@@ -383,7 +383,7 @@ bool CPokerTrackerThread::FindName(const char *oh_scraped_name, char *best_name)
 	return result;
 }
 
-double CPokerTrackerThread::UpdateStat(int m_chr, int stat)
+int CPokerTrackerThread::UpdateStat(int m_chr, int stat_type, int stat)
 {
 	PGresult	*res = NULL;
 	double		result = kUndefined;
@@ -391,6 +391,7 @@ double CPokerTrackerThread::UpdateStat(int m_chr, int stat)
 	clock_t		updStart, updEnd;
 	int			duration;
 	char		playerName[kMaxLengthOfPlayername];
+	int			count = stat;
 
 	int sym_elapsed = p_symbol_engine_time->elapsed();
 
@@ -412,11 +413,13 @@ double CPokerTrackerThread::UpdateStat(int m_chr, int stat)
 	{
 		strcpy(playerName, "%");
 	}
+	assert(stat_type >= 0);
+	assert(stat_type < PT_DLL_GetNumberOfStatTypes());
 	assert(stat >= 0);
-	assert(stat < PT_DLL_GetNumberOfStatTypes());
+	assert(stat < PT_DLL_GetNumberOfStats());
 
 	// get query string for the requested statistic
-	CString query = PT_DLL_GetQuery(stat,
+	CString query = PT_DLL_GetQuery(stat_type,
 		p_symbol_engine_isomaha->isomaha(),
 		p_symbol_engine_istournament->istournament(),
 		siteid, playerName);
@@ -428,7 +431,7 @@ double CPokerTrackerThread::UpdateStat(int m_chr, int stat)
 		// See if we can find the player name in the database
 		 write_log(preferences.debug_pokertracker(),
 		 "[PokerTracker] Querying %d for m_chr %d: %s\n",
-			 stat, m_chr, query);
+			 stat_type, m_chr, query);
 		res = PQexec(_pgconn, query);
 	}
 	catch (_com_error &e)
@@ -501,10 +504,11 @@ double CPokerTrackerThread::UpdateStat(int m_chr, int stat)
 					opp = atof(PQgetvalue(res, eachRow, eachColumn*2 + 1));
 
 					// update cache with new values
-					PT_DLL_SetStat(stat, m_chr, result, opp);
+					PT_DLL_SetStat(count, m_chr, result, opp);
 					 write_log(preferences.debug_pokertracker(), 
 						"[PokerTracker] Query %d for m_chr %d success: %f\n", 
-						 stat, m_chr, result);
+						 count, m_chr, result);
+					 count++;
 				}
 			}
 		}
@@ -512,7 +516,7 @@ double CPokerTrackerThread::UpdateStat(int m_chr, int stat)
 
 	}
 
-	return result;
+	return count;
 }
 
 bool CPokerTrackerThread::QueryName(const char * query_name, const char * scraped_name, char * best_name)
@@ -680,7 +684,7 @@ bool CPokerTrackerThread::SkipUpdateForChair(int chair)
 void CPokerTrackerThread::GetStatsForChair(LPVOID pParam, int chair, int sleepTime)
 {
 	CPokerTrackerThread *pParent = static_cast<CPokerTrackerThread*>(pParam);
-	int         updatedCount = 0;
+	int					updatedCount = 0;
 
    write_log(preferences.debug_pokertracker(), "[PokerTracker] GetStatsForChair %i\n", chair); 
 	if (pParent->CheckIfNameExistsInDB(chair) == false)
@@ -746,8 +750,9 @@ void CPokerTrackerThread::GetStatsForChair(LPVOID pParam, int chair, int sleepTi
 					{
 						/* Update... */
 						 write_log(preferences.debug_pokertracker(), "[PokerTracker] GetStatsForChair updating stats [%d] for chair [%d]...\n", i, chair);
-						pParent->UpdateStat(chair, i);
-						++updatedCount;
+						 updatedCount = pParent->UpdateStat(chair, i, updatedCount);
+						 if (updatedCount == kUndefined)
+							 break;
 					}
 					/* Sleep between two updates (even if skipped) */
 					if (LightSleep(sleepTime, pParent)) 
@@ -778,6 +783,8 @@ UINT CPokerTrackerThread::PokertrackerThreadFunction(LPVOID pParam)
 	clock_t		iterStart, iterEnd;
 	int			iterDurationMS;
 	bool		averages_set = false;
+	int			updatedCount = 0;
+	int			statUpTo = 0;
 	PT_DLL_Initialise();
 
 	while (::WaitForSingleObject(pParent->_m_stop_thread, 0) != WAIT_OBJECT_0)
@@ -818,14 +825,24 @@ UINT CPokerTrackerThread::PokertrackerThreadFunction(LPVOID pParam)
 		{
 			if (!averages_set && pt_lookup.GetSiteId() != kUndefined)
 			{
-				for (int i = 0; i < PT_DLL_GetNumberOfStatTypes(); i++)
+				for (int i = statUpTo; i < PT_DLL_GetNumberOfStatTypes(); i++)
 				{
-					pParent->UpdateStat(kAverage, i);
+					int result = pParent->UpdateStat(kAverage, i, updatedCount);
+					if (result != kUndefined)
+					{ 
+						updatedCount = result;
+					}
+					else
+					{
+						statUpTo = i;
+						break;
+					}
 					/* Verify therad_stop is false */
 					if (LightSleep(0, pParent))
 						break;
 				}
 				averages_set = true;
+				continue; //needed in case averages fail
 			}
 			for (int chair = 0; chair < p_tablemap->nchairs(); ++chair)
 			{
