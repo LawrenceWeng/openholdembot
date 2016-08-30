@@ -562,8 +562,7 @@ void CDlgFormulaScintilla::PopulateFormulaTree() {
 
   p_OH_script_object = p_function_collection->GetFirst();
   while (p_OH_script_object != NULL) {
-    if (p_OH_script_object->IsList())
-    {
+    if (p_OH_script_object->IsList()) {
       hItem = m_FormulaTree.InsertItem(p_OH_script_object->name(), parent);
       m_FormulaTree.SetItemData(hItem, (DWORD_PTR)FindScintillaWindow(
         p_OH_script_object->name()));
@@ -576,7 +575,7 @@ void CDlgFormulaScintilla::PopulateFormulaTree() {
   p_OH_script_object = p_function_collection->GetFirst();
   while (p_OH_script_object != NULL) {
     m_FormulaTree.SetItemState(parent, TVIS_BOLD, TVIS_BOLD);
-    if (p_OH_script_object->IsUserDefinedFunction()) {
+    if (p_OH_script_object->IsUserDefinedFunction() && !p_OH_script_object->IsReadOnlyLibrarySymbol()) {
       AddFunctionToTree(parent, p_OH_script_object->name());
     }
     p_OH_script_object = p_function_collection->GetNext();
@@ -933,7 +932,7 @@ void CDlgFormulaScintilla::OnNew() {
       newhtitem = m_FormulaTree.InsertItem(newdlg.CSnewname, p);
     }
   } else {
-    // The added functions stazs in the collection 
+    // The added functions stays in the collection 
     // until a new profile gets loaded, until it gets overwritten]
     // or until the ebtire collection gets released
     CFunction *p_new_function = new CFunction(newdlg.CSnewname, 
@@ -1127,7 +1126,7 @@ void CDlgFormulaScintilla::DoFind(bool DirDown)
 		m_pActiveScinCtrl->SearchBackward((char *)m_FindLastSearch.GetString());
 }
 
-LONG CDlgFormulaScintilla::OnFindReplace(WPARAM, LPARAM lParam)
+LRESULT CDlgFormulaScintilla::OnFindReplace(WPARAM, LPARAM lParam)
 {
 	LPFINDREPLACE lpFindReplace = (LPFINDREPLACE) lParam;
 
@@ -1249,7 +1248,6 @@ BOOL CDlgFormulaScintilla::DestroyWindow()
 	p_flags_toolbar->CheckButton(ID_MAIN_TOOLBAR_FORMULA, false);
 
 	return CDialog::DestroyWindow();
-	return 0;
 }
 
 void CDlgFormulaScintilla::PostNcDestroy()
@@ -1666,7 +1664,7 @@ void CDlgFormulaScintilla::OnEditSelectAll()
 	m_pActiveScinCtrl->SelectAll();
 }
 
-void CDlgFormulaScintilla::OnTimer(UINT nIDEvent) {
+void CDlgFormulaScintilla::OnTimer(UINT_PTR nIDEvent) {
 	CMenu *edit_menu = this->GetMenu()->GetSubMenu(1);
 
 	if (nIDEvent == MENU_UPDATE_TIMER) 
@@ -2355,11 +2353,11 @@ void CDlgFormulaScintilla::PopulateSymbols()
 	AddSymbol(parent, "ac_dealposx (x=0-9)", "returns deal position of specified chair");
 
 	mainParent = parent = AddSymbolTitle("Table stats symbols", "Note: the setting for [y minutes] can be found in Edit/Preferences, and defaults to 15 minutes.", hCatItem);
-	AddSymbol(parent, "floppct", "percentage of players seeing the flop for the last y minutes");
-	AddSymbol(parent, "turnpct", "percentage of players seeing the turn for the last y minutes");
-	AddSymbol(parent, "riverpct", "percentage of players seeing the river for the last y minutes");
-	AddSymbol(parent, "avgbetspf", "average number of bets preflop for the last y minutes");
-	AddSymbol(parent, "tablepfr", "pfr percentage preflop for the last y minutes");
+	AddSymbol(parent, "floppct", "percentage of players seeing the flop for the last 15 hands");
+	AddSymbol(parent, "turnpct", "percentage of players seeing the turn for the last 15 hands");
+	AddSymbol(parent, "riverpct", "percentage of players seeing the river for the last 15 hands");
+	AddSymbol(parent, "avgbetspf", "average number of bets preflop for the last 15 hands");
+	AddSymbol(parent, "tablepfr", "pfr percentage preflop for the last 15 hands");
 	AddSymbol(parent, "maxbalance", "my highest balance during the session");
 	AddSymbol(parent, "handsplayed", "number of hands played this session by this OpenHoldem instance");
   AddSymbol(parent, "handsplayed_headsup", "number of consecutive hands played headsup");

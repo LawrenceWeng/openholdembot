@@ -60,7 +60,6 @@
 // Harmless and impossible to be fixed (7691 cases of c4800)
 #pragma warning(disable:4800) 
 
-
 // Turn some warnings to errors, because we consider them helpful
 //
 // https://msdn.microsoft.com/en-us/library/aa231853%28v=vs.60%29.aspx
@@ -91,6 +90,12 @@
 // https://msdn.microsoft.com/en-us/library/k64a6he5.aspx
 // expression has no effect; expected expression with side-effect
 #pragma warning(error:4555)
+// https://msdn.microsoft.com/en-us/library/axhfhh6x.aspx
+// uninitialized local variable - Stack Overflow
+#pragma warning(error:4700)
+// https://msdn.microsoft.com/pl-pl/library/c26da40e%28v=vs.71%29.aspx
+// unreachable code
+//#pragma warning(error:4702)
 // https://msdn.microsoft.com/en-us/library/aa734012%28v=vs.60%29.aspx
 // not all control paths return a value
 #pragma warning(error:4715)   
@@ -129,8 +134,8 @@
 #include <string.h>
 
 // Version
-#define VERSION_NUMBER			9.14
-#define VERSION_TEXT				"9.1.4"  // change version number in OpenHoldem.rc also, when needed
+#define VERSION_NUMBER			9.25
+#define VERSION_TEXT				"9.2.5.0"  // change version number in OpenHoldem.rc also, when needed
 
 // PokerEval
 #include "poker_defs.h"

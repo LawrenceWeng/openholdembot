@@ -15,13 +15,15 @@
 #include "CLazyScraper.h"
 
 #include "CAutoplayer.h"
+#include "CCasinoInterface.h"
 #include "CHandresetDetector.h"
 #include "CPreferences.h"
 #include "CScraper.h"
-#include "CScraperAccess.h"
+#include "CSymbolEngineActiveDealtPlaying.h"
 #include "CSymbolEngineHistory.h"
 #include "CSymbolEngineIsTournament.h"
 #include "CSymbolEngineGameType.h"
+#include "CSymbolEngineTime.h"
 #include "CSymbolEngineUserchair.h"
 #include "CTableState.h"
 #include "debug.h"
@@ -168,7 +170,7 @@ bool CLazyScraper::NeedInterfaceButtons() {
 }
 
 bool CLazyScraper::NeedBetpotButtons() {
-	return (p_scraper_access->IsMyTurn()
+	return (p_casino_interface->IsMyTurn()
 		&& (p_symbol_engine_gametype->isnl() || p_symbol_engine_gametype->ispl()));
 }
 
@@ -185,7 +187,17 @@ bool CLazyScraper::NeedAllPlayerNames() {
 	// It is enough if we do this until our turn, because
 	// * at our turn we have stable frames
 	// * new players after our turn can't affect the current hand
-	return (!p_symbol_engine_history->DidActThisHand());
+  if (p_symbol_engine_history->DidActThisHand()) {
+    return false;
+  }
+  // We can also stop scraping names if we see new cards 
+  // after a hand-reset because then a poterntial new player
+  // can no longer join the game.
+  if ((p_symbol_engine_time->elapsedhand() > 2)
+      && (p_symbol_engine_active_dealt_playing->nplayersdealt() >= 2)) {
+    return false;
+  }
+  return true;
 }
 
 bool CLazyScraper::NeedUnknownPlayerNames() {
@@ -201,7 +213,7 @@ bool CLazyScraper::NeedCommunityCards() {
 
 void CLazyScraper::ScrapeUnknownPlayerNames() {
 	for (int i=0; i<p_tablemap->nchairs(); i++) {
-		if (p_scraper_access->IsPlayerSeated(i) 
+		if (p_table_state->Player(i)->seated()
 			  && (p_table_state->Player(i)->name() == "")) {
 			p_scraper->ScrapeName(i);
 		}
@@ -211,13 +223,13 @@ void CLazyScraper::ScrapeUnknownPlayerNames() {
 bool CLazyScraper::NeedColourCodes() {
   // Scrape colour-codes at the beginning of a session 
   // and at my turn -- that's enough.
-  return (p_scraper_access->IsMyTurn()
+  return (p_casino_interface->IsMyTurn()
     || (p_handreset_detector->hands_played() <= 1));
 }
 
 bool CLazyScraper::NeedMTTRegions() {
   // return when it is our turn
   // or if we have played less than 3 hands (for possible mtt detect)
-  return (p_scraper_access->IsMyTurn()
+  return (p_casino_interface->IsMyTurn()
 	  || p_handreset_detector->hands_played() < 3);
 }

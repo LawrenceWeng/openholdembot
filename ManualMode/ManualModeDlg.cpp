@@ -21,6 +21,7 @@
 #include "ManualModeDlg.h"
 
 #include "..\OpenHoldem\MagicNumbers.h"
+#include "..\WindowFunctionsDLL\window_functions.h"
 #include "ManualMode.h"
 #include "poker_defs.h"
 #include "debug.h"
@@ -130,13 +131,13 @@ END_MESSAGE_MAP()
 
 // CManualModeDlg dialog
 
-CManualModeDlg::CManualModeDlg(CWnd* pParent /*=NULL*/) : CDialog(CManualModeDlg::IDD, pParent) 
-{
+CManualModeDlg::CManualModeDlg(CWnd* pParent /*=NULL*/) : CDialog(CManualModeDlg::IDD, pParent) {
+  Registry reg;
+  reg.read_reg();
+  macro_text = reg.macro;
 	// Set exception handler
 	SetUnhandledExceptionFilter(MyUnHandledExceptionFilter);
-
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-
 	black_pen.CreatePen(PS_SOLID, 1, COLOR_BLACK);
 	green_pen.CreatePen(PS_SOLID, 1, COLOR_GREEN);
 	red_pen.CreatePen(PS_SOLID, 1, COLOR_RED);
@@ -144,12 +145,10 @@ CManualModeDlg::CManualModeDlg(CWnd* pParent /*=NULL*/) : CDialog(CManualModeDlg
 	white_pen.CreatePen(PS_SOLID, 1, COLOR_WHITE);
 	white_dot_pen.CreatePen(PS_DOT, 1, COLOR_WHITE);
 	null_pen.CreatePen(PS_NULL, 0, COLOR_BLACK);
-
 	white_brush.CreateSolidBrush(COLOR_WHITE);
 	gray_brush.CreateSolidBrush(COLOR_GRAY);
 	red_brush.CreateSolidBrush(COLOR_RED);
 	yellow_brush.CreateSolidBrush(COLOR_YELLOW);
-
 	// big font
 	lf.lfHeight = -12;
 	lf.lfWeight = FW_NORMAL;
@@ -166,14 +165,11 @@ CManualModeDlg::CManualModeDlg(CWnd* pParent /*=NULL*/) : CDialog(CManualModeDlg
 	lf.lfPitchAndFamily = 0;
 	strcpy_s(lf.lfFaceName, 32, "Verdana");
 	cFont.CreateFontIndirect(&lf);
-
 	// small font
 	strcpy_s(lf.lfFaceName, 32, "Arial");
 	lf.lfHeight = -9;
 	cFont_sm.CreateFontIndirect(&lf);
-
 	all_cards.LoadBitmap(IDB_CARDS);
-
 	// Save startup directory
 	::GetCurrentDirectory(sizeof(startup_path) - 1, startup_path);
 }
@@ -184,21 +180,9 @@ void CManualModeDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_SWAG, swag);
 }
 
-BOOL CManualModeDlg::DestroyWindow() 
-{
-	Registry		reg;
-	WINDOWPLACEMENT wp;
-
-	// Save window position
-	reg.read_reg();
-	GetWindowPlacement(&wp);
-	reg.manual_x = wp.rcNormalPosition.left;
-	reg.manual_y = wp.rcNormalPosition.top;
-	reg.write_reg();
-
+BOOL CManualModeDlg::DestroyWindow() {
 	all_cards.DeleteObject();
 	cFont.DeleteObject();
-
 	return CDialog::DestroyWindow();
 }
 
@@ -326,7 +310,6 @@ void CManualModeDlg::clear_scrape_areas(void)
 
 BOOL CManualModeDlg::OnInitDialog() 
 {
-	Registry	reg;
 	int			max_x, max_y;
 
 	CDialog::OnInitDialog();
@@ -355,18 +338,10 @@ BOOL CManualModeDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
-	// TODO: Add extra initialization here
-	SetWindowPos(NULL, 0, 0, MM_WIDTH, MM_HEIGHT, SWP_NOMOVE);
-
 	// Restore window location and size
-	reg.read_reg();
-	max_x = GetSystemMetrics(SM_CXSCREEN) - GetSystemMetrics(SM_CXICON);
-	max_y = GetSystemMetrics(SM_CYSCREEN) - GetSystemMetrics(SM_CYICON);
-	SetWindowPos(NULL, min(reg.manual_x, max_x), min(reg.manual_y, max_y), MM_WIDTH, MM_HEIGHT, SWP_NOCOPYBITS);
-
-	// Get last used macro
-	macro_text = reg.macro;
-
+	SetWindowPos(NULL, 0, 0, MM_WIDTH, MM_HEIGHT, SWP_NOCOPYBITS);
+  ResizeToClientSize(this->GetSafeHwnd(), 574, 335);
+	
 	clear_scrape_areas();
 	istournament = false;
 	handnumber = "1";
@@ -397,12 +372,9 @@ void CManualModeDlg::OnSysCommand(UINT nID, LPARAM lParam)
 //  to draw the icon.  For MFC applications using the document/view model,
 //  this is automatically done for you by the framework.
 
-void CManualModeDlg::OnPaint() 
-{
-	CPaintDC dc(this); // device context for painting
-
-	if (IsIconic()) 
-	{
+void CManualModeDlg::OnPaint() {
+  CPaintDC dc(this); // device context for painting
+	if (IsIconic()) {
 
 		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
 
@@ -509,7 +481,7 @@ void CManualModeDlg::draw_button_indicators(void)
 {
 	bool		fold_drawn, call_drawn, check_drawn, raise_drawn, allin_drawn;
 	RECT		cr;
-
+    
 	// Get size of current client window
 	GetClientRect(&cr);
 
@@ -2013,14 +1985,16 @@ void CManualModeDlg::OnSitInPlayer()
 	InvalidateRect(NULL, true);
 }
 
-void CManualModeDlg::OnDealerHere() 
-{ 
-	for (int i=0; i<kMaxNumberOfPlayers; i++) 
-	{
-		dealer[i] = false;
-	}
-	dealer[click_chair] = true;
-	InvalidateRect(NULL, true);
+void CManualModeDlg::OnDealerHere() { 
+  SetDealerPosition(click_chair);
+}
+
+void CManualModeDlg::SetDealerPosition(int chair) {
+  for (int i = 0; i<kMaxNumberOfPlayers; i++) {
+    dealer[i] = false;
+  }
+  dealer[chair] = true;
+  InvalidateRect(NULL, true);
 }
 
 void CManualModeDlg::OnFold() 
@@ -2103,11 +2077,10 @@ void CManualModeDlg::OnBnClickedPplus()
 	}
 }
 
-void CManualModeDlg::OnBnClickedMacro() 
-{
+void CManualModeDlg::OnBnClickedMacro() {
 	int	chair = -1;
   int cards_seen = 0;
-  int com_card=0, dealer_pos;
+  int com_card=0;
   unsigned int c;
 
   CardMask_RESET(used_cards);
@@ -2118,20 +2091,22 @@ void CManualModeDlg::OnBnClickedMacro()
 			clear_scrape_areas();
       continue;
     }
-		switch (next_char) {
+    switch (next_char) {
       case 'N': // Button
-        dealer_pos = chair;
-        // No break
-        // Continue with code below
-      case 'P': // Player
       case 'b': // Small blind
       case 'B': // Big blind 
+      case 'P': // Player
         ++chair;
-			  seated[chair] = true;
-			  active[chair] = true;
-			  card[P0C0 + 2*chair] = CARD_BACK; 
-			  card[P0C1 + 2*chair] = CARD_BACK; 
-			  break;
+        seated[chair] = true;
+        active[chair] = true;
+        card[P0C0 + 2 * chair] = CARD_BACK;
+        card[P0C1 + 2 * chair] = CARD_BACK;
+        break;
+    }
+		switch (next_char) {
+      case 'N': // Button
+        SetDealerPosition(chair);
+        break;
       case 'p': // Not seated
         ++chair;
 			  seated[chair] = true;

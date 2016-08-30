@@ -19,7 +19,6 @@
 #include "CFunctionCollection.h"
 #include "CPreferences.h"
 #include "CScraper.h"
-#include "CScraperAccess.h"
 #include "CStringMatch.h"
 #include "CSymbolEngineOpenPPLUserVariables.h"
 #include "CSymbolEngineVariousDataLookup.h"
@@ -93,7 +92,7 @@ void CSymbolEngineOpenPPL::InitMemorySymbols() {
   // is desired.
   p_function_collection->Evaluate(
     kOpenPPLIniFunctionsForHistorySymbols,
-    preferences.trace_enabled());
+    kAlwaysLogOpenPPLInitialization);
 }
 
 void CSymbolEngineOpenPPL::ResetOnHeartbeat() {

@@ -38,7 +38,9 @@
 #include "OH_MessageBox.h"
 #include "TokenizerConstants.h"
 
+#ifdef _DEBUG
 #undef DEBUG_PARSER
+#endif
 
 CFormulaParser *p_formula_parser = NULL;
 
@@ -47,6 +49,8 @@ CString _function_name;
 
 CFormulaParser::CFormulaParser() {
   _is_parsing = false;
+  _is_parsing_read_only_function_library = false;
+  _is_parsing_debug_tab = false;
 }
 
 CFormulaParser::~CFormulaParser() {
@@ -64,7 +68,6 @@ void CFormulaParser::InitNewParse() {
 }
 
 void CFormulaParser::FinishParse() {
-  p_function_collection->CheckForDefaultFormulaEntries();
   p_parser_symbol_table->VeryfyAllUsedFunctionsAtEndOfParse();
   _is_parsing = false;
 }
@@ -72,34 +75,35 @@ void CFormulaParser::FinishParse() {
 void CFormulaParser::ParseFormulaFileWithUserDefinedBotLogic(CArchive& formula_file) {
    write_log(preferences.debug_parser(),
     "[CFormulaParser] ParseFormulaFileWithUserDefinedBotLogic()\n");
-  ParseOpenPPLLibraryIfNeeded();
   ParseFile(formula_file);
+  p_function_collection->CheckForDefaultFormulaEntries();
 }
 
-void CFormulaParser::ParseOpenPPLLibraryIfNeeded() {
+void CFormulaParser::ParseDefaultLibraries() {
+  ParseLibrary(p_filenames->OpenPPLLibraryPath());
+  ParseLibrary(p_filenames->CustomLibraryPath());
+}
+
+void CFormulaParser::ParseLibrary(CString library_path) {
   assert(p_function_collection != NULL);
-  if (p_function_collection->OpenPPLLibraryCorrectlyParsed()) {
-     write_log(preferences.debug_parser(), 
-	    "[FormulaParser] OpenPPL-library already correctly loaded. Nothing to do.\n");
-    return;
-  }
   assert(p_filenames != NULL);
-  CString openPPL_path = p_filenames->OpenPPLLibraryPath();
-  if (_access(openPPL_path, F_OK) != 0) {
+  if (_access(library_path, F_OK) != 0) {
     // Using a message-box instead of silent logging, as OpenPPL is mandatory 
     // and we expect the user to supervise at least the first test.
     CString message;
-    message.Format("Can not load \"%s\".\nFile not found.\n", openPPL_path);
+    message.Format("Can not load \"%s\".\nFile not found.\n", library_path);
     OH_MessageBox_Error_Warning(message);
-    p_function_collection->SetOpenPPLLibraryLoadingState(false);
+    p_function_collection->SetOpenPPLLibraryLoadingState(false); 
     return;
   }
-  CFile openPPL_file(openPPL_path, 
+  CFile library_file(library_path,
     CFile::modeRead | CFile::shareDenyWrite);
    write_log(preferences.debug_parser(), 
 	    "[FormulaParser] Going to load and parse OpenPPL-library\n");
-  CArchive openPPL_archive(&openPPL_file, CArchive::load); 
-  ParseFile(openPPL_archive);
+  CArchive library_archive(&library_file, CArchive::load); 
+  _is_parsing_read_only_function_library = true;
+  ParseFile(library_archive);
+  _is_parsing_read_only_function_library = false;
   p_function_collection->SetOpenPPLLibraryLoadingState(CParseErrors::AnyError() == false);
 }
  
@@ -314,8 +318,7 @@ void CFormulaParser::ParseSingleFormula(CString function_text, int starting_line
       "[FormulaParser] Parsing f$function\n");
     function_body =	ParseFunctionBody();
     CheckForExtraTokensAfterEndOfFunction();
-  }
-  else if (_function_name.Left(4) == "list") {
+  } else if (_function_name.Left(4) == "list") {
     // ##listXYZ##
      write_log(preferences.debug_parser(), 
 	  "[FormulaParser] Parsing list\n");
@@ -348,10 +351,12 @@ void CFormulaParser::ParseSingleFormula(CString function_text, int starting_line
 	  function_text, starting_line);
   p_new_function->SetParseTree(function_body);
   p_function_collection->Add((COHScriptObject*)p_new_function);
+  assert(p_function_collection->Exists(_function_name));
   // Care about operator precendence
   _parse_tree_rotator.Rotate(p_new_function);
 #ifdef DEBUG_PARSER
   p_new_function->Serialize(); 
+  p_function_collection->LookUp(_function_name)->Dump();
 #endif
 }
 
@@ -809,6 +814,7 @@ void CFormulaParser::BackPatchOpenEndedWhenConditionSequence(
 
 void CFormulaParser::ParseDebugTab(CString function_text) {
   assert(p_debug_tab != NULL);
+  _is_parsing_debug_tab = true;
   p_debug_tab->Clear();
   CString next_line;
   int separator_index = 0;
@@ -832,5 +838,6 @@ void CFormulaParser::ParseDebugTab(CString function_text) {
     assert(p_debug_tab != NULL);
     p_debug_tab->AddExpression(expression_text, expression);
   }
+  _is_parsing_debug_tab = false;
 }
 

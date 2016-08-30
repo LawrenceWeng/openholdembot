@@ -72,6 +72,7 @@ EXE_IMPLEMENTS double __stdcall GetSymbol(const char* name_of_single_symbol__not
 EXE_IMPLEMENTS void*  __stdcall GetPrw1326();
 EXE_IMPLEMENTS char*  __stdcall GetHandnumber();
 EXE_IMPLEMENTS void   __stdcall ParseHandList(const char* name_of_list, const char* list_body);
+EXE_IMPLEMENTS char*  __stdcall ScrapeTableMapRegion(char* p_region, int& p_returned_lengh);
 EXE_IMPLEMENTS void   __stdcall SendChatMessage(const char *message);
 EXE_IMPLEMENTS void   __stdcall WriteLog(char* format, ...);
 
@@ -79,7 +80,7 @@ EXE_IMPLEMENTS void   __stdcall WriteLog(char* format, ...);
 // avoiding the message-mess of WinHoldem,
 // no longer sending any state-messages
 // http://www.maxinmontreal.com/forums/viewtopic.php?f=174&t=18642
-EXE_IMPLEMENTS extern holdem_state  state[kNumberOfHoldemStatesForDLL];
+EXE_IMPLEMENTS extern holdem_state state[kNumberOfHoldemStatesForDLL];
 EXE_IMPLEMENTS extern int state_index;
 
 #define LAST_STATE state[(state_index-1)&0xff]

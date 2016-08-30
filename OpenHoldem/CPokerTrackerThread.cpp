@@ -19,7 +19,6 @@
 #include <comdef.h>
 #include "CAutoConnector.h"
 #include "CDllExtension.h"
-#include "CGameState.h"
 #include "CLevDistance.h"
 #include "..\PokerTracker_Query_Definitions\pokertracker_query_definitions.h"
 #include "CPokerTrackerLookUp.h"
@@ -541,23 +540,9 @@ bool CPokerTrackerThread::QueryName(const char * query_name, const char * scrape
 	CString query;
 	query.Format("SELECT player_name FROM player WHERE player_name like '%s' AND id_site=%i",
 		query_name, siteid);
-	try
-	{
-		res = PQexec(_pgconn, query);
-	}
-	catch (_com_error &e)
-	{
-		 write_log(preferences.debug_pokertracker(), "[PokerTracker] Postgres Query error:\n");
-		 write_log(preferences.debug_pokertracker(), "[PokerTracker] \tCode = %08lx\n", e.Error());
-		 write_log(preferences.debug_pokertracker(), "[PokerTracker] \tCode meaning = %s\n", e.ErrorMessage());
-		_bstr_t bstrSource(e.Source());
-		_bstr_t bstrDescription(e.Description());
-		 write_log(preferences.debug_pokertracker(), "[PokerTracker] \tSource = %s\n", (LPCTSTR) bstrSource);
-		 write_log(preferences.debug_pokertracker(), "[PokerTracker] \tDescription = %s\n", (LPCTSTR) bstrDescription);
-		 write_log(preferences.debug_pokertracker(), "[PokerTracker] \tQuery = [%s]\n", query);
-	}
+	res = PQexec(_pgconn, query);
 
-	// We got nothing, return false
+  // We got nothing, return false
 	if (PQntuples(res) == 0)
 	{
 		result = false;

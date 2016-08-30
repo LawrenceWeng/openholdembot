@@ -19,7 +19,6 @@
 #include "CFunctionCollection.h"
 #include "CPreferences.h"
 #include "CScraper.h"
-#include "CScraperAccess.h"
 #include "CSymbolEngineActiveDealtPlaying.h"
 #include "CSymbolEngineAutoplayer.h"
 #include "CSymbolEngineBlinds.h"
@@ -365,7 +364,7 @@ void CIteratorThread::CalculateTotalWeights()
 
 void CIteratorThread::InitNumberOfIterations() {
 	_iterations_required = p_function_collection->Evaluate(
-		k_standard_function_names[k_prwin_number_of_iterations]);
+		k_standard_function_names[k_prwin_number_of_iterations], preferences.log_prwin_functions());
 }
 
 void CIteratorThread::InitIteratorLoop() {
@@ -402,10 +401,11 @@ void CIteratorThread::InitIteratorLoop() {
 	}
 
 	//Weighted prwin only for nopponents <=13
-	_willplay = p_function_collection->Evaluate("f$prwin_willplay");
-	_wontplay = p_function_collection->Evaluate("f$prwin_wontplay");
-	_mustplay = p_function_collection->Evaluate("f$prwin_mustplay");
-	_topclip = p_function_collection->Evaluate("f$prwin_topclip");
+  _topclip = p_function_collection->Evaluate("f$prwin_topclip", preferences.log_prwin_functions());
+  _mustplay = p_function_collection->Evaluate("f$prwin_mustplay", preferences.log_prwin_functions());
+	_willplay = p_function_collection->Evaluate("f$prwin_willplay", preferences.log_prwin_functions());
+	_wontplay = p_function_collection->Evaluate("f$prwin_wontplay", preferences.log_prwin_functions());
+	//!!!!! test
 
 	// Call prw1326 callback if needed
 	if (_prw1326.useme==1326 
@@ -534,7 +534,7 @@ void CIteratorThread::CloneVanillaChairToAllOtherChairs() {
 	// finally copy the vanilla to all user chairs so that someone who just turns on prw1326
 	// experimentally does not cause a crash
   // http://www.maxinmontreal.com/forums/viewtopic.php?f=124&t=19012&hilit=%2Avanilla%2A
-	 write_log(true, "[ZZL] CIteratorThread::CloneVanillaChairToAllOtherChairs \n");
+	 write_log(preferences.debug_prwin(), "[PrWinThread] CIteratorThread::CloneVanillaChairToAllOtherChairs \n");
 	for(int i=0; i<kMaxNumberOfPlayers; ++i) {
 		_prw1326.chair[i] = _prw1326.vanilla_chair;
 	}

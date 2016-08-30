@@ -154,7 +154,8 @@ BEGIN
         MENUITEM "&Preferences\tCtrl+P",        ID_EDIT_PREFERENCES
         MENUITEM SEPARATOR
         MENUITEM "&Tag Log-File\tF5",           ID_EDIT_TAGLOG
-        MENUITEM "&View Log-file\tF6",          ID_EDIT_VIEWLOG
+        MENUITEM "&View Log-File\tF6",          ID_EDIT_VIEWLOG
+        MENUITEM "&Clear Log-File",             ID_EDIT_CLEARLOG
         MENUITEM SEPARATOR
         MENUITEM "View Scraper &Output\tF11",   ID_VIEW_SCRAPEROUTPUT
         MENUITEM "Shoot &Replay Frame\tF12",    ID_VIEW_SHOOTREPLAYFRAME
@@ -164,16 +165,16 @@ BEGIN
         MENUITEM "&Load\tF3",                   ID_DLL_LOAD
         MENUITEM "Load &Specific File...\tF4",  ID_DLL_LOADSPECIFICFILE
     END
-    MENUITEM "&Problem Solver",             ID_HELP_PROBLEMSOLVER
+    MENUITEM "&Problem Solver",                 ID_HELP_PROBLEMSOLVER
     POPUP "&Help"
     BEGIN
-        MENUITEM "&Help\tF1",                   ID_HELP_HELP
+        MENUITEM "Open&Holdem Manual\tF1",      ID_HELP_HELP
         MENUITEM "&OpenPPL Manual\tF2",         ID_HELP_OPEN_PPL
         MENUITEM "&Forums",                     ID_HELP_FORUMS
         MENUITEM SEPARATOR
         MENUITEM "&Problem Solver",             ID_HELP_PROBLEMSOLVER
         MENUITEM SEPARATOR
-        MENUITEM "&About this program...",      ID_APP_ABOUT
+        MENUITEM "&About This Program...",      ID_APP_ABOUT
     END
 END
 
@@ -209,7 +210,7 @@ BEGIN
     END
     POPUP "&Help"
     BEGIN
-        MENUITEM "&Help\tF1",                   ID_HELP_HELP
+        MENUITEM "Open&Holdem Manual\tF1",      ID_HELP_HELP
         MENUITEM "&OpenPPL Manual",             ID_HELP_OPEN_PPL
         MENUITEM "&Forums",                     ID_HELP_FORUMS
         MENUITEM SEPARATOR
@@ -277,7 +278,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     ICON            128,IDC_STATIC,11,17,21,20
     LTEXT           "OpenHoldem",IDC_STATIC,32,10,208,8,SS_NOPREFIX
-    LTEXT           "Version 9.1.4",IDC_STATIC,32,22,208,8,SS_NOPREFIX
+    LTEXT           "Version 9.2.5",IDC_STATIC,32,22,208,8,SS_NOPREFIX
     LTEXT           "Licensed under GPLv3",IDC_STATIC,32,34,208,8
     LTEXT           "http://www.maxinmontreal.com/forums/index.php",IDC_STATIC,32,54,208,8
     LTEXT           "https://github.com/OpenHoldem",IDC_STATIC,32,66,208,8
@@ -686,14 +687,15 @@ IDD_SAPREFS11 DIALOGEX 0, 0, 219, 182
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    GROUPBOX        "Basic Logging",IDC_STATIC,0,0,205,80
-    CONTROL         "Basic Info",IDC_LOG_BASIC_INFO,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,6,16,88,9
-    CONTROL         "Autoplayer Trace",IDC_ENABLE_TRACE,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,6,32,139,8
-    CONTROL         "Errors and Warnings",IDC_ENABLE_ERROR_LOGGiNG,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,6,48,105,8
-    CONTROL         "DLL Messages",IDC_ENABLE_DLL_LOGGiNG,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,6,64,105,8
-    LTEXT           "Erase old logs larger than (MB)",IDC_STATIC,6,90,116,8
-    EDITTEXT        IDC_MAXIMUM_LOGSIZE,163,88,31,12,ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "",IDC_MAXIMUM_LOGSIZE_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ARROWKEYS | UDS_NOTHOUSANDS,194,88,11,14
+    GROUPBOX        "Advanced Logging",IDC_STATIC,0,0,205,96
+    CONTROL         "Hopper Functions",IDC_LOG_HOPPER_FUNCTIONS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,16,88,9
+    CONTROL         "Ini Functions",IDC_LOG_INI_FUNCTIONS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,32,139,8
+    CONTROL         "PrWin Functions",IDC_LOG_PRWIN_FUNCTIONS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,48,105,8
+    CONTROL         "ICM Functions",IDC_LOG_ICM_FUNCTIONS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,64,105,8
+    CONTROL         "Delay Function",IDC_LOG_DELAY_FUNCTION, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 6, 80, 105, 8
+    LTEXT           "Erase old logs larger than (MB)",IDC_STATIC,6,106,116,8
+    EDITTEXT        IDC_MAXIMUM_LOGSIZE,163,104,31,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_MAXIMUM_LOGSIZE_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ARROWKEYS | UDS_NOTHOUSANDS,194,104,11,14
 END
 
 IDD_SAPREFS12 DIALOGEX 0, 0, 221, 242
@@ -890,8 +892,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 9,1,4,0
- PRODUCTVERSION 9,1,4,0
+ FILEVERSION 9,2,5,0
+ PRODUCTVERSION 9,2,5,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -906,9 +908,9 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "FileVersion", "9.1.4.0"
+            VALUE "FileVersion", "9.2.5.0"
             VALUE "LegalCopyright", "Licensed under GPLv3"
-            VALUE "ProductVersion", "9.1.4.0"
+            VALUE "ProductVersion", "9.2.5.0"
         END
     END
     BLOCK "VarFileInfo"
@@ -1242,6 +1244,7 @@ BEGIN
     ID_MAIN_TOOLBAR_HELP    "Help\nHelp"
     ID_EDIT_VIEWLOG         "View the log-file of the current OpenHoldem-instance"
     ID_EDIT_TAGLOG          "Leave a stamp in the log-file for more easy review"
+    ID_EDIT_CLEARLOG        "Empties the log-file  of the current OpenHoldem-instance"
 END
 
 STRINGTABLE

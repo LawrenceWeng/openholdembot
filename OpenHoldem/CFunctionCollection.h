@@ -24,9 +24,10 @@
 // * Evaluate()-function,
 // * SymbolsProvided() for syntax-highlighting
 class CFunctionCollection: public CVirtualSymbolEngine {
-  friend class CFormulaParser;
   friend class CAutoplayerFunctions;
+  friend class CBetsizeInputBox;
   friend class CCasinoInterface;
+  friend class CFormulaParser;
  public:
   CFunctionCollection();
   virtual ~CFunctionCollection();
@@ -53,7 +54,7 @@ class CFunctionCollection: public CVirtualSymbolEngine {
  public:
   // Deletes all user-defined functions
   // Keeps OpenPPL-library if correctly parsed.
-  void DeleteAll(bool open_ppl, bool user_defined);
+   void DeleteAll(bool delete_read_only_library_functions, bool delete_user_defined);
   void SetEmptyDefaultBot();
  public:
   void Add(COHScriptObject *new_function);

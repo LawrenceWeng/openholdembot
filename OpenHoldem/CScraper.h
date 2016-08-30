@@ -30,10 +30,11 @@ class CScraper {
 	~CScraper(void);
  public:
   // For replay-frames
-	const HBITMAP		entire_window_cur() { return _entire_window_cur; }
+	const HBITMAP	entire_window_cur() { return _entire_window_cur; }
  public:
-  bool GetButtonState(const int button_index);
-  bool GetButtonState(CString button_state_as_string);
+  // For scraping custom regions at the DLL-level
+  bool EvaluateRegion(CString name, CString *result);
+ public:
   bool IsCommonAnimation();
  protected:
 	void CreateBitmaps(void);
@@ -77,13 +78,11 @@ class CScraper {
 	const double DoChipScrape(RMapCI r_iter);
  private:
 	bool ProcessRegion(RMapCI r_iter);
-	bool EvaluateRegion(CString name, CString *result);
   void EvaluateTrueFalseRegion(bool *result, const CString name);
   bool EvaluateNumericalRegion(double *result, const CString name);
 	bool IsExtendedNumberic(CString text);
 	CString ProcessBalanceNumbersOnly(CString balance_and_or_potential_text);
  private:
-	void SetButtonState(CString *button_state, CString text);
   void ResetLimitInfo();
  private:
 #define ENT CSLock lock(m_critsec);

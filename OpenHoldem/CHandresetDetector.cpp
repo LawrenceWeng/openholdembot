@@ -15,13 +15,14 @@
 #include "CHandresetDetector.h"
 
 #include <assert.h>
+#include "CCasinoInterface.h"
 #include "CPreferences.h"
 #include "CScraper.h"
-#include "CScraperAccess.h"
 #include "CSymbolEngineActiveDealtPlaying.h"
 #include "CSymbolEngineChipAmounts.h"
 #include "CSymbolEngineDealerchair.h"
 #include "CSymbolEngineTableLimits.h"
+#include "CSymbolEngineTime.h"
 #include "CSymbolEngineUserchair.h"
 #include "CTableState.h"
 #include "..\CTablemap\CTablemap.h"
@@ -31,16 +32,34 @@
 CHandresetDetector *p_handreset_detector = NULL;
 
 const int kNumberOfHandresetMethods = 9;
+const double kMinimumtimeBetweenTwoHeartbeats = 4.0;
 
 CHandresetDetector::CHandresetDetector() {
    write_log(preferences.debug_handreset_detector(), "[CHandresetDetector] Executing constructor\n");
-	playercards[0] = CARD_UNDEFINED;
-	playercards[1] = CARD_UNDEFINED;
+  _is_handreset_on_this_heartbeat = false;
 	dealerchair = kUndefined;
+  last_dealerchair = kUndefined;
 	handnumber = "";
-	_is_handreset_on_this_heartbeat = false;
+  last_handnumber = "";
   _hands_played = 0;
   _hands_played_headsup = 0;
+  _last_potsize = kUndefinedZero;
+  _potsize = kUndefinedZero;
+  _community_cards = kUndefined;
+  _last_community_cards = kUndefined;
+  _nopponentsplaying = kUndefined;
+  _last_nopponentsplaying = kUndefined;
+  _bblind = kUndefinedZero;
+  _last_bblind = kUndefinedZero;
+  _small_blind_existed_last_hand = false;
+  for (int i = 0; i<kNumberOfCardsPerPlayer; i++) {
+    playercards[i] = CARD_NOCARD;
+    last_playercards[i] = CARD_NOCARD;  
+  }
+  for (int i = 0; i < kMaxNumberOfPlayers; ++i) {
+    _balance[i] = kUndefinedZero;
+    _last_balance[i] = kUndefinedZero;
+  }
 }
 
 CHandresetDetector::~CHandresetDetector() {
@@ -54,7 +73,7 @@ void CHandresetDetector::CalculateIsHandreset() {
   // We work with bit-vectors here and not simple counters,
   // because we want to make sure that at least N *different*
   // fired during the last 3 heartbeats.
-	
+	//
   // Last 2 heartbeats
   _methods_firing_the_last_three_heartbeats[2] = _methods_firing_the_last_three_heartbeats[1];
   _methods_firing_the_last_three_heartbeats[1] = _methods_firing_the_last_three_heartbeats[0];
@@ -69,7 +88,14 @@ void CHandresetDetector::CalculateIsHandreset() {
   int number_of_methods_firing = bitcount(total_methods_firing);
    write_log(preferences.debug_handreset_detector(), "[CHandresetDetector] Number of methods firing last 3 heartbeat2: %i\n",
     number_of_methods_firing);
-  if (number_of_methods_firing >= 2) {
+  if ((p_symbol_engine_time->elapsedhand() < kMinimumtimeBetweenTwoHeartbeats) 
+      && (p_symbol_engine_time->elapsed() > kMinimumtimeBetweenTwoHeartbeats)) {
+    // Prevent multiple fast hearbeats due to lagging casino
+    // and too many handreset-events on multiple heartbeats
+    // http://www.maxinmontreal.com/forums/viewtopic.php?f=156&t=19938
+     write_log(preferences.debug_handreset_detector(), "[CHandresetDetector] No handreset; too shortly after last hanreset\n");
+    _is_handreset_on_this_heartbeat = false;
+  } else if (number_of_methods_firing >= 2) {
      write_log(preferences.debug_handreset_detector(), "[CHandresetDetector] Handreset found\n");
     _is_handreset_on_this_heartbeat = true;
     ++_hands_played;
@@ -248,7 +274,7 @@ void CHandresetDetector::GetNewSymbolValues() {
 	assert(p_symbol_engine_userchair != NULL);
 	int userchair = p_symbol_engine_userchair->userchair();
   _potsize = p_symbol_engine_chip_amounts->pot();
-  _community_cards = p_scraper_access->NumberOfCommonCards();
+  _community_cards = p_table_state->NumberOfCommunityCards();
   _nopponentsplaying = p_symbol_engine_active_dealt_playing->nopponentsplaying();
   _bblind = p_symbol_engine_tablelimits->bblind();
 	for (int i=0; i<kNumberOfCardsPerPlayer; i++) {
@@ -258,7 +284,7 @@ void CHandresetDetector::GetNewSymbolValues() {
 			playercards[i] = CARD_UNDEFINED;
 		}
 	}
-  for (int i=0; i<kMaxNumberOfPlayers; ++i) {
+  for (int i=0; i<p_tablemap->nchairs(); ++i) {
     _balance[i] = p_table_state->Player(i)->balance();
   }
 }
@@ -275,6 +301,9 @@ void CHandresetDetector::StoreOldValuesForComparisonOnNextHeartbeat() {
 	for (int i=0; i<kNumberOfCardsPerPlayer; i++) {
 		last_playercards[i] = playercards[i];
 	}
+  for (int i = 0; i < p_tablemap->nchairs(); ++i) {
+    _last_balance[i] = _balance[i];
+  }
 }
 
 void CHandresetDetector::OnNewHeartbeat() {

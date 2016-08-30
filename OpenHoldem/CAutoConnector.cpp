@@ -19,6 +19,7 @@
 #include "..\CTablemap\CTablemapAccess.h"
 #include "..\CTransform\CTransform.h"
 #include "CAutoplayer.h"
+#include "CCasinoInterface.h"
 #include "CEngineContainer.h"
 #include "CFilenames.h"
 #include "CFlagsToolbar.h"
@@ -29,7 +30,6 @@
 #include "CPopupHandler.h"
 #include "CPreferences.h"
 #include "CScraper.h"
-#include "CScraperAccess.h"
 #include "CSharedMem.h"
 #include "CTableMapLoader.h"
 #include "CTableState.h"
@@ -221,6 +221,25 @@ bool CAutoConnector::Connect(HWND targetHWnd) {
 	BOOL				bFound = false;
 	CFileFind   hFile;
 
+  // Potential race-condition, as some objects
+  // (especially GUI objects) get created by another thread.
+  // We just skip connection if OH is not yet initialized.
+  // http://www.maxinmontreal.com/forums/viewtopic.php?f=156&t=19706
+  // 
+  // We have to check and return very early, we must not do this
+  // after locking the mutex, otherwiese we block other instances forever.
+  // http://www.maxinmontreal.com/forums/viewtopic.php?f=110&t=19407&p=140417#p140417
+  if (p_table_positioner == NULL) return false;
+  if (p_autoplayer == NULL) return false;
+  if (p_casino_interface == NULL) return false;
+  if (p_engine_container == NULL) return false;
+  if (p_flags_toolbar == NULL) return false;
+  if (p_scraper == NULL) return false;
+  if (p_sharedmem == NULL) return false;
+  if (p_tablemap == NULL) return false;
+  if (p_tablemap_loader == NULL) return false;
+  if (p_table_state == NULL) return false;
+  if (p_table_positioner == NULL) return false;
 	 write_log(preferences.debug_autoconnector(), "[CAutoConnector] Connect(..)\n");
   ASSERT(_autoconnector_mutex->m_hObject != NULL); 
 	 write_log(preferences.debug_autoconnector(), "[CAutoConnector] Locking autoconnector-mutex\n");
@@ -263,6 +282,7 @@ bool CAutoConnector::Connect(HWND targetHWnd) {
 			 write_log(preferences.debug_autoconnector(), "[CAutoConnector] Scraper-bitmaps created\n");
       // Clear scraper fields
 			p_table_state->Reset();
+      p_casino_interface->Reset();
 			 write_log(preferences.debug_autoconnector(), "[CAutoConnector] Table state cleared\n");
       // Reset symbols
 			p_engine_container->ResetOnConnection();
@@ -278,7 +298,6 @@ bool CAutoConnector::Connect(HWND targetHWnd) {
 			if (theApp._dll_scraper_process_message) {
 				(theApp._dll_scraper_process_message) ("connect", &_attached_hwnd);
       }
-      p_scraper_access->InitOnConnect();
       // Start timer that checks for continued existence of attached HWND 		
      	PMainframe()->StartTimer();
 			// Reset display
@@ -334,7 +353,7 @@ void CAutoConnector::Disconnect() {
 	// Wait for mutex - "forever" if necessary, as we have to clean up.
 	ASSERT(_autoconnector_mutex->m_hObject != NULL); 
 	 write_log(preferences.debug_autoconnector(), "[CAutoConnector] Locking autoconnector-mutex\n");
-	_autoconnector_mutex->Lock(INFINITE);
+  _autoconnector_mutex->Lock(INFINITE);
 
 	// Make sure autoplayer is off
 	 write_log(preferences.debug_autoconnector(), "[CAutoConnector] Stopping autoplayer\n");
@@ -370,6 +389,7 @@ void CAutoConnector::Disconnect() {
 
 	// Clear scraper fields
 	p_table_state->Reset();
+  p_casino_interface->Reset();
 
 	// Reset symbols
 	p_engine_container->ResetOnConnection();

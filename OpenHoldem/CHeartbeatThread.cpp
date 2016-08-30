@@ -32,7 +32,6 @@
 #include "CPreferences.h"
 #include "CReplayFrame.h"
 #include "CScraper.h"
-#include "CScraperAccess.h"
 #include "CSymbolEngineAutoplayer.h"
 #include "CSymbolEngineUserchair.h"
 #include "..\CTablemap\CTablemap.h"
@@ -98,6 +97,13 @@ UINT CHeartbeatThread::HeartbeatThreadFunction(LPVOID pParam) {
 		}
     LogMemoryUsage("Begin of heartbeat thread cycle");
 		p_tablemap_loader->ReloadAllTablemapsIfChanged();
+    if (!p_autoconnector->IsConnected()) {
+      // Not connected
+      AutoConnect();
+    }
+    // No "else" here
+    // We want one fast scrape immediately after connection
+    // without any heartbeat-sleeping.
 		if (p_autoconnector->IsConnected()) {
 			if (IsWindow(p_autoconnector->attached_hwnd()))	{
         ScrapeEvaluateAct();
@@ -106,9 +112,6 @@ UINT CHeartbeatThread::HeartbeatThreadFunction(LPVOID pParam) {
 				p_autoplayer->EngageAutoplayer(false);
 				p_autoconnector->Disconnect();
 			}			
-		}	else {
-			// Not connected
-      AutoConnect();
 		}
     _heartbeat_delay.FlexibleSleep();
 		write_log(preferences.debug_heartbeat(), "[HeartBeatThread] Heartbeat cycle ended\n");
@@ -128,11 +131,6 @@ void CHeartbeatThread::ScrapeEvaluateAct() {
   //   * some symbol-engines must be evaluated no matter what
   //   * we might need to act (sitout, ...) on empty/non-changing tables
   //   * auto-player needs stable frames too
-  //
-  // Necessary to pre-compute some info 
-	// which is needed by the symbol-engines.
-  // ismyturn, myturnbits (visible buttons), ...
-	p_scraper_access->GetNeccessaryTablemapObjects();
 	p_engine_container->EvaluateAll();
 	// Reply-frames no longer here in the heartbeat.
   // we have a "ReplayFrameController for that.

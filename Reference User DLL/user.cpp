@@ -823,20 +823,33 @@ DLL_IMPLEMENTS double __stdcall ProcessQuery(const char* pquery)
 	if (strncmp(pquery, "dll$test", 8) == 0)
 	{
 		return 123.456;
-	}
+  }
 	if (strncmp(pquery, "dll$betsize", 11) == 0)
 	{
 		return BetsizeAmount();
-	}
+  }
 	if (strncmp(pquery, "dll$call", 8) == 0)
 	{
 		return Call();
-	}
+  }
 	if (strncmp(pquery, "dll$handreset", 13) == 0)
 	{
 		HandReset();
 		return 0;
-	}
+  }
+  if (strncmp(pquery, "dll$scrape", 12) == 0) {
+    char* scraped_result;
+    int result_lenght;
+    scraped_result = ScrapeTableMapRegion("p0balance", result_lenght);
+    if (scraped_result != nullptr) {
+      // The TEXT() macro supports both ASCII and Unicode.
+      // For the people who use Unicode but don't understand the "error".
+      // http://www.maxinmontreal.com/forums/viewtopic.php?f=174&t=19999
+      // http://stackoverflow.com/questions/15498070/what-does-t-stands-for-in-a-cstring
+      MessageBox(0, scraped_result, TEXT("Scraped custom region"), 0);
+      LocalFree(scraped_result);
+    }
+  }
 	return 0;
 }
 
@@ -849,14 +862,14 @@ DLL_IMPLEMENTS void __stdcall DLLOnLoad()
 {
 	HandReset();
 #ifdef OPT_DEMO_OUTPUT
-	MessageBox(NULL, "event-load", "MESSAGE", MB_OK);
+		MessageBox(NULL, "event-load", "MESSAGE", MB_OK);
 #endif OPT_DEMO_OUTPUT
 }
 
 DLL_IMPLEMENTS void __stdcall DLLOnUnLoad()
 {
 #ifdef OPT_DEMO_OUTPUT
-	MessageBox(NULL, "event-unload", "MESSAGE", MB_OK);
+		MessageBox(NULL, "event-unload", "MESSAGE", MB_OK);
 #endif OPT_DEMO_OUTPUT
 }
 
@@ -871,20 +884,20 @@ BOOL APIENTRY DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserve
 {
 	switch (ul_reason_for_call)
 	{
-	case DLL_PROCESS_ATTACH:
+		case DLL_PROCESS_ATTACH:
 #ifdef OPT_DEMO_OUTPUT
-		AllocConsole();
+			AllocConsole();
 #endif OPT_DEMO_OUTPUT
-		break;
-	case DLL_THREAD_ATTACH:
-		break;
-	case DLL_THREAD_DETACH:
-		break;
-	case DLL_PROCESS_DETACH:
+			break;
+		case DLL_THREAD_ATTACH:
+			break;
+		case DLL_THREAD_DETACH:
+			break;
+		case DLL_PROCESS_DETACH:
 #ifdef OPT_DEMO_OUTPUT
-		FreeConsole();
+			FreeConsole();
 #endif OPT_DEMO_OUTPUT
-		break;
-	}
-	return TRUE;
+			break;
+    }
+  return TRUE;
 }

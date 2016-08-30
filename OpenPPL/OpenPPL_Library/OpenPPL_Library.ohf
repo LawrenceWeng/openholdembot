@@ -392,6 +392,9 @@ RaiseMax
 ##HINT_There_Is_No_Set_On_The_Board##
 -1
 
+##HINT_No_NutStraightDraw_Due_To_Possible_FlushDraw##
+False
+
 ##HINT_Nothing_To_Do_But_All_OK##
 0
 
@@ -1646,6 +1649,9 @@ OR ThirdFlopCard == TurnCard
 ##FlushPossible##
 (nsuitedcommon >= 3)
 
+##FlushDrawPossible##
+(nsuitedcommon >= 2)
+
 ##FlushOnBoard##
 (FirstFlopSuit == SecondFlopSuit AND FirstFlopSuit == ThirdFlopSuit AND FirstFlopSuit == TurnSuit AND FirstFlopSuit == RiverSuit)
 
@@ -1872,16 +1878,6 @@ PairOnFlop AND FirstFlopCard  == ThirdFlopCard AND FirstFlopCard  < SecondFlopCa
 PairOnFlop AND SecondFlopCard  == ThirdFlopCard AND SecondFlopCard  > FirstFlopCard  ? FirstFlopCard :
 PairOnFlop AND SecondFlopCard  == ThirdFlopCard AND SecondFlopCard  < FirstFlopCard  ? SecondFlopCard :
 -1
-
-// Shanky is a bit inconsistent with the naming
-// So we provide both SecondTopFlopCardPairedOnRiver and SecondTopFlopCardPairedOnRiver,
-// same for turn. "SecondTopFlopCardPairedOnRiver" is the "standard" here.
-
-##SecondTopFlopCardPairedOnRiver##
-SecondTopFlopCardPairedOnRiver
-
-##SecondTopFlopCardPairedOnTurn##
-SecondTopFlopCardPairedOnTurn
 
 ##SecondTopFlopCardPairedOnRiver##
 (SecondTopFlopCard == RiverCard)
@@ -2556,14 +2552,30 @@ OR `((rankbits >> 7) & 0b11011011) == 6 // 78_TJ_KA
 // http://www.maxinmontreal.com/forums/viewtopic.php?f=259&t=17463
 // 
 // Good one, contributing 2 cards
-  (((nsuited == 4) AND (nsuitedcommon == 2))
+WHEN HaveFlushDrawContributingTwoCards RETURN True FORCE		
 // Best one
-OR HaveNutFlushDraw
+WHEN HaveNutFlushDraw RETURN True FORCE	
 // Contributing only single card:
-//  * Headsup: at least Third-best
-//  * 3-handed: at least Second-best
-//  * 4-handed: only nut-flush
-OR ((nsuited >= 4) AND (nsuitedcommon >2) AND (NumberOfUnknownSuitedOvercards < (3 - nopponentsplaying))))
+WHEN HaveGoodFlushDrawContributingOnlyOneCard RETURN True FORCE	
+
+##HaveFlushDrawContributingTwoCards##
+WHEN ((nsuited == 4) AND (nsuitedcommon == 2)) RETURN True FORCE
+
+##HaveGoodFlushDrawContributingOnlyOneCard##
+// The quality of flush-draws with just one card in hand
+// depends on the probability of an opponent holding a better card
+// depends on the number of opponents.
+// http://www.maxinmontreal.com/forums/viewforum.php?f=156
+WHEN (NOT HaveAnyFlushDrawContributingOnlyOneCard) RETURN False FORCE
+// Headsup: at least fifth-best
+WHEN ((nopponentsplaying = 1) AND (NumberOfUnknownSuitedOvercards <= 4)) RETURN True FORCE
+// 3-handed: at least third-best
+WHEN ((nopponentsplaying = 2) AND (NumberOfUnknownSuitedOvercards <= 2)) RETURN True FORCE
+// 4-handed: at least second-best
+WHEN ((nopponentsplaying = 3) AND (NumberOfUnknownSuitedOvercards <= 1)) RETURN True FORCE
+
+##HaveAnyFlushDrawContributingOnlyOneCard##
+WHEN ((nsuited >= 4) AND (nsuitedcommon > 2)) RETURN True FORCE
 
 ##HaveFullHouse##
 isfullhouse OR HaveQuads
@@ -2571,7 +2583,6 @@ isfullhouse OR HaveQuads
 ##HaveNothing##
 NOT HavePair AND NOT (Overcards == 2) AND NOT HaveBestOverPairOrBetter AND NOT HaveBackdoorFlushDraw AND NOT HaveStraightDraw AND NOT HaveInsideStraightDraw AND NOT HaveFlushDraw
 // AND NOT HaveBackdoorStraightDraw
-
 
 ##HaveNutFlush##
     HaveNutStraightFlush
@@ -2583,7 +2594,6 @@ OR [HaveFlush AND (NumberOfUnknownSuitedOvercards == 0)]
 ##HaveNutFlushDraw##
     HaveNutStraightFlush
 OR [(nsuited >= 4) AND (NumberOfUnknownSuitedOvercards == 0)]
-
 
 ##HaveNutStraight##
 [ishistraight OR HaveNutStraightFlush]
@@ -2933,8 +2943,12 @@ AND (BestPossibleStraightForUsIfTwoHitsTheBoard >= BestPossibleStraightForVillai
 + GetBestPossibleStraightIfTwoHitsTheBoard
 
 ##HaveNutStraightDraw##
- 	 ( (nsuitedcommon < 2) AND (NumberOfCardranksThatGiveUsTheBestPossibleStraight >= 2) )
-AND NOT HaveStraight
+WHEN FlushDrawPossible RETURN HINT_No_NutStraightDraw_Due_To_Possible_FlushDraw FORCE
+WHEN HaveNutStraight RETURN True FORCE
+WHEN HaveUnDiscountedNutStraightDraw RETURN True FORCE
+
+##HaveUnDiscountedNutStraightDraw##
+(NumberOfCardranksThatGiveUsTheBestPossibleStraight >= 2) 
 
 ##HaveInsideNutStraightDraw##
    (NumberOfCardranksThatGiveUsTheBestPossibleStraight >= 1)
@@ -3502,8 +3516,24 @@ AlwaysTrue
 //
 //*****************************************************************************
 
-##GameIsHeadsUp##
-WHEN nplayersdealt = 2 RETURN True FORCE
+##HandIsHeadsup##
+TwoPlayersCompetingForThisPot
+
+##TableIsHeadsup##
+WHEN istournament AND OnlyTwoPlayersLeftAtTournamentTable RETURN True FORCE
+WHEN (NOT istournament) AND (nplayersdealt = 2) RETURN True FORCE
+
+##TwoPlayersCompetingForThisPot##
+// Just to create some verbosity in HandIsHeadsup
+WHEN nplayersplaying = 2 RETURN True FORCE
+
+##OnlyTwoPlayersLeftAtTournamentTable##
+// Just to create some verbosity in HandIsHeadsup
+WHEN (not istournament) RETURN False FORCE
+// Players in tournaments get always dealt even if they are sitting out.
+// http://www.maxinmontreal.com/forums/viewtopic.php?f=297&t=19778
+// So we check seated players
+WHEN (nplayersseated = 2) RETURN True FORCE
 
 ##PlayersAtStartOfThisRound##
 (betround == ConstBetRoundPreflop) ? nplayersround1 :
@@ -3534,16 +3564,7 @@ sitename$ongame
 NumberOfOpponentsAllin > 0
 
 ##Opponents_SumAllinBits##
-  ((Opponents_AllinBits & (1 << 0)) ? 1 : 0)
-+ ((Opponents_AllinBits & (1 << 1)) ? 1 : 0)
-+ ((Opponents_AllinBits & (1 << 2)) ? 1 : 0)
-+ ((Opponents_AllinBits & (1 << 3)) ? 1 : 0)
-+ ((Opponents_AllinBits & (1 << 4)) ? 1 : 0)
-+ ((Opponents_AllinBits & (1 << 5)) ? 1 : 0)
-+ ((Opponents_AllinBits & (1 << 6)) ? 1 : 0)
-+ ((Opponents_AllinBits & (1 << 7)) ? 1 : 0)
-+ ((Opponents_AllinBits & (1 << 8)) ? 1 : 0)
-+ ((Opponents_AllinBits & (1 << 9)) ? 1 : 0)
+`Opponents_AllinBits
 
 ##Opponents_AllinBits##
 [(betround == ConstBetRoundPreflop) AND NOT Casino_Moves_Allinbets_Immediatelly_To_The_Mainpot] ?
@@ -3638,17 +3659,17 @@ InSmallBlind ? 1 :
 // Small blind missing, therefore we can't be small blind
 MissingSmallBlind ? False :
 // 3 or more handed, normal blinds
-   ((NOT GameIsHeadsUp) AND (dealposition == 1))
+   ((NOT TableIsHeadsup) AND (dealposition == 1))
 // Headsup, reversed blinds
-OR (GameIsHeadsUp AND (dealposition == 2))
+OR (TableIsHeadsup AND (dealposition == 2))
 
 ##BigBlind##
 // Missing small blind, big blind is the first dealt player
 MissingSmallBlind ? (dealposition == 1) :
 // 3 or more handed, normal blinds
-   ((NOT GameIsHeadsUp) AND (dealposition == 2))
+   ((NOT TableIsHeadsup) AND (dealposition == 2))
 // Headsup, reversed blinds
-OR ((GameIsHeadsUp) AND (dealposition == 1))
+OR ((TableIsHeadsup) AND (dealposition == 1))
 
 ##Button##
 // If the game in not 10-handed, some positions would be both "normal" and in the blinds.
@@ -3746,7 +3767,7 @@ UTG
 
 ##TrueDealPositionOfBigBlind##
 // http://www.maxinmontreal.com/forums/viewtopic.php?f=257&t=19377
-WHEN GameIsHeadsUp RETURN 1 FORCE
+WHEN TableIsHeadsup RETURN 1 FORCE
 WHEN MissingSmallBlind RETURN 1 FORCE
 WHEN Others RETURN 2 FORCE
 

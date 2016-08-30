@@ -32,7 +32,6 @@
 #include "CPokerTrackerThread.h"
 #include "CPreferences.h"
 #include "CScraper.h"
-#include "CScraperAccess.h"
 #include "CSessionCounter.h"
 #include "CStringMatch.h"
 #include "CSymbolEngineUserchair.h"
@@ -141,7 +140,7 @@ bool CSymbolEngineVariousDataLookup::EvaluateSymbol(const char *name, double *re
 
 CString CSymbolEngineVariousDataLookup::SymbolsProvided() {
   // This list includes some prefixes of symbols that can't be verified,
-  // e.g. "dll$, pl_chair$, ....
+  // e.g. "dll$, pl_chair$, .... //!!!!!
   CString list = "dll$ pl_ vs$ msgbox$ log$ "
     "betround fmax f flagbits "
     "session version islobby "

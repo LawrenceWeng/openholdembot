@@ -24,6 +24,9 @@
 int recursion_depth = 0;
 const int kMaxRecursionDepth = 100;
 
+CFunction dummy_function("undefined (probably debug-tab)", "", kUndefined);
+CFunction* CFunction::_currently_evaluated_function = &dummy_function;
+
 CFunction::CFunction(
     CString new_name, 
     CString new_function_text,
@@ -39,6 +42,12 @@ CFunction::CFunction(
 CFunction::~CFunction() {
   // Parse-tree-nodes may be NULL in case of an empty function
   if (_parse_tree_node != NULL) {
+#ifdef _DEBUG
+     write_log(preferences.debug_formula(),
+      "[CFunction] Deleting %s\n", _name);
+     write_log(preferences.debug_formula(),
+      "[CFunction] Parse-tree: %s\n", _parse_tree_node->Serialize());
+#endif
     delete _parse_tree_node;
   }
 }
@@ -66,10 +75,15 @@ double CFunction::Evaluate(bool log /* = false */) {
 	  ++recursion_depth;
 	  return kUndefinedZero;
   }
+  // Keep track of the currently evaluated function
+  // to be able generate better error-messages in other modules
+  // (CParseTreeOperatorNode, division by zero)
+  _previously_evaluated_function = _currently_evaluated_function;
+  _currently_evaluated_function = this;
   // Result already cached
   if (_is_result_cached) {
     if (log) {
-       write_log(preferences.debug_auto_trace(),
+       write_log(preferences.debug_formula(),
         "[CFunction] %s -> %.3f [cached]\n", _name, _cached_result);
       p_autoplayer_trace->Add(_name, _cached_result);  
     }
@@ -90,10 +104,16 @@ double CFunction::Evaluate(bool log /* = false */) {
           log_line, _cached_result, _starting_line_of_function);
       }
       p_autoplayer_trace->Indent(false);
+    } else {
+      // Undefined, parse-tree-node is NULL
+      // keep _cached_result as 0.0
+      if (log) {
+        p_autoplayer_trace->Add(_name, kUndefinedZero, true);
+      }
     }
-    // Else: keep _cached_result as 0.0
   }
   --recursion_depth;
+  _currently_evaluated_function = _previously_evaluated_function;
   return _cached_result;
 }
 

@@ -451,7 +451,7 @@ const int TEXTDEL_NOTHING	 = TEXTSEL_NOTHING;
 
 // SWAG options - bet confirmation
 const int BETCONF_ENTER		 = 1;
-const int BETCONF_CLICKBET	 = 2;
+const int BETCONF_CLICKBET = 2;
 const int BETCONF_NOTHING	 = TEXTSEL_NOTHING;
 
 // Button click options
@@ -564,8 +564,11 @@ const int k_number_of_pocketcard_combinations_without_order = 1326;
 const bool k_ThisMustNotHappen = false;
 
 // For logging
-const bool k_always_log_errors = true;
+const bool kAlwaysLogAutoplayerFunctions = true;
 const bool k_always_log_basic_information = true;
+const bool kAlwaysLogDLLMessages = true;
+const bool k_always_log_errors = true;
+const bool kAlwaysLogOpenPPLInitialization = true;
 const int  kMaxLogSymbolsForWhiteBox = 1;
 
 // For string handling

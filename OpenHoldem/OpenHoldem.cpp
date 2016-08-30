@@ -120,19 +120,21 @@ BOOL COpenHoldemApp::InitInstance() {
 	if (!AfxOleInit())
 		return FALSE;
 	AfxEnableControlContainer();
-
-	free((void*)m_pszProfileName);
-	m_pszProfileName = _strdup(p_filenames->IniFilePath().GetString());
-	preferences.LoadPreferences();
-	
+  
 	// Classes
 	if (!p_sessioncounter) p_sessioncounter = new CSessionCounter;
 	// Start logging immediatelly after the loading the preferences
 	// and initializing the sessioncounter, which is necessary for 
 	// the filename of the log (oh_0.log, etc).
 	start_log();
+  // Load preferences immediately after creation of the log-file
+  // We might want to to log the preferences too.
+  free((void*)m_pszProfileName);
+  m_pszProfileName = _strdup(p_filenames->IniFilePath().GetString());
+  preferences.LoadPreferences();
+
 	InstantiateAllSingletons();
-  p_formula_parser->ParseOpenPPLLibraryIfNeeded();
+  p_formula_parser->ParseDefaultLibraries();
 
 	 write_log(preferences.debug_openholdem(), "[OpenHoldem] Going to load mouse.DLL\n");
 	// mouse.dll - failure in load is fatal
@@ -216,14 +218,14 @@ BOOL COpenHoldemApp::InitInstance() {
 	EnableShellOpen();
 	 write_log(preferences.debug_openholdem(), "[OpenHoldem] Going to RegisterShellFileTypes(false)\n");
 	RegisterShellFileTypes(false);
+   write_log(preferences.debug_openholdem(), "[OpenHoldem] Going to InitializeThreads()\n");
+  InitializeThreads();
+   write_log(preferences.debug_openholdem(), "[OpenHoldem] Going to OpenLastRecentlyUsedFile()\n");
 	OpenLastRecentlyUsedFile();
-
 	 write_log(preferences.debug_openholdem(), "[OpenHoldem] m_pMainWnd = %i\n",
 		m_pMainWnd);
-
 	 write_log(preferences.debug_openholdem(), "[OpenHoldem] Posting message that finishes initialization later\n");
 	FinishInitialization();
-
 	 write_log(preferences.debug_openholdem(), "[OpenHoldem] InitInstance done\n");
 	return TRUE;
 }
@@ -232,46 +234,27 @@ void COpenHoldemApp::FinishInitialization() {
 	 write_log(preferences.debug_openholdem(), "[OpenHoldem] FinishInitialization()\n");
 	 write_log(preferences.debug_openholdem(), "[OpenHoldem] m_pMainWnd = %i\n",
 		m_pMainWnd);
-
 	assert(p_openholdem_title != NULL);
 	p_openholdem_title->UpdateTitle();
-
 	// The one and only window has been initialized, so show and update it
-	if (preferences.gui_start_minimized())
-	{
+	if (preferences.gui_start_minimized()) {
 		m_pMainWnd->ShowWindow(SW_MINIMIZE);
-	}
-	else
-	{
+	}	else {
 		m_pMainWnd->ShowWindow(SW_SHOW);
 	}
-	
 	m_pMainWnd->UpdateWindow();
 	// call DragAcceptFiles only if there's a suffix
 	// In an SDI app, this should occur after ProcessShellCommand
 	// Enable drag/drop open
 	m_pMainWnd->DragAcceptFiles();
-
 	// Bring main window to front
 	m_pMainWnd->SetWindowPos(&CWnd::wndTop, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	m_pMainWnd->SetActiveWindow();
 	m_pMainWnd->SetFocus();
 	m_pMainWnd->SetForegroundWindow();
-
-  // Heartbeat thread cares about everything: connecting, scraping, playing
-   write_log(preferences.debug_openholdem(), "[OpenHoldem] Going to start heartbeat thread\n");
-  assert(p_heartbeat_thread == NULL);
-  p_heartbeat_thread = new CHeartbeatThread;
-  assert(p_heartbeat_thread != NULL);
-  p_heartbeat_thread->StartThread();
-  // Iterator thread
-  p_iterator_thread = new CIteratorThread();
-  assert(p_iterator_thread != NULL);
-
-    // autoconnect on start, if preferred
+  // autoconnect on start, if preferred
 	 write_log(preferences.debug_openholdem(), "[OpenHoldem] Going to connect\n");
-	if (preferences.autoconnector_when_to_connect() == k_AutoConnector_Connect_Once)
-	{
+	if (preferences.autoconnector_when_to_connect() == k_AutoConnector_Connect_Once) {
 		p_autoconnector->Connect(NULL);
 	}
 }
@@ -356,20 +339,14 @@ void COpenHoldemApp::OpenLastRecentlyUsedFile() {
 	// Open the most recently used file. (First on the MRU list.) Get the last
 	// file from the registry. We need not account for cmdInfo.m_bRunAutomated and
 	// cmdInfo.m_bRunEmbedded as they are processed before we get here.
-	
-	if (cmdInfo.m_nShellCommand == CCommandLineInfo::FileNew)
-	{
+	if (cmdInfo.m_nShellCommand == CCommandLineInfo::FileNew)	{
 		CString sLastPath(GetProfileString(_afxFileSection, "File1"));
-
-		if (!sLastPath.IsEmpty())
-		{
+    if (!sLastPath.IsEmpty())	{
 			 write_log(preferences.debug_openholdem(), "[OpenHoldem] Last path: %s\n", 
 				sLastPath);
-
 			CFile f;
 			// If file is there, set to open!
-			if (f.Open(sLastPath, CFile::modeRead | CFile::shareDenyWrite))
-			{
+			if (f.Open(sLastPath, CFile::modeRead | CFile::shareDenyWrite))	{
 				cmdInfo.m_nShellCommand = CCommandLineInfo::FileOpen;
 				cmdInfo.m_strFileName = sLastPath;
 				f.Close();
@@ -379,8 +356,19 @@ void COpenHoldemApp::OpenLastRecentlyUsedFile() {
 	 write_log(preferences.debug_openholdem(), "[OpenHoldem] Going to dispatch command-line\n");
 	// Dispatch commands specified on the command line.  Will fail if
 	// app was launched with /RegServer, /Register, /Unregserver or /Unregister.	
-	if (!ProcessShellCommand(cmdInfo))
-	{
+	if (!ProcessShellCommand(cmdInfo)) {
 		 write_log(preferences.debug_openholdem(), "[OpenHoldem] Dispatching command-line failed\n");
 	}
+}
+
+void COpenHoldemApp::InitializeThreads() {
+  // Heartbeat thread cares about everything: connecting, scraping, playing
+  write_log(preferences.debug_openholdem(), "[OpenHoldem] Going to start heartbeat thread\n");
+  assert(p_heartbeat_thread == NULL);
+  p_heartbeat_thread = new CHeartbeatThread;
+  assert(p_heartbeat_thread != NULL);
+  p_heartbeat_thread->StartThread();
+  // Iterator thread
+  p_iterator_thread = new CIteratorThread();
+  assert(p_iterator_thread != NULL);
 }

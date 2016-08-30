@@ -45,6 +45,7 @@
 #include <math.h>
 #include <windows.h>
 #include "window_functions.h"
+#include "..\OpenHoldem\MagicNumbers.h"
 #include "Psapi.h"
 
 RECT desktop_dimensions;
@@ -109,7 +110,7 @@ bool WinIsTaskManager(HWND window) {
   return WinBelongsToExecutable(window, "taskmgr.exe");
 }
 
-bool WinBelongsToExecutable(HWND window, const char* programName) {
+bool WinBelongsToExecutable(HWND window, const char* program_name) {
   if (window) {
     DWORD dwProcessId = 0;
     DWORD dwThreadId = GetWindowThreadProcessId(window, &dwProcessId);
@@ -119,7 +120,7 @@ bool WinBelongsToExecutable(HWND window, const char* programName) {
       bool match = false;
       char nameProc[MAX_PATH];
       if (GetProcessImageFileName(hProcess, nameProc, MAX_PATH)) {
-        match = strstr(nameProc, programName) != NULL;
+        match = strstr(nameProc, program_name) != NULL;
       }
       CloseHandle(hProcess);
       return match;
@@ -164,6 +165,7 @@ int CalculateTotalHeightForClientHeight(HWND window, int desired_client_height) 
 void ResizeToClientSize(HWND window, int new_width, int new_height) {
   assert(new_width > 0);
   assert(new_height > 0);
+  assert(window != NULL);
   int new_total_width = CalculateTotalWidthForClientWidth(
     window, new_width);
   int new_total_height = CalculateTotalHeightForClientHeight(
@@ -172,11 +174,24 @@ void ResizeToClientSize(HWND window, int new_width, int new_height) {
 }
 
 void ResizeToTotalSize(HWND window, int new_width, int new_height) {
+  assert(new_width > 0);
+  assert(new_height > 0);
+  assert(window != NULL);
   RECT old_position;
   GetWindowRect(window, &old_position);
+  if (old_position.left < 0) {
+    old_position.left = 0;
+  }
+  if (old_position.top < 0) {
+    old_position.top = 0;
+  }
   MoveWindow(window,
     old_position.left, old_position.top,
     new_width, new_height,
     true);	// true = Redraw the table.
-            // Update shared mem
+            // Update shared mem !!!!
+}
+
+void WinGetTitle(HWND window, char *title) {
+  GetWindowText(window, title, MAX_WINDOW_TITLE);
 }

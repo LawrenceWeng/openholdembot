@@ -21,7 +21,6 @@
 #include "CopenHoldemStatusbar.h"
 #include "CPreferences.h"
 #include "CScraper.h"
-#include "CScraperAccess.h"
 #include "CSymbolEngineAutoplayer.h"
 #include "CSymbolEngineChipAmounts.h"
 #include "CSymbolEngineHandrank.h"
@@ -89,14 +88,19 @@ int CAutoplayerTrace::Add(CString symbol) {
   return (_number_of_log_lines - 1); 
 }
 
-void CAutoplayerTrace::Add(CString symbol, double value) {
+void CAutoplayerTrace::Add(CString symbol, double value, bool undefined /* = false */) {
   ENT
    write_log(preferences.debug_auto_trace(),
     "[CAutoplayerTrace] Add (%s, %.3f)\n",
     symbol, value);
   if (!SymbolNeedsToBeLogged(symbol)) return;
   CString new_message;
-  if (COHScriptObject::IsFunction(symbol)
+  if (undefined) {
+    // For empty functions with NULL parse-tree
+    assert(value == kUndefinedZero);
+    new_message.Format("%s%s = %.3f [undefined]",
+      Indentation(), symbol, value);
+  } else if (COHScriptObject::IsFunction(symbol)
       || COHScriptObject::IsOpenPPLSymbol(symbol)) {
     // Function with known value a priori
     new_message.Format("%s%s = %.3f [cached]",
@@ -155,9 +159,6 @@ CString CAutoplayerTrace::Indentation() {
 }
 
 void CAutoplayerTrace::Print(const char *action_taken, bool full_log_for_primary_formulas) {
-  if (!preferences.trace_enabled()) {
-    return;
-  }
   CSLock lock(log_critsec);
   if (full_log_for_primary_formulas) {
     // This information is only meaningful for playing decision f$all .. f$fold
@@ -269,8 +270,7 @@ void CAutoplayerTrace::LogSecondaryAction(const char *action_taken) {
 }
 
 void CAutoplayerTrace::LogAutoPlayerTrace() {
-  if (!preferences.trace_enabled() 
-      || (_symboltrace_collection.GetSize() <= 0)) {
+  if (_symboltrace_collection.GetSize() <= 0) {
     return;
   }
   write_log_separator(true, "Autoplayer Trace");

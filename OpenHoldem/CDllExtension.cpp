@@ -21,6 +21,7 @@
 #include "CHandresetDetector.h"
 #include "CIteratorThread.h"
 #include "CPreferences.h"
+#include "CScraper.h"
 #include "CSymbolEnginePrWin.h"
 #include "CSymbolEngineVersus.h"
 #include "debug.h"
@@ -101,7 +102,9 @@ void CDllExtension::Unload(void) {
 }
 
 bool CDllExtension::IsLoaded() {
-	return _hmod_dll != NULL;
+  // Always loaded due to static linking ATM !!!
+  return true;
+	// return _hmod_dll != NULL;
 }
 
 /*EXE_IMPLEMENTS*/ double __stdcall ExpectedWinHandVsHand(int plCard0, int plCard1, int oppCard0, int oppCard1)
@@ -129,7 +132,7 @@ bool CDllExtension::IsLoaded() {
   double result = kUndefined;
 	p_engine_container->EvaluateSymbol(name_of_single_symbol__not_expression, 
     &result, 
-    preferences.dll_logging_enabled());
+    kAlwaysLogDLLMessages);
 	return result;
 }
 
@@ -157,7 +160,7 @@ void __stdcall WriteLog(char* fmt, ...) {
 	// http://stackoverflow.com/questions/1327854/how-to-convert-a-variable-argument-function-into-a-macro
 	va_list args;
   va_start(args, fmt);
-	write_log_vl(preferences.dll_logging_enabled(), fmt, args);
+	write_log_vl(kAlwaysLogDLLMessages, fmt, args);
 	va_end(args);
 }
 
@@ -168,4 +171,17 @@ void __stdcall WriteLog(char* fmt, ...) {
   handlist.Format("%s\n%s", function_header, list_body);
   // "Formula" includes lists, too.
   p_formula_parser->ParseSingleFormula(handlist, kUndefinedZero);
+}
+
+/*EXE_IMPLEMENTS*/ char* __stdcall ScrapeTableMapRegion(char* p_region, int& p_returned_lengh) {
+  CString result;
+  bool success = p_scraper->EvaluateRegion(p_region, &result);
+  if (success) {
+    p_returned_lengh = result.GetLength() + 1;
+    char* returnStr = static_cast<char*>(LocalAlloc(LPTR, p_returned_lengh));
+    strcat(returnStr, result);
+    return returnStr;
+  }
+  p_returned_lengh = kUndefined;
+  return nullptr;
 }

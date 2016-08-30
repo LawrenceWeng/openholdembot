@@ -42,6 +42,14 @@ double CAutoplayerFunctions::GetAutoplayerFunctionValue(const int function_code)
 
 void CAutoplayerFunctions::CalcPrimaryFormulas() {
    write_log(preferences.debug_formula(), "[CAutoplayerFunctions] CalcPrimaryFormulas()\n");
+  // First do the calculation of memory/history-symbols,
+  //   * exactly once per my turn
+  //   * when we have stable frames (isfinal-answer == true)
+  //   * shortly before the main OpenPPL-evaluations
+  // Unfortunately doing this in CSymbolEngineOpenPPL::ResetOnMyTurn() 
+  // did not work as expected.
+  assert(p_symbol_engine_autoplayer->isfinalanswer());
+  p_symbol_engine_open_ppl->InitMemorySymbols();
   if (p_function_collection->IsOpenPPLProfile()) {
     CalcPrimaryFormulasOpenPPL();
     CalculateOpenPPLBackupActions();
@@ -54,27 +62,15 @@ void CAutoplayerFunctions::CalcPrimaryFormulas() {
 
 void CAutoplayerFunctions::CalcPrimaryFormulasOHScript() {
    write_log(preferences.debug_formula(), "[CAutoplayerFunctions] CalcPrimaryFormulasOHScript()\n");
-  bool trace_needed = preferences.trace_enabled();
-   write_log(preferences.debug_formula(), "[CAutoplayerFunctions] Trace enabled: %s\n", Bool2CString(preferences.trace_enabled()));
 	for (int i=k_autoplayer_function_beep; i<=k_autoplayer_function_fold; i++) {
-		double result = p_function_collection->Evaluate(k_standard_function_names[i], trace_needed);
+		double result = p_function_collection->Evaluate(k_standard_function_names[i], kAlwaysLogAutoplayerFunctions);
 		 write_log(preferences.debug_formula(), "[CAutoplayerFunctions] Primary formulas; %s: %f\n", 
 			k_standard_function_names[i], result);
 	}
 }
 
 void CAutoplayerFunctions::CalcPrimaryFormulasOpenPPL() {
-   write_log(preferences.debug_formula(), "[CAutoplayerFunctions] CalcPrimaryFormulasOpenPPL()\n");
-  bool trace_needed = preferences.trace_enabled();
-   write_log(preferences.debug_formula(), "[CAutoplayerFunctions] Trace enabled: %s\n", Bool2CString(preferences.trace_enabled()));
-  // First do the calculation of memory/history-symbols,
-  //   * exactly once per my turn
-  //   * when we have stable frames (isfinal-answer == true)
-  //   * shortly before the main OpenPPL-evaluations
-  // Unfortunately doing this in CSymbolEngineOpen::PPLResetOnMyTurn() 
-  // did not work as expected.
-  assert(p_symbol_engine_autoplayer->isfinalanswer());
-  p_symbol_engine_open_ppl->InitMemorySymbols();
+  write_log(preferences.debug_formula(), "[CAutoplayerFunctions] CalcPrimaryFormulasOpenPPL()\n");
   // Now do the main evaluation
   int betround = p_betround_calculator->betround();
 	if (betround < kBetroundPreflop || betround > kBetroundRiver) {
@@ -83,7 +79,7 @@ void CAutoplayerFunctions::CalcPrimaryFormulasOpenPPL() {
     return;
   }
   double decision = p_function_collection->Evaluate(k_OpenPPL_function_names[betround], 
-    trace_needed);
+    kAlwaysLogAutoplayerFunctions);
    write_log(preferences.debug_formula(), 
     "[CAutoplayerFunctions] Decision (non-translated) = %.2f\n", decision);
   TranslateOpenPPLDecisionToAutoplayerFunctions(decision);
@@ -99,11 +95,26 @@ void CAutoplayerFunctions::CheckIfDecisionMatchesElementaryAction(int decision, 
     case k_autoplayer_function_allin:
       action_name = "RaiseMax";
       break;
+    case k_autoplayer_function_betpot_2_1:
+      action_name = "RaiseTwoPot";
+      break;
     case k_autoplayer_function_betpot_1_1:
       action_name = "RaisePot";
       break;
+    case k_autoplayer_function_betpot_3_4:
+      action_name = "RaiseThreeFourthPot";
+      break;
+    case k_autoplayer_function_betpot_2_3:
+      action_name = "RaiseTwoThirdPot";
+      break;
     case k_autoplayer_function_betpot_1_2:
       action_name = "RaiseHalfPot";
+      break;
+    case k_autoplayer_function_betpot_1_3:
+      action_name = "RaiseThirdPot";
+      break;
+    case k_autoplayer_function_betpot_1_4:
+      action_name = "RaiseFourthPot";
       break;
     case k_autoplayer_function_raise:
       action_name = "Raise";
@@ -148,14 +159,9 @@ void CAutoplayerFunctions::TranslateOpenPPLDecisionToAutoplayerFunctions(double 
       betsize);
   } else if (decision < -1000) {
     // Large negative values: action constants
-    CheckIfDecisionMatchesElementaryAction(decision, k_autoplayer_function_beep);
-    CheckIfDecisionMatchesElementaryAction(decision, k_autoplayer_function_allin);
-    CheckIfDecisionMatchesElementaryAction(decision, k_autoplayer_function_betpot_1_1);
-    CheckIfDecisionMatchesElementaryAction(decision, k_autoplayer_function_betpot_1_2);
-    CheckIfDecisionMatchesElementaryAction(decision, k_autoplayer_function_raise);
-    CheckIfDecisionMatchesElementaryAction(decision, k_autoplayer_function_call);
-    CheckIfDecisionMatchesElementaryAction(decision, k_autoplayer_function_check);
-    CheckIfDecisionMatchesElementaryAction(decision, k_autoplayer_function_fold);
+    for (int action = k_autoplayer_function_beep; action <= k_autoplayer_function_fold; ++action) {
+      CheckIfDecisionMatchesElementaryAction(decision, action);
+    }
   } else {
     // This can only be undefined == 0.0
     assert(decision == kUndefinedZero);
@@ -280,9 +286,11 @@ double CAutoplayerFunctions::BetSizeForPercentagedPotsizeBet(double decision) {
 
 void CAutoplayerFunctions::CalcSecondaryFormulas(void) {
 	for (int i=k_hopper_function_sitin; i<=k_standard_function_betsize_enable_rounding; ++i) {
-		double result = p_function_collection->Evaluate(k_standard_function_names[i], true);
+		double result = p_function_collection->Evaluate(k_standard_function_names[i]);
 		 write_log(preferences.debug_formula(), "[CAutoplayerFunctions] Secondary formulas; %s: %f\n", 
-			k_standard_function_names[i], result);
+			  k_standard_function_names[i], result);
 	}
 }
+
+
 
