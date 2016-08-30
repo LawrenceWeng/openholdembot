@@ -1,15 +1,15 @@
-//*******************************************************************************
+//******************************************************************************
 //
 // This file is part of the OpenHoldem project
 //   Download page:         http://code.google.com/p/openholdembot/
 //   Forums:                http://www.maxinmontreal.com/forums/index.php
 //   Licensed under GPL v3: http://www.gnu.org/licenses/gpl.html
 //
-//*******************************************************************************
+//******************************************************************************
 //
 // Purpose:
 //
-//*******************************************************************************
+//******************************************************************************
 
 #include "stdafx.h"
 #include "CSymbolEngineCallers.h"
@@ -152,10 +152,12 @@ double CSymbolEngineCallers::FirstPossibleRaisersBet() {
 bool CSymbolEngineCallers::EvaluateSymbol(const char *name, double *result, bool log /* = false */) {
   FAST_EXIT_ON_OPENPPL_SYMBOLS(name);
 	if (memcmp(name, "nopponentscalling", 17)==0 && strlen(name)==17) {
+    WarnIfSymbolRequiresMyTurn("nopponentscalling");
     RETURN_UNDEFINED_VALUE_IF_NOT_MY_TURN
 		*result = nopponentscalling();
 		return true;
 	}	else if (memcmp(name, "callbits", 8)==0 && strlen(name)==9) {
+    WarnIfSymbolRequiresMyTurn("callbits");
     RETURN_UNDEFINED_VALUE_IF_NOT_MY_TURN
 		*result = callbits(RightDigitCharacterToNumber(name));
     return true;

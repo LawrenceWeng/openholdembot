@@ -1,15 +1,15 @@
-//*******************************************************************************
+//******************************************************************************
 //
 // This file is part of the OpenHoldem project
 //   Download page:         http://code.google.com/p/openholdembot/
 //   Forums:                http://www.maxinmontreal.com/forums/index.php
 //   Licensed under GPL v3: http://www.gnu.org/licenses/gpl.html
 //
-//*******************************************************************************
+//******************************************************************************
 //
 // Purpose:
 //
-//*******************************************************************************
+//******************************************************************************
 
 #include "StdAfx.h"
 #include "CTableMaploader.h"
@@ -78,7 +78,6 @@ void CTableMapLoader::ParseAllTableMapsToLoadConnectionData(CString TableMapWild
 		}
 	}
 }
-
 
 void CTableMapLoader::ParseAllTableMapsToLoadConnectionData() {
 	CString TableMapWildcard;
@@ -189,9 +188,9 @@ bool Check_TM_Against_Single_Window(int MapIndex, HWND h, RECT r, CString title)
   bool      good_table_points = false;
 	int				width = 0, height = 0, x = 0, y = 0;
 	HDC				hdcScreen = NULL, hdcCompatible = NULL;
-	HBITMAP			hbmScreen = NULL, hOldScreenBitmap = NULL;
+	HBITMAP		hbmScreen = NULL, hOldScreenBitmap = NULL;
 	BYTE			*pBits = NULL, alpha = 0, red = 0, green = 0, blue = 0;
-	CTransform		trans;
+	CTransform	trans;
 	CString			s;
 
 	 write_log(preferences.debug_tablemap_loader(), "[CTablemapLoader] Check_TM_Against_Single_Window(..)\n");

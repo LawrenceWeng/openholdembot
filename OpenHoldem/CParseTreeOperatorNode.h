@@ -1,15 +1,15 @@
-//*******************************************************************************
+//******************************************************************************
 //
 // This file is part of the OpenHoldem project
 //   Download page:         http://code.google.com/p/openholdembot/
 //   Forums:                http://www.maxinmontreal.com/forums/index.php
 //   Licensed under GPL v3: http://www.gnu.org/licenses/gpl.html
 //
-//*******************************************************************************
+//******************************************************************************
 //
 // Purpose:
 //
-//*******************************************************************************
+//******************************************************************************
 
 #ifndef INC_CPARSETREEOPERATORNODE_H
 #define INC_CPARSETREEOPERATORNODE_H
@@ -21,7 +21,7 @@ class CParseTreeOperatorNode: public CParseTreeNode {
   friend class CParseTreeRotator;
  public:
   CParseTreeOperatorNode(int relative_line_number);
-  ~CParseTreeOperatorNode();
+  virtual ~CParseTreeOperatorNode();
  public:
   void MakeUnaryOperator(int node_type, TPParseTreeNode first_sibbling);
   void MakeBinaryOperator(int node_type, TPParseTreeNode first_sibbling,

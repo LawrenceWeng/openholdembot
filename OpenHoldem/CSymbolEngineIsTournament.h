@@ -1,16 +1,16 @@
-//*******************************************************************************
+//******************************************************************************
 //
 // This file is part of the OpenHoldem project
 //   Download page:         http://code.google.com/p/openholdembot/
 //   Forums:                http://www.maxinmontreal.com/forums/index.php
 //   Licensed under GPL v3: http://www.gnu.org/licenses/gpl.html
 //
-//*******************************************************************************
+//******************************************************************************
 //
 // Purpose: Detecting if we play a tournament, especially
 //   to enable / disable automatic blind-locking (stability) 
 //
-//*******************************************************************************
+//******************************************************************************
 
 #ifndef INC_CSYMBOLENGINEISTOURNAMENT_H
 #define INC_CSYMBOLENGINEISTOURNAMENT_H
@@ -34,7 +34,7 @@ class CSymbolEngineIsTournament: public CVirtualSymbolEngine {
 	bool EvaluateSymbol(const char *name, double *result, bool log = false);
 	CString SymbolsProvided();
  public:
-	bool istournament()		{ return _istournament == true; }
+	bool istournament()		{ return _istournament == int(true); }
  private:
 	void TryToDetectTournament();
 	bool BetsAndBalancesAreTournamentLike();

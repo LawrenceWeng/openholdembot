@@ -1,15 +1,15 @@
-//*******************************************************************************
+//******************************************************************************
 //
 // This file is part of the OpenHoldem project
 //   Download page:         http://code.google.com/p/openholdembot/
 //   Forums:                http://www.maxinmontreal.com/forums/index.php
 //   Licensed under GPL v3: http://www.gnu.org/licenses/gpl.html
 //
-//*******************************************************************************
+//******************************************************************************
 //
 // Purpose:
 //
-//*******************************************************************************
+//******************************************************************************
 
 // DialogFormulaScintilla.cpp : implementation file
 //
@@ -919,8 +919,9 @@ void CDlgFormulaScintilla::OnNew() {
 
   if (newdlg.is_function == false) {
     // Create new list
-    COHScriptList *p_new_list = new COHScriptList(&newdlg.CSnewname, 
-      NULL, kNoAbsoluteLineNumberExists);
+    // It will be released later by the function collection
+    COHScriptList *p_new_list = new COHScriptList(newdlg.CSnewname, 
+      "", kNoAbsoluteLineNumberExists);
     // Add it to working set CArray
     p_function_collection->Add((COHScriptObject*)p_new_list);
     // Add to tree
@@ -932,9 +933,11 @@ void CDlgFormulaScintilla::OnNew() {
       newhtitem = m_FormulaTree.InsertItem(newdlg.CSnewname, p);
     }
   } else {
-    // Create new function
-    CFunction *p_new_function = new CFunction(&newdlg.CSnewname, 
-      NULL, kNoAbsoluteLineNumberExists);
+    // The added functions stazs in the collection 
+    // until a new profile gets loaded, until it gets overwritten]
+    // or until the ebtire collection gets released
+    CFunction *p_new_function = new CFunction(newdlg.CSnewname, 
+      "", kNoAbsoluteLineNumberExists);
     // Add it to working set CArray
     p_function_collection->Add((COHScriptObject*)p_new_function);
     // Add to tree
@@ -1528,6 +1531,7 @@ void CDlgFormulaScintilla::StopAutoButton()
 
 void CDlgFormulaScintilla::UpdateDebugAuto(void) {
   p_function_collection->ClearCache();
+  assert(p_debug_tab != NULL);
   CString result = p_debug_tab->EvaluateAll();
   m_pActiveScinCtrl->SendMessage(SCI_SETMODEVENTMASK, 0, 0);
   m_pActiveScinCtrl->SendMessage(SCI_SETTEXT,0,(LPARAM)result.GetString());

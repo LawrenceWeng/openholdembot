@@ -1,15 +1,15 @@
-//*******************************************************************************
+//******************************************************************************
 //
 // This file is part of the OpenHoldem project
 //   Download page:         http://code.google.com/p/openholdembot/
 //   Forums:                http://www.maxinmontreal.com/forums/index.php
 //   Licensed under GPL v3: http://www.gnu.org/licenses/gpl.html
 //
-//*******************************************************************************
+//******************************************************************************
 //
 // Purpose:
 //
-//*******************************************************************************
+//******************************************************************************
 
 #include "stdafx.h"
 #include "CFormulaParser.h"
@@ -299,7 +299,10 @@ void CFormulaParser::ParseSingleFormula(CString function_text, int starting_line
   }
   if (_function_name == "f$debug") {
     ParseDebugTab(function_text);
-    p_function_collection->Add((COHScriptObject*)p_debug_tab);
+    assert(p_debug_tab != NULL);
+    // The debug-tab is a special global object that must nit be added 
+    // to the function collection (to avoid deletion).
+    // http://www.maxinmontreal.com/forums/viewtopic.php?f=111&t=19616
     return;
   }
   TPParseTreeNode function_body = NULL;
@@ -316,8 +319,8 @@ void CFormulaParser::ParseSingleFormula(CString function_text, int starting_line
     // ##listXYZ##
      write_log(preferences.debug_parser(), 
 	  "[FormulaParser] Parsing list\n");
-    COHScriptList *new_list = new COHScriptList(&_function_name, 
-        &function_text, starting_line);
+    COHScriptList *new_list = new COHScriptList(_function_name, 
+      function_text, starting_line);
     ParseListBody(new_list);
     p_function_collection->Add((COHScriptObject*)new_list); 
     return;
@@ -338,8 +341,11 @@ void CFormulaParser::ParseSingleFormula(CString function_text, int starting_line
       "Did you forget \"f$\"?\n");
     return;
   }
-  CFunction *p_new_function = new CFunction(&_function_name, 
-	  &function_text, starting_line);
+  // The added functions stays in the collection 
+  // until a new profile gets loaded, until it gets overwritten]
+  // or until the ebtire collection gets released
+  CFunction *p_new_function = new CFunction(_function_name, 
+	  function_text, starting_line);
   p_new_function->SetParseTree(function_body);
   p_function_collection->Add((COHScriptObject*)p_new_function);
   // Care about operator precendence
@@ -544,7 +550,7 @@ void CFormulaParser::ErrorMissingAction(int token_ID) {
   CString error_message = "Missing action after when-condition\n";
   if (token_ID == kTokenNumber) {
     error_message += "Found a number. Probably missing operator\n";
-  } else if (token_ID == TokenIsBracketOpen(token_ID)) {
+  } else if (TokenIsBracketOpen(token_ID)) {
     error_message += "Found a bracket. Probably missing operator\n";
   } else if (token_ID == kTokenIdentifier) {
     CString name = _tokenizer.GetTokenString();
@@ -802,6 +808,7 @@ void CFormulaParser::BackPatchOpenEndedWhenConditionSequence(
 }
 
 void CFormulaParser::ParseDebugTab(CString function_text) {
+  assert(p_debug_tab != NULL);
   p_debug_tab->Clear();
   CString next_line;
   int separator_index = 0;
@@ -822,6 +829,7 @@ void CFormulaParser::ParseDebugTab(CString function_text) {
     // Care about operator precendence
     _parse_tree_rotator.Rotate(expression, &expression);
     // Add line and expression to debug-tab
+    assert(p_debug_tab != NULL);
     p_debug_tab->AddExpression(expression_text, expression);
   }
 }

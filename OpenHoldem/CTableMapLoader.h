@@ -1,15 +1,15 @@
-//*******************************************************************************
+//******************************************************************************
 //
 // This file is part of the OpenHoldem project
 //   Download page:         http://code.google.com/p/openholdembot/
 //   Forums:                http://www.maxinmontreal.com/forums/index.php
 //   Licensed under GPL v3: http://www.gnu.org/licenses/gpl.html
 //
-//*******************************************************************************
+//******************************************************************************
 //
 // Purpose:
 //
-//*******************************************************************************
+//******************************************************************************
 
 #ifndef INC_CTABLEMAPLOADER_H
 #define INC_CTABLEMAPLOADER_H
@@ -21,22 +21,21 @@
 // BOOL CALLBACK EnumProcTopLevelWindowList(HWND hwnd, LPARAM lparam) 
 bool Check_TM_Against_Single_Window(int MapIndex, HWND h, RECT r, CString title);
 
-class CTableMapLoader
-{
-public:
+class CTableMapLoader {
+ public:
 	CTableMapLoader();
 	~CTableMapLoader();
-public:
+ public:
 	int NumberOfTableMapsLoaded() { return _number_of_tablemaps_loaded; }
 	void ReloadAllTablemapsIfChanged();
 	CString GetTablemapPathToLoad(int tablemap_index);
-private:
+ private:
 	void ParseAllTableMapsToLoadConnectionData(CString TableMapWildcard);
 	void ParseAllTableMapsToLoadConnectionData();
 	bool tablemap_connection_dataAlreadyStored(CString TablemapFilePath);
 	void CheckForDuplicatedTablemaps();
 	void ExtractConnectionDataFromCurrentTablemap(CTablemap *cmap);
-private:
+ private:
 	bool	tablemaps_in_scraper_folder_already_parsed;
 	int		_number_of_tablemaps_loaded;
 };

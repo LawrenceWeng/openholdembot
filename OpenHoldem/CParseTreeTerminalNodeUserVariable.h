@@ -1,15 +1,15 @@
-//*******************************************************************************
+//******************************************************************************
 //
 // This file is part of the OpenHoldem project
 //   Download page:         http://code.google.com/p/openholdembot/
 //   Forums:                http://www.maxinmontreal.com/forums/index.php
 //   Licensed under GPL v3: http://www.gnu.org/licenses/gpl.html
 //
-//*******************************************************************************
+//******************************************************************************
 //
 // Purpose:
 //
-//*******************************************************************************
+//******************************************************************************
 
 #ifndef INC_CPARSETREETERMINALNODEUSERVARIABLE_H
 #define INC_CPARSETREETERMINALNODEUSERVARIABLE_H
@@ -21,7 +21,7 @@ class CParseTreeTerminalNodeUserVariable: public CParseTreeTerminalNodeIdentifie
   friend class CParseTreeRotator;
  public:
   CParseTreeTerminalNodeUserVariable(int relative_line_number, CString name);
-  ~CParseTreeTerminalNodeUserVariable();
+  virtual ~CParseTreeTerminalNodeUserVariable();
  public:
   virtual double Evaluate(bool log = false);
   virtual CString EvaluateToString(bool log = false);

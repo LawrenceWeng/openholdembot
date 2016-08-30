@@ -1,16 +1,16 @@
-//*******************************************************************************
+//******************************************************************************
 //
 // This file is part of the OpenHoldem project
 //   Download page:         http://code.google.com/p/openholdembot/
 //   Forums:                http://www.maxinmontreal.com/forums/index.php
 //   Licensed under GPL v3: http://www.gnu.org/licenses/gpl.html
 //
-//*******************************************************************************
+//******************************************************************************
 //
 // Purpose: Base class for Operators and terminal nodes 
 //   (identifiers, numbers)
 //
-//*******************************************************************************
+//******************************************************************************
 
 #include "stdafx.h" 
 #include "CParseTreeNode.h"
@@ -26,6 +26,21 @@ CParseTreeNode::CParseTreeNode(int relative_line_number) {
 }
 
 CParseTreeNode::~CParseTreeNode() {
+  if (_first_sibbling != NULL) {
+    delete _first_sibbling;
+    _first_sibbling = NULL;
+  }
+  if (_second_sibbling != NULL) {
+    delete _second_sibbling;
+    _second_sibbling = NULL;
+  }
+  if ((_third_sibbling != NULL) && (!IsOpenEndedWhenCondition())) {
+    // Be carefull with open-ended when-conditions.
+    // They create graphs, no longer pure trees/
+    // The 3rd node is reachable on two paths.
+    delete _third_sibbling;
+    _third_sibbling = NULL;
+  }
 }
 
 TPParseTreeNode CParseTreeNode::GetRightMostSibbling() {

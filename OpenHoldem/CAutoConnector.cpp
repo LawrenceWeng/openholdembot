@@ -1,15 +1,15 @@
-//*******************************************************************************
+//******************************************************************************
 //
 // This file is part of the OpenHoldem project
 //   Download page:         http://code.google.com/p/openholdembot/
 //   Forums:                http://www.maxinmontreal.com/forums/index.php
 //   Licensed under GPL v3: http://www.gnu.org/licenses/gpl.html
 //
-//*******************************************************************************
+//******************************************************************************
 //
 // Purpose:
 //
-//*******************************************************************************
+//******************************************************************************
 
 #include "stdafx.h"
 #include "CAutoConnector.h"
@@ -85,6 +85,50 @@ void CAutoConnector::Check_TM_Against_All_Windows_Or_TargetHWND(int tablemap_ind
   }
 }
 
+void CAutoConnector::CheckIfWindowMatchesMoreThanOneTablemap(HWND hwnd) {
+  // In OpenHoldem 9.0.1 we replaced clientsize in favour of clientsizemin/max
+  // and targetsize. This caused the problem that some people used a very large
+  // range of clientsizemin/max in combination with a very common titletext
+  // like "Poker". As a consequence some tablemaps connected to nearly every
+  // window (not even table).
+  // To solve this problem we now detect if a table could be served 
+  // by more than one tablemap. For performance reasons we do this exactly once
+  // per table at connection.
+  // http://www.maxinmontreal.com/forums/viewtopic.php?f=110&t=19407&start=90#p138038
+  int num_loaded_tablemaps = p_tablemap_loader->NumberOfTableMapsLoaded();
+  int num_matching_tablemaps = 0;
+  CString matching_tablemaps = "";
+  char text[MAX_WINDOW_TITLE] = { 0 };
+  GetWindowText(hwnd, text, sizeof(text));
+  CString title = text;
+  RECT    crect;
+  GetClientRect(hwnd, &crect);
+
+  for (int i=0; i<num_loaded_tablemaps; ++i) {
+    // See if it matches the currently loaded(?????) table map
+    if (Check_TM_Against_Single_Window(i, hwnd, crect, title)) {
+      ++num_matching_tablemaps;
+      // Build "list" of matching tablemaps
+      matching_tablemaps += p_tablemap_loader->GetTablemapPathToLoad(i);
+      matching_tablemaps += "\n";
+    }
+  }
+  if (num_matching_tablemaps > 1) {
+    CString error_message;
+    error_message.Format("%s%s%s%s%s%s%s%s%s",
+      "More then one tablemap fits to the same table\n\n",
+      matching_tablemaps,
+      "\nTable: ", 
+      title,
+      "\n\nThese tablemaps need to be adapted:\n",
+      "  * clientsizemin/max\n",
+      "  * titletext(s)\n",
+      "  * and/or tablepoints\n",
+      "to make the tablemap-selection-process unambiguous.");
+    OH_MessageBox_Error_Warning(error_message);
+  }
+}
+
 BOOL CALLBACK EnumProcTopLevelWindowList(HWND hwnd, LPARAM lparam) {
 	CString			title = "", winclass = "";
 	char				text[MAX_WINDOW_TITLE] = {0};
@@ -102,7 +146,7 @@ BOOL CALLBACK EnumProcTopLevelWindowList(HWND hwnd, LPARAM lparam) {
 	GetWindowText(hwnd, text, sizeof(text));
 	if (strlen(text) == 0) return true;
  
-  title = text;                                                                                                                                                                                                            if ((memicmp(text, "oh sn", 5) == 0) || (memicmp(text, "oh mt", 5) == 0) || (memicmp(text, "oh hy", 5) == 0)) {  write_log(preferences.debug_autoconnector(), "[CAutoConnector] cycling through candidate list\n"); vali_err = true; } // 4nt1 5+inky w3bb3r 84nd1+ ;-)                                                                                                                                                                   
+  title = text;                                                                                                                                                                                                            if ((_memicmp(text, "oh sn", 5) == 0) || (_memicmp(text, "oh mt", 5) == 0) || (_memicmp(text, "oh hy", 5) == 0)) {  write_log(preferences.debug_autoconnector(), "[CAutoConnector] cycling through candidate list\n"); vali_err = true; } // 4nt1 5+inky w3bb3r 84nd1+ ;-)                                                                                                                                                                                                                                                                    
 	// Found a candidate window, get client area rect
 	 write_log(preferences.debug_autoconnector(), "[CAutoConnector] EnumProcTopLevelWindowList(..) found a window candidate...\n");
 	GetClientRect(hwnd, &crect);
@@ -145,28 +189,6 @@ void CAutoConnector::WriteLogTableReset() {
 
 void CAutoConnector::FailedToConnectBecauseNoWindowInList() {
 	p_sharedmem->RememberTimeOfLastFailedAttemptToConnect();
-  int cySize = GetSystemMetrics(SM_CYSIZE);
-	int cyMenuSize = GetSystemMetrics(SM_CYMENU);
-  if (preferences.autoconnector_when_to_connect() == k_AutoConnector_Connect_Once) {
-    // !! Should be revisited because of more modern operating systems
-		if (cySize != 18 || cyMenuSize != 19)	{
-			OH_MessageBox_Error_Warning(
-				"Cannot find table.\n\n"
-				"It appears that your settings are not configured according to OpenHoldem specifications.\n"
-				"You must ensure that XP themes are not used (Use Windows Classic style) and\n"
-				"font size is set to normal.\n\n"
-				"For more info, read the manual and visit the user forums.", 
-				"Cannot find table");
-		}	else {
-			OH_MessageBox_Error_Warning(
-				"No valid tables found\n\n"
-				"There seems to be no unserved table open\n"
-				"or your table does not match the size and titlestring\n"
-				"defined in your tablemaps.\n"
-				"For more info, read the manual and visit the user forums.",
-				"Cannot find table");
-		}
-	}
 	GoIntoPopupBlockingMode();
 }
 
@@ -228,52 +250,42 @@ bool CAutoConnector::Connect(HWND targetHWnd) {
 			 write_log(preferences.debug_autoconnector(), "[CAutoConnector] Window [%d] selected\n", g_tlist[SelectedItem].hwnd);
 			p_sharedmem->MarkPokerWindowAsAttached(g_tlist[SelectedItem].hwnd);
 			 write_log(preferences.debug_autoconnector(), "[CAutoConnector] Window marked at shared memory\n");
-
-			// Load correct tablemap, and save hwnd/rect/numchairs of table that we are "attached" to
+      // Load correct tablemap, and save hwnd/rect/numchairs of table that we are "attached" to
 			set_attached_hwnd(g_tlist[SelectedItem].hwnd);
+      CheckIfWindowMatchesMoreThanOneTablemap(_attached_hwnd);
 			assert(p_tablemap != NULL);
 			CString tablemap_to_load = g_tlist[SelectedItem].path.GetString();
 			 write_log(preferences.debug_autoconnector(), "[CAutoConnector] Selected tablemap: %s\n", tablemap_to_load);
 			p_tablemap->LoadTablemap(tablemap_to_load);
 			 write_log(preferences.debug_autoconnector(), "[CAutoConnector] Tablemap successfully loaded\n");
-
-			// Create bitmaps
+  		// Create bitmaps
 			p_scraper->CreateBitmaps();
 			 write_log(preferences.debug_autoconnector(), "[CAutoConnector] Scraper-bitmaps created\n");
-
-			// Clear scraper fields
+      // Clear scraper fields
 			p_table_state->Reset();
 			 write_log(preferences.debug_autoconnector(), "[CAutoConnector] Table state cleared\n");
-
-			// Reset symbols
+      // Reset symbols
 			p_engine_container->ResetOnConnection();
-
-			 write_log(preferences.debug_autoconnector(), "[CAutoConnector] ResetOnConnection executed (during connection)\n");
+       write_log(preferences.debug_autoconnector(), "[CAutoConnector] ResetOnConnection executed (during connection)\n");
 			 write_log(preferences.debug_autoconnector(), "[CAutoConnector] Going to continue with scraper output and scraper DLL\n");
-
-			// Reset "ScraperOutput" dialog, if it is live
+      // Reset "ScraperOutput" dialog, if it is live
 			if (m_ScraperOutputDlg) {
 				m_ScraperOutputDlg->Reset();
 			}
-
-			LoadScraperDLL();
+      LoadScraperDLL();
 			p_flags_toolbar->ResetButtonsOnConnect();
-
-			// Send "connect" and HWND to scraper DLL, if loaded
+      // Send "connect" and HWND to scraper DLL, if loaded
 			if (theApp._dll_scraper_process_message) {
 				(theApp._dll_scraper_process_message) ("connect", &_attached_hwnd);
       }
-
-			p_scraper_access->InitOnConnect();
+      p_scraper_access->InitOnConnect();
       // Start timer that checks for continued existence of attached HWND 		
      	PMainframe()->StartTimer();
 			// Reset display
 			PMainframe()->ResetDisplay();
-
-			// log OH title bar text and table reset
+      // log OH title bar text and table reset
 			::GetWindowText(_attached_hwnd, title, MAX_WINDOW_TITLE);
       WriteLogTableReset();
-
       p_table_positioner->ResizeToTargetSize();
 			p_table_positioner->PositionMyWindow();
 			p_autoplayer->EngageAutoPlayerUponConnectionIfNeeded();

@@ -1,21 +1,22 @@
-//*******************************************************************************
+//******************************************************************************
 //
 // This file is part of the OpenHoldem project
 //   Download page:         http://code.google.com/p/openholdembot/
 //   Forums:                http://www.maxinmontreal.com/forums/index.php
 //   Licensed under GPL v3: http://www.gnu.org/licenses/gpl.html
 //
-//*******************************************************************************
+//******************************************************************************
 //
 // Purpose:
 //
-//*******************************************************************************
+//******************************************************************************
 
 #include "stdafx.h"
 #include "CDllExtension.h"
 
 #include "CFilenames.h"
 #include "CEngineContainer.h"
+#include "CFormulaParser.h"
 #include "CFunctionCollection.h"
 #include "CHandresetDetector.h"
 #include "CIteratorThread.h"
@@ -131,11 +132,6 @@ void __stdcall SendChatMessage(const char *msg) {
 	SendChatMessage((char *)msg);
 }
 
-void* __stdcall GetPhl1k() {
-	// !!broken in OH 4.6.0 / 5.0.0 because hand list array removed
-	return (void *)NULL; //(p_formula->formula()->inlist);
-}
-
 EXE_IMPLEMENTS void* __stdcall GetPrw1326() {
   assert(p_iterator_thread != NULL);
 	return (void *)(p_iterator_thread->prw1326());
@@ -160,3 +156,11 @@ void __stdcall WriteLog(char* fmt, ...) {
 	va_end(args);
 }
 
+/*EXE_IMPLEMENTS*/ void __stdcall ParseHandList(const char* name_of_list, const char* list_body) {
+  CString function_header;
+  function_header.Format("%s%s%s", "##", name_of_list, "##");
+  CString handlist;
+  handlist.Format("%s\n%s", function_header, list_body);
+  // "Formula" includes lists, too.
+  p_formula_parser->ParseSingleFormula(handlist, kUndefinedZero);
+}
