@@ -134,8 +134,8 @@
 #include <string.h>
 
 // Version
-#define VERSION_NUMBER			9.25
-#define VERSION_TEXT				"9.2.5.0"  // change version number in OpenHoldem.rc also, when needed
+#define VERSION_NUMBER			9.27
+#define VERSION_TEXT				"9.2.7.0"  // change version number in OpenHoldem.rc also, when needed
 
 // PokerEval
 #include "poker_defs.h"
@@ -152,5 +152,8 @@
 #include "FloatingPoint_Comparisions.h"
 #include "MagicNumbers.h"
 #include "..\StructsDefines\structs_defines.h"
+
+// To avoid some race-conditions
+#define WAIT_FOR_CONDITION(condition) { while (!(condition)) { Sleep(250); } }
 
 #endif //INC_STDAFX_H

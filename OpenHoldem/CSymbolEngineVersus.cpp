@@ -503,7 +503,7 @@ void CSymbolEngineVersus::ErrorInvalidSymbol(CString name) {
 }
 
 bool CSymbolEngineVersus::EvaluateVersusHandListSymbol(const char *name, double *result, bool log /* = false */) {
-   write_log(preferences.debug_versus(),
+  write_log(preferences.debug_versus(),
     "[CVersus] EvaluateVersusHandListSymbol %s\n", name);
   CString symbol = name;
   assert(symbol.Left(7) == "vs$list");
@@ -526,7 +526,7 @@ bool CSymbolEngineVersus::EvaluateVersusHandListSymbol(const char *name, double 
   double n_win = 0; 
   double n_tie = 0;
   double n_los = 0;
-   write_log(preferences.debug_versus(),
+  write_log(preferences.debug_versus(),
     "[CVersus] EvaluateVersusHandListSymbol enumeration...\n");
   if (p_table_state->User()->HasKnownCards()) {
     // Versus makes only sense if we have known cards
@@ -541,14 +541,14 @@ bool CSymbolEngineVersus::EvaluateVersusHandListSymbol(const char *name, double 
         // OH-ranks 2..14
         int c0_OHrank = c0rank + 2;
         int c1_OHrank = c1rank + 2;
-         write_log(preferences.debug_versus(),
+        write_log(preferences.debug_versus(),
           "[CVersus] Hand %d %d %s\n", 
           c0_OHrank, c1_OHrank, (is_suited ? "suited": "offsuited"));
         if (hand_list->IsOnList(c0_OHrank, c1_OHrank, is_suited)) {
-           write_log(preferences.debug_versus(), "[CVersus] Hand on list\n");
+          write_log(preferences.debug_versus(), "[CVersus] Hand on list\n");
           // Hand in list
           // If not possible _n_win_against_hand etc. will be zero 
-           write_log(preferences.debug_versus(), "[CVersus] Wins against this hand: %i\n", _n_win_against_hand[i][j]);
+          write_log(preferences.debug_versus(), "[CVersus] Wins against this hand: %i\n", _n_win_against_hand[i][j]);
           assert(_n_win_against_hand[i][j] >= 0);
           assert(_n_tie_against_hand[i][j] >= 0);
           assert(_n_los_against_hand[i][j] >= 0);
@@ -558,7 +558,7 @@ bool CSymbolEngineVersus::EvaluateVersusHandListSymbol(const char *name, double 
         }
       }
     }
-     write_log(preferences.debug_versus(),
+    write_log(preferences.debug_versus(),
       "[CVersus] Total hands on list: %d\n", hand_list->NHandsOnList());
   } 
   double n_total = n_win + n_tie + n_los;
@@ -567,7 +567,7 @@ bool CSymbolEngineVersus::EvaluateVersusHandListSymbol(const char *name, double 
     // Win / los / tie are zero.
     // Set total to 1 to avoid division by zero
     n_total = 1;
-     write_log(preferences.debug_versus(),
+    write_log(preferences.debug_versus(),
       "[CVersus]Auto-adapting to 0/0/0, because user has no cards or empty list\n");
   }
   assert(n_win >= 0);
@@ -630,7 +630,7 @@ bool CSymbolEngineVersus::EvaluateSymbol(const char *name, double *result, bool 
     // and to avoid further error-messages.
     return true;
   }
-   write_log(preferences.debug_versus(),
+  write_log(preferences.debug_versus(),
     "[CVersus] EvaluateSymbol %s\n", name);
   if (memcmp(name, "vs$nhands", 9) == 0) {
     // vs$nhands...symbols

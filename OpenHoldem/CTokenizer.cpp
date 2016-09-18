@@ -25,10 +25,11 @@
 // Global vars to be used by static accessors
 int line_absolute = 1;
 int line_relative = 1;
-const int kMaxSizeOfToken = 256;
+const int kMaxSizeOfToken = 1024;
 char last_token_string[kMaxSizeOfToken];
 char* input_buffer;
-int  _token_start_pointer;
+int  _token_start_pointer = kUndefined;
+const char kEmptyBuffer[2] = "\n";
 
 #define NEXT_CHARACTER        input_buffer[_token_end_pointer+1]
 #define SECOND_NEXT_CHARACTER input_buffer[_token_end_pointer+2]
@@ -45,6 +46,7 @@ CTokenizer::~CTokenizer() {
 
 void CTokenizer::InitNewParse() {
   line_absolute = 1;
+  SetInput(kEmptyBuffer);
 	InitVars();
 }
 
@@ -107,7 +109,7 @@ int CTokenizer::LookAhead(bool expect_action /*= false */) {
   if (expect_action) {
     CheckTokenForOpenPPLAction(&_last_token);
   }
-   write_log(preferences.debug_tokenizer(), "[CTokenizer] \"%s\" -> %i\n",
+  write_log(preferences.debug_tokenizer(), "[CTokenizer] \"%s\" -> %i\n",
     GetTokenString(), _last_token);
 	return _last_token;
 }
@@ -206,6 +208,8 @@ bool CTokenizer::IsTokenOpenPPLKeyword() {
 		if (_memicmp(TOKEN_ADDRESS, "BITXOR", 6) == 0)  { _OpenPPL_token_ID = kTokenOperatorBinaryXOr; return true; }
 		if (_memicmp(TOKEN_ADDRESS, "BITNOT", 6) == 0)  { _OpenPPL_token_ID = kTokenOperatorBinaryNot; return true; }
 		break;
+  case 8:
+    if (_memicmp(TOKEN_ADDRESS, "BITCOUNT", 8) == 0) { _OpenPPL_token_ID = kTokenOperatorBitCount; return true; }
 	default: return false;
 	}
 	return false;
@@ -445,8 +449,7 @@ char* CTokenizer::GetTokenString() {
 	return last_token_string;
 }
 
-char* CTokenizer::RemainingInput()
-{
+char* CTokenizer::RemainingInput() {
 	return TOKEN_ADDRESS;
 }
 

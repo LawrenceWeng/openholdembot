@@ -113,7 +113,7 @@ bool CSymbolEngineVariousDataLookup::EvaluateSymbol(const char *name, double *re
   }
   else if ((memcmp(name, "log$", 4)==0) && (strlen(name)>4)) {
     if (!p_formula_parser->IsParsing()) {
-       write_log(preferences.debug_auto_trace(), 
+      write_log(preferences.debug_auto_trace(), 
         "[CSymbolEngineVariousDataLookup] %s -> 0.000 [just logged]\n", name);
       p_autoplayer_trace->Add(name, 0);
       p_white_info_box->SetCustomLogMessage(name);
@@ -140,7 +140,7 @@ bool CSymbolEngineVariousDataLookup::EvaluateSymbol(const char *name, double *re
 
 CString CSymbolEngineVariousDataLookup::SymbolsProvided() {
   // This list includes some prefixes of symbols that can't be verified,
-  // e.g. "dll$, pl_chair$, .... //!!!!!
+  // e.g. "dll$, pl_ chair$, ....
   CString list = "dll$ pl_ vs$ msgbox$ log$ "
     "betround fmax f flagbits "
     "session version islobby "

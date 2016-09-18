@@ -36,6 +36,7 @@
 #include "CSymbolEngineUserchair.h"
 #include "..\CTablemap\CTablemap.h"
 #include "CTableMapLoader.h"
+#include "CTablepointChecker.h"
 #include "CTablePositioner.h"
 #include "CValidator.h"
 #include "DialogScraperOutput.h"
@@ -76,19 +77,20 @@ CHeartbeatThread::~CHeartbeatThread() {
 
 void CHeartbeatThread::StartThread() {
 	// Start thread
-	 write_log(preferences.debug_heartbeat(), "[HeartBeatThread] Starting heartbeat thread\n");
+	write_log(preferences.debug_heartbeat(), "[HeartBeatThread] Starting heartbeat thread\n");
     assert(this != NULL);
 	AfxBeginThread(HeartbeatThreadFunction, this);
 }
 
 UINT CHeartbeatThread::HeartbeatThreadFunction(LPVOID pParam) {
+  CTablepointChecker tablepoint_checker;
 	pParent = static_cast<CHeartbeatThread*>(pParam);
 	// Seed the RNG
 	srand((unsigned)GetTickCount());
 
 	while (true) {
 		_heartbeat_counter++;
-		 write_log(preferences.debug_heartbeat(), "[HeartBeatThread] Starting next cycle\n");
+		write_log(preferences.debug_heartbeat(), "[HeartBeatThread] Starting next cycle\n");
 		// Check event for stop thread
 		if(::WaitForSingleObject(pParent->_m_stop_thread, 0) == WAIT_OBJECT_0) {
 			// Set event
@@ -105,13 +107,14 @@ UINT CHeartbeatThread::HeartbeatThreadFunction(LPVOID pParam) {
     // We want one fast scrape immediately after connection
     // without any heartbeat-sleeping.
 		if (p_autoconnector->IsConnected()) {
-			if (IsWindow(p_autoconnector->attached_hwnd()))	{
-        ScrapeEvaluateAct();
+      if (!IsWindow(p_autoconnector->attached_hwnd())) {
+        // Table disappeared
+        p_autoconnector->Disconnect("table disappeared");
+      } else if (tablepoint_checker.TablepointsMismatchedTheLastNHeartbeats()) {
+        p_autoconnector->Disconnect("table theme changed (tablepoints)");
       } else {
-				// Table disappeared
-				p_autoplayer->EngageAutoplayer(false);
-				p_autoconnector->Disconnect();
-			}			
+        ScrapeEvaluateAct();
+      } 		
 		}
     _heartbeat_delay.FlexibleSleep();
 		write_log(preferences.debug_heartbeat(), "[HeartBeatThread] Heartbeat cycle ended\n");
@@ -125,7 +128,7 @@ void CHeartbeatThread::ScrapeEvaluateAct() {
 
 	////////////////////////////////////////////////////////////////////////////////////////////
 	// Scrape window
-   write_log(preferences.debug_heartbeat(), "[HeartBeatThread] Calling DoScrape.\n");
+  write_log(preferences.debug_heartbeat(), "[HeartBeatThread] Calling DoScrape.\n");
   p_lazyscraper->DoScrape();
   // We must not check if the scrape of the table changed, because:
   //   * some symbol-engines must be evaluated no matter what
@@ -143,23 +146,23 @@ void CHeartbeatThread::ScrapeEvaluateAct() {
 	}
   ////////////////////////////////////////////////////////////////////////////////////////////
 	// Save state
-	 write_log(preferences.debug_heartbeat(), "[HeartBeatThread] Calling CaptureState.\n");
+	write_log(preferences.debug_heartbeat(), "[HeartBeatThread] Calling CaptureState.\n");
 	p_game_state->CaptureState();
   
 	////////////////////////////////////////////////////////////////////////////////////////////
 	// OH-Validator
-	 write_log(preferences.debug_heartbeat(), "[HeartBeatThread] Calling ValidateGameState.\n");
+	write_log(preferences.debug_heartbeat(), "[HeartBeatThread] Calling ValidateGameState.\n");
 	p_validator->ValidateGameState();
 
 	////////////////////////////////////////////////////////////////////////////////////////////
 	// Autoplayer
-	 write_log(preferences.debug_heartbeat(), "[HeartBeatThread] autoplayer_engaged(): %s\n", 
+	write_log(preferences.debug_heartbeat(), "[HeartBeatThread] autoplayer_engaged(): %s\n", 
 		Bool2CString(p_autoplayer->autoplayer_engaged()));
-	 write_log(preferences.debug_heartbeat(), "[HeartBeatThread] user_chair_confirmed(): %s\n", 
+	write_log(preferences.debug_heartbeat(), "[HeartBeatThread] user_chair_confirmed(): %s\n", 
 		Bool2CString(p_symbol_engine_userchair->userchair_confirmed()));
 	// If autoplayer is engaged, we know our chair, and the DLL hasn't told us to wait, then go do it!
 	if (p_autoplayer->autoplayer_engaged()) {
-		 write_log(preferences.debug_heartbeat(), "[HeartBeatThread] Calling DoAutoplayer.\n");
+		write_log(preferences.debug_heartbeat(), "[HeartBeatThread] Calling DoAutoplayer.\n");
 		p_autoplayer->DoAutoplayer();
 	}
 }
@@ -168,10 +171,10 @@ void CHeartbeatThread::AutoConnect() {
 	assert(!p_autoconnector->IsConnected());
 	if (preferences.autoconnector_when_to_connect() == k_AutoConnector_Connect_Permanent) {
 		if (p_autoconnector->TimeSincelast_failed_attempt_to_connect() > 1 /* seconds */) {
-			 write_log(preferences.debug_autoconnector(), "[CHeartbeatThread] going to call Connect()\n");
+			write_log(preferences.debug_autoconnector(), "[CHeartbeatThread] going to call Connect()\n");
 			p_autoconnector->Connect(NULL);
 		}	else {
-			 write_log(preferences.debug_autoconnector(), "[CHeartbeatThread] Reconnection blocked. Other instance failed previously.\n");
+			write_log(preferences.debug_autoconnector(), "[CHeartbeatThread] Reconnection blocked. Other instance failed previously.\n");
 		}
 	}
 }

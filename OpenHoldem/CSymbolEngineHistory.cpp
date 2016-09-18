@@ -145,7 +145,7 @@ void CSymbolEngineHistory::RegisterAction(int autoplayer_action_code) {
 			SetPrevaction(k_autoplayer_function_call);	
 		}
 	}	else {
-		_autoplayer_actions[BETROUND][autoplayer_action_code]++;
+		_autoplayer_actions[BETROUND][autoplayer_action_code]++; //!!! betpot? Todo: set _didswag
 		SetPrevaction(autoplayer_action_code);
 	}
 }
@@ -209,7 +209,7 @@ void CSymbolEngineHistory::CalculateHistory() {
 		maxbet /= bet;
 		_nbetsround[BETROUND] = MAX(_nbetsround[BETROUND], maxbet);	
 	}	else {
-		 write_log(preferences.debug_symbolengine(), "[Symbolengine] CSymbolEngineHistory::CalculateHistory() Skipping calculation of nbetsround due to unknown min-bet\n");
+		write_log(preferences.debug_symbolengine(), "[Symbolengine] CSymbolEngineHistory::CalculateHistory() Skipping calculation of nbetsround due to unknown min-bet\n");
 	}
 }
 

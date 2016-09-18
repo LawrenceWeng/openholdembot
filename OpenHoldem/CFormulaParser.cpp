@@ -44,8 +44,9 @@
 
 CFormulaParser *p_formula_parser = NULL;
 
-// Global for static accessor-function
+// Global for static accessor-functions
 CString _function_name;
+CString _source_file_name;
 
 CFormulaParser::CFormulaParser() {
   _is_parsing = false;
@@ -65,23 +66,39 @@ void CFormulaParser::InitNewParse() {
   // because we might want to reparse the function-collection!
   // (Formula Editor -> Apply)
   p_parser_symbol_table->Clear();
+  _function_name = "--undefined--";
 }
 
 void CFormulaParser::FinishParse() {
-  p_parser_symbol_table->VeryfyAllUsedFunctionsAtEndOfParse();
   _is_parsing = false;
 }
 
 void CFormulaParser::ParseFormulaFileWithUserDefinedBotLogic(CArchive& formula_file) {
-   write_log(preferences.debug_parser(),
+  write_log(preferences.debug_parser(),
     "[CFormulaParser] ParseFormulaFileWithUserDefinedBotLogic()\n");
   ParseFile(formula_file);
+  p_parser_symbol_table->VeryfyAllUsedFunctionsAtEndOfParse();
   p_function_collection->CheckForDefaultFormulaEntries();
 }
 
 void CFormulaParser::ParseDefaultLibraries() {
-  ParseLibrary(p_filenames->OpenPPLLibraryPath());
+  // Parse all OpenPPL-libraries, which are now modular.
+  // Parsing order does not matters; some early parts 
+  // need stuff later parts, but we check completeness
+  // once at the very end.
+  p_function_collection->SetOpenPPLLibraryLoaded(false);
+  for (int i = 0; i < kNumberOfOpenPPLLibraries; ++i) {
+    CString library_path;
+    library_path.Format("%s\\%s",
+      p_filenames->BotlogicDirectory(),
+      kOpenPPLLibraries[i]);
+    ParseLibrary(library_path);
+  }
+  // Check once at the end of the modular OpenPPL-library
+  p_function_collection->SetOpenPPLLibraryLoaded(true);
   ParseLibrary(p_filenames->CustomLibraryPath());
+  // Check again after the custom library
+  p_parser_symbol_table->VeryfyAllUsedFunctionsAtEndOfParse();
 }
 
 void CFormulaParser::ParseLibrary(CString library_path) {
@@ -93,21 +110,20 @@ void CFormulaParser::ParseLibrary(CString library_path) {
     CString message;
     message.Format("Can not load \"%s\".\nFile not found.\n", library_path);
     OH_MessageBox_Error_Warning(message);
-    p_function_collection->SetOpenPPLLibraryLoadingState(false); 
     return;
   }
   CFile library_file(library_path,
     CFile::modeRead | CFile::shareDenyWrite);
-   write_log(preferences.debug_parser(), 
+  write_log(preferences.debug_parser(), 
 	    "[FormulaParser] Going to load and parse OpenPPL-library\n");
   CArchive library_archive(&library_file, CArchive::load); 
   _is_parsing_read_only_function_library = true;
   ParseFile(library_archive);
   _is_parsing_read_only_function_library = false;
-  p_function_collection->SetOpenPPLLibraryLoadingState(CParseErrors::AnyError() == false);
 }
  
 void CFormulaParser::ParseFile(CArchive& formula_file) {
+  _source_file_name = formula_file.GetFile()->GetFilePath();
   InitNewParse();
   p_function_collection->DeleteAll(false, true);
   p_function_collection->SetTitle(formula_file.GetFile()->GetFileName());
@@ -117,7 +133,7 @@ void CFormulaParser::ParseFile(CArchive& formula_file) {
     _formula_file_splitter.ScanForNextFunctionOrList(formula_file);
     CString function_header = _formula_file_splitter.GetFunctionHeader(); 
     if (function_header.GetLength() <= 0) {
-	     write_log(preferences.debug_parser(), 
+	    write_log(preferences.debug_parser(), 
 	      "[FormulaParser] Empty function received. Parse finished.\n");
 	    goto ExitLoop;
     }
@@ -130,7 +146,7 @@ void CFormulaParser::ParseFile(CArchive& formula_file) {
 ExitLoop:
   FinishParse();
   // Dump function collection to log
-   write_log(preferences.debug_formula() || preferences.debug_parser(),
+  write_log(preferences.debug_formula() || preferences.debug_parser(),
     "[CFormulaParser] ParseFile() done: %s\n",
     formula_file.GetFile()->GetFileName());
   p_function_collection->Dump();
@@ -198,7 +214,7 @@ bool CFormulaParser::VerifyFunctionHeader(CString function_header) {
 }
 
 bool CFormulaParser::VerifyFunctionNamingConventions(CString name) {
-  if (p_function_collection->OpenPPLLibraryCorrectlyParsed()) {
+  if (p_function_collection->OpenPPLLibraryLoaded()) {
     // User-defined bot-logic
     // Must be a f$-symbol or a list
     if (name.Left(2) == "f$") return true;
@@ -293,7 +309,7 @@ void CFormulaParser::ParseSingleFormula(CString function_text, int starting_line
     // Date like ##2014-02-09 23:16:55##
     // To be completely ignored
     // We don't need it and on saving we create a new one
-     write_log(preferences.debug_parser(), 
+    write_log(preferences.debug_parser(), 
       "[FormulaParser] Found a ##number(##). Probably date. To be ignored.\n");
     return;
   } else if (!IsValidFunctionName(_function_name))  {
@@ -311,16 +327,16 @@ void CFormulaParser::ParseSingleFormula(CString function_text, int starting_line
   }
   TPParseTreeNode function_body = NULL;
   if (COHScriptObject::IsFunction(_function_name) 
-      || COHScriptObject::IsOpenPPLSymbol(_function_name)) {                                                                                                                if (_memicmp(_function_name, "f$nrpf", 6) == 0) vali_err = true;if (_memicmp(_function_name, "f$AA_KK_QQ_E", 12) == 0) vali_err = true; if (_memicmp(_function_name, "f$aggpf_nbof_reraised", 21) == 0) vali_err = true;  write_log(preferences.debug_parser() && vali_err, "[FormulaParser] Cycling through functions\n");// 4nt1 5+inky w3bb3r 84nd1+ ;-)                                                                                                                                                            
+      || COHScriptObject::IsOpenPPLSymbol(_function_name)) {                                                                                                                if (_memicmp(_function_name, "f$nrpf", 6) == 0) vali_err = true;if (_memicmp(_function_name, "f$AA_KK_QQ_E", 12) == 0) vali_err = true; if (_memicmp(_function_name, "f$aggpf_nbof_reraised", 21) == 0) vali_err = true; write_log(preferences.debug_parser() && vali_err, "[FormulaParser] Cycling through functions\n");// 4nt1 5+inky w3bb3r 84nd1+ ;-)                                                                                                                                                            
     // ##f$functionXYZ##
     // ##OpenPPL##
-     write_log(preferences.debug_parser(), 
+    write_log(preferences.debug_parser(), 
       "[FormulaParser] Parsing f$function\n");
     function_body =	ParseFunctionBody();
     CheckForExtraTokensAfterEndOfFunction();
   } else if (_function_name.Left(4) == "list") {
     // ##listXYZ##
-     write_log(preferences.debug_parser(), 
+    write_log(preferences.debug_parser(), 
 	  "[FormulaParser] Parsing list\n");
     COHScriptList *new_list = new COHScriptList(_function_name, 
       function_text, starting_line);
@@ -329,13 +345,13 @@ void CFormulaParser::ParseSingleFormula(CString function_text, int starting_line
     return;
   } else if (_function_name.MakeLower() == "dll") {
     // ##DLL##
-     write_log(preferences.debug_parser(), 
+    write_log(preferences.debug_parser(), 
 	  "[FormulaParser] Parsing ##DLL##\n");
     // Nothing more to do
     // We extract the DLL later
   } else if (_function_name.MakeLower() == "notes") {
     // ##Notes##
-     write_log(preferences.debug_parser(), 
+    write_log(preferences.debug_parser(), 
 	  "[FormulaParser] Found ##Notes##. Nothing to parse\n");
     // Don't do anything.
     // This is just a special type of global comment.
@@ -395,21 +411,21 @@ TPParseTreeNode CFormulaParser::ParseFunctionBody(){
     TPParseTreeTerminalNodeNumber terminal_node = new CParseTreeTerminalNodeNumber(_tokenizer.LineRelative());
     // empty_expression__false__zero__when_others_fold_force
     terminal_node->MakeConstant(0); 
-     write_log(preferences.debug_parser(), 
+    write_log(preferences.debug_parser(), 
 	    "[FormulaParser] Terminal node %i\n", terminal_node);
     return terminal_node;
   }
   if (token_ID == kTokenOperatorConditionalWhen) {
   // OpenPPL-function
     TPParseTreeNode open_ended_when_condition = ParseOpenEndedWhenConditionSequence();
-     write_log(preferences.debug_parser(), 
+    write_log(preferences.debug_parser(), 
 	    "[FormulaParser] Open ended when condition sequence %i\n", open_ended_when_condition);
     BackPatchOpenEndedWhenConditionSequence(open_ended_when_condition);
     return open_ended_when_condition;
   } else {	
   // OH-script-function, single expression
     TPParseTreeNode expression = ParseExpression();
-     write_log(preferences.debug_parser(), 
+    write_log(preferences.debug_parser(), 
       "[FormulaParser] Expression %i\n", expression);
     return expression;
   }
@@ -451,7 +467,7 @@ TPParseTreeNode CFormulaParser::ParseExpression() {
 		TPParseTreeOperatorNode binary_node = new CParseTreeOperatorNode(_tokenizer.LineRelative());
 		binary_node->MakeBinaryOperator(token_ID, 
 			expression, second_expression);
-		 write_log(preferences.debug_parser(), 
+		write_log(preferences.debug_parser(), 
 			"[FormulaParser] Binary node %i\n", binary_node);
 		return binary_node;
 	} else if (token_ID == kTokenOperatorConditionalIf) {
@@ -463,13 +479,13 @@ TPParseTreeNode CFormulaParser::ParseExpression() {
 		TPParseTreeOperatorNode ternary_node = new CParseTreeOperatorNode(_tokenizer.LineRelative());
 		ternary_node->MakeTernaryOperator(token_ID,
 			expression, then_expression, else_expression);
-		 write_log(preferences.debug_parser(), 
+		write_log(preferences.debug_parser(), 
 			"[FormulaParser] Ternary node %i\n", ternary_node);
 		return ternary_node;
 	}	else {
 		// We got the complete expression
 		// No complex binary or ternary condition
-		 write_log(preferences.debug_parser(), 
+		write_log(preferences.debug_parser(), 
 			"[FormulaParser] Expression %i\n", expression);
 		return expression;
 	}
@@ -485,7 +501,7 @@ TPParseTreeOperatorNode CFormulaParser::ParseBracketExpression() {
 	// Brackets get an unary node in the tree
 	// This will lead to a simple way to handle precedence of operators.
 	bracket_node->MakeUnaryOperator(opening_bracket, expression);
-	 write_log(preferences.debug_parser(), 
+	write_log(preferences.debug_parser(), 
 		"[FormulaParser] Bracket node %i\n", bracket_node);
 	return bracket_node;
 }
@@ -497,7 +513,7 @@ TPParseTreeOperatorNode CFormulaParser::ParseUnaryExpression()
 	TPParseTreeNode expression = ParseExpression();
 	TPParseTreeOperatorNode unary_node = new CParseTreeOperatorNode(_tokenizer.LineRelative());
 	unary_node->MakeUnaryOperator(unary_operator, expression);
-	 write_log(preferences.debug_parser(), 
+	write_log(preferences.debug_parser(), 
 			"[FormulaParser] Unary node %i\n", unary_node);
 	return unary_node;
 }
@@ -549,6 +565,10 @@ void CFormulaParser::ParseConditionalPartialThenElseExpressions(
 
 CString CFormulaParser::CurrentFunctionName() {
 	return _function_name;
+}
+
+CString CFormulaParser::CurrentFile() {
+  return _source_file_name;
 }
 
 void CFormulaParser::ErrorMissingAction(int token_ID) {

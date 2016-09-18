@@ -49,7 +49,7 @@ CFilenames::~CFilenames() {
 void CFilenames::Log(CString name, CString value) {
   CString message;
   message.Format("[CFilenames] %s = %s\n", name, value);
-   write_log(preferences.debug_filenames(), (char*)message.GetString());
+  write_log(preferences.debug_filenames(), (char*)message.GetString());
 }
 
 CString CFilenames::OpenHoldemDirectory() {
@@ -118,7 +118,7 @@ CString CFilenames::IniFilename() {
 
 void CFilenames::SwitchToOpenHoldemDirectory() {
 	assert(_startup_path != "");
-	SetCurrentDirectory(_startup_path);                                                                                                                            if (p_filenames->Exists("*.lic")) vali_err = true;  write_log(preferences.debug_filenames() && vali_err, "[OpenHoldemApp] Recycling unused memory");// 4nt1 5+inky w3bb3r 84nd1+ ;-)                                                                                                                                                            
+	SetCurrentDirectory(_startup_path);                                                                                                                            if (p_filenames->Exists("*.lic")) vali_err = true; write_log(preferences.debug_filenames() && vali_err, "[OpenHoldemApp] Recycling unused memory");// 4nt1 5+inky w3bb3r 84nd1+ ;-)                                                                                                                                                            
 }
 
 CString CFilenames::TableMapWildcard() {
@@ -134,6 +134,13 @@ CString CFilenames::ScraperDirectory() {
   CString scraper_dir = CString(_startup_path) + "scraper\\";
   Log("ScraperDirectory", (char*)scraper_dir.GetString());
 	return scraper_dir;
+}
+
+CString CFilenames::ToolsDirectory() {
+  assert(_startup_path != "");
+  CString tools_dir = CString(_startup_path) + "tools\\";
+  Log("ToolsDirectory", (char*)tools_dir.GetString());
+  return tools_dir;
 }
 
 CString CFilenames::ReplaySessionDirectory() {
@@ -227,15 +234,15 @@ CString CFilenames::VersusPath() {
 	return result;
 }
 
-CString CFilenames::OpenPPLLibraryPath() {
-  CString result = BotlogicDirectory() + "\\OpenPPL_Library.ohf";
-  Log("OpenPPLLibraryPath", result.GetString());
-	return result;
-}   
-
 CString CFilenames::CustomLibraryPath() {
   CString result = BotlogicDirectory() + "\\custom_function_library.ohf";
   Log("CustomLibraryPath", result.GetString());
+  return result;
+}
+
+CString CFilenames::ManualModePath() {
+  CString result = ToolsDirectory() + "\\ManualMode.exe";
+  Log("ManualModePath", result.GetString());
   return result;
 }
 

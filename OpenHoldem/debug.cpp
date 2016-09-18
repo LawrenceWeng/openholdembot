@@ -292,7 +292,7 @@ void write_log_vl(bool debug_settings_for_this_message, char* fmt, va_list vl) {
   }
 }
 
-void  write_log(bool debug_settings_for_this_message, char* fmt, ...) {
+void write_log(bool debug_settings_for_this_message, char* fmt, ...) {
   char		buff[10000];
   va_list		ap;
   char		nowtime[26];
@@ -340,7 +340,7 @@ void stop_log(void) {
 }
 
 void write_log_separator(bool debug_settings_for_this_message, char* header_message) {
-  if ((header_message == NULL) || (header_message == "")) {
+  if ((header_message == NULL) || (strcmp(header_message, "") == 0)) {
     // Empty header, i.e. footer
     // Don't write it immediatelly to avoid multiple consecutive headers
     footer_needs_to_be_written = true;

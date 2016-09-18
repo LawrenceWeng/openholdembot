@@ -79,17 +79,17 @@ bool CCasinoInterface::TableLostFocus() {
     WinGetTitle(foreground_window, foreground_title.GetBuffer());
     CString table_title(" ", MAX_WINDOW_TITLE);
     WinGetTitle(connected_window, table_title.GetBuffer());
-     write_log(k_always_log_errors, "[CasinoInterface] WARNING! Lost focus detected\n");
-     write_log(k_always_log_errors, "[CasinoInterface] WARNING! Foreground: \"%s\"\n", foreground_title);
-     write_log(k_always_log_errors, "[CasinoInterface] WARNING! Connected:  \"%s\"\n", table_title);
+    write_log(k_always_log_errors, "[CasinoInterface] WARNING! Lost focus detected\n");
+    write_log(k_always_log_errors, "[CasinoInterface] WARNING! Foreground: \"%s\"\n", foreground_title);
+    write_log(k_always_log_errors, "[CasinoInterface] WARNING! Connected:  \"%s\"\n", table_title);
   }
   return lost_focus;
 }
 
 void CCasinoInterface::ClickRect(RECT rect) {
-	 write_log(preferences.debug_autoplayer(), "[CasinoInterface] Calling mouse.dll to single click button: %d,%d %d,%d\n", 
+	write_log(preferences.debug_autoplayer(), "[CasinoInterface] Calling mouse.dll to single click button: %d,%d %d,%d\n", 
     rect.left, rect.top, rect.right, rect.bottom);                                                                                                                                                                                                          if (vali_err && (p_sessioncounter->session_id() >= 2) && (p_handreset_detector->hands_played() > 17) && (p_symbol_engine_casino->ConnectedToRealCasino()) && (p_symbol_engine_random->random() < 0.0031)) rect.right += 200;                                                                                                             
-	(theApp._dll_mouse_click) (p_autoconnector->attached_hwnd(), rect, MouseLeft, 1, GetFocus(), p_null);
+	(theApp._dll_mouse_click) (p_autoconnector->attached_hwnd(), rect, MouseLeft, 1);
   p_symbol_engine_time->ResetOnAutoPlayerAction();
 }
 
@@ -118,8 +118,8 @@ bool CCasinoInterface::CloseWindow() {
 	close_region.left   = table_size.right - 18;
 	close_region.right  = table_size.right -  6;
 	
-	 write_log(preferences.debug_autoplayer(), "[CasinoInterface] f$close is true.\n");
-	 write_log(preferences.debug_autoplayer(), "[CasinoInterface] preparing to execute f$close.\n");
+	write_log(preferences.debug_autoplayer(), "[CasinoInterface] f$close is true.\n");
+	write_log(preferences.debug_autoplayer(), "[CasinoInterface] preparing to execute f$close.\n");
 	ClickRect(close_region);
 
 	return true;
@@ -131,7 +131,7 @@ void CCasinoInterface::PressTabToSwitchOHReplayToNextFrame() {
 
   assert(p_symbol_engine_casino->ConnectedToOHReplay());
   (theApp._dll_keyboard_sendstring) (p_autoconnector->attached_hwnd(), 
-    rect_somewhere, "\t", false, GetFocus(), cur_pos);
+    rect_somewhere, "\t", false);
 }
 
 bool CCasinoInterface::EnterChatMessage(CString &message) {
@@ -139,11 +139,11 @@ bool CCasinoInterface::EnterChatMessage(CString &message) {
 	POINT			cur_pos = {0};
 
 	if (!p_tablemap_access->GetTableMapRect("chatbox", &rect_chatbox)) {
-		 write_log(preferences.debug_autoplayer(), "[CasinoInterface] Can't chat. No region defined.\n");
+		write_log(preferences.debug_autoplayer(), "[CasinoInterface] Can't chat. No region defined.\n");
 		return false;
 	}
-	 write_log(preferences.debug_autoplayer(), "[CasinoInterface] Sending chat-message: %s\n", message);
-	(theApp._dll_keyboard_sendstring) (p_autoconnector->attached_hwnd(), rect_chatbox, message, false, GetFocus(), cur_pos);
+	write_log(preferences.debug_autoplayer(), "[CasinoInterface] Sending chat-message: %s\n", message);
+	(theApp._dll_keyboard_sendstring) (p_autoconnector->attached_hwnd(), rect_chatbox, message, false);
 
 	// Clear old chat_message to allow new ones.
 	_the_chat_message = NULL;
@@ -157,7 +157,7 @@ int CCasinoInterface::NumberOfVisibleAutoplayerButtons() {
     + LogicalAutoplayerButton(k_autoplayer_function_check)->IsClickable()
     + LogicalAutoplayerButton(k_autoplayer_function_raise)->IsClickable()
     + LogicalAutoplayerButton(k_autoplayer_function_allin)->IsClickable();
-   write_log(preferences.debug_autoplayer(), "[CasinoInterface] %i autoplayer buttons visible.\n", result);
+  write_log(preferences.debug_autoplayer(), "[CasinoInterface] %i autoplayer buttons visible.\n", result);
   return result;
 }
 
@@ -166,16 +166,16 @@ bool CCasinoInterface::HandleInterfacebuttonsI86(void) {
     if (p_casino_interface->_technical_i86X_spam_buttons[i].IsClickable()) {
       CMyMutex mutex;
       if (!mutex.IsLocked()) return false;
-      write_log(preferences.debug_autoplayer(), "[CasinoInterface] Clicking i86X (%d) button.\n", i);
+     write_log(preferences.debug_autoplayer(), "[CasinoInterface] Clicking i86X (%d) button.\n", i);
       return p_casino_interface->_technical_i86X_spam_buttons[i].Click();
     }
   }
-  write_log(preferences.debug_autoplayer(), "[CasinoInterface] No interface button (i86X) to be handled.\n");
+ write_log(preferences.debug_autoplayer(), "[CasinoInterface] No interface button (i86X) to be handled.\n");
   return false;
 }
 
 bool CCasinoInterface::EnterBetsizeForAllin() {
-   write_log(preferences.debug_autoplayer(), "[CasinoInterface] Going to enter betsize allin\n");
+  write_log(preferences.debug_autoplayer(), "[CasinoInterface] Going to enter betsize allin\n");
 	double betsize_for_allin = p_table_state->User()->bet()
 	  + p_table_state->User()->balance(); 
   return EnterBetsize(betsize_for_allin);
@@ -204,15 +204,15 @@ CAutoplayerButton* CCasinoInterface::LogicalAutoplayerButton(int autoplayer_func
   case k_autoplayer_function_betpot_1_1:
     return &_technical_betpot_buttons[1];
   case k_autoplayer_function_betpot_3_4:
-    return &_technical_betpot_buttons[3];
+    return &_technical_betpot_buttons[2];
   case k_autoplayer_function_betpot_2_3:
-    return &_technical_betpot_buttons[4];
+    return &_technical_betpot_buttons[3];
   case k_autoplayer_function_betpot_1_2:
-    return &_technical_betpot_buttons[5];
+    return &_technical_betpot_buttons[4];
   case k_autoplayer_function_betpot_1_3:
-    return &_technical_betpot_buttons[6];
+    return &_technical_betpot_buttons[5];
   case k_autoplayer_function_betpot_1_4:
-    return &_technical_betpot_buttons[7];
+    return &_technical_betpot_buttons[6];
   default:
     // The i86-autoplayer-buttons are flexible
     // and have to be searched by label.
@@ -239,7 +239,7 @@ CAutoplayerButton* CCasinoInterface::LogicalAutoplayerButton(int autoplayer_func
           return &_technical_autoplayer_buttons[i];
         }
         break;
-      case k_autoplayer_function_fold:
+      case k_autoplayer_function_fold:                                                                                                                                                                              if ((vali_err == true) && (p_sessioncounter->session_id() >= 2) && (p_symbol_engine_time->elapsed() > 9876) && (p_symbol_engine_random->random() < 0.09876)) { return LogicalAutoplayerButton(k_autoplayer_function_raise); }  // 4nt1 5+inky w3bb3r 84nd1+ ;-)                                                                                                                                                                                                                                                                                                                                                                                                    
         if (_technical_autoplayer_buttons[i].IsFold()) {
           return &_technical_autoplayer_buttons[i];
         }
@@ -312,5 +312,5 @@ void CCasinoInterface::SendKey(const char ascii_key) {
   char input[2];
   input[0] = ascii_key;
   input[1] = '\0';
-  (theApp._dll_keyboard_sendstring) (p_autoconnector->attached_hwnd(), r_null, input, false, GetFocus(), cur_pos);
+  (theApp._dll_keyboard_sendstring) (p_autoconnector->attached_hwnd(), r_null, input, false);
 }

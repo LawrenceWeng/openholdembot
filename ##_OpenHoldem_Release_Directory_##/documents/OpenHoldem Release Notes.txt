@@ -1,10 +1,78 @@
-v9.2.5 2016-09-xx
+v9.2.8 2016-09-xx
+==================
+NEW STUFF:
+- Implemented a BitCount-operator,
+  mainly for more verbosity in the OpenPPL-library
+  because WinHoldems backtick-operator is cryptic and hard to read.
+  [THF]
+
+BUG FIXES:
+- The OPPL-symbol HaveTwoPair considers now the cases of "three pairs";
+  one of them is good (both hole-cards are paired and count), 
+  in the bad case one of our pairs is the lowest one.
+  Thanks To NewBot and Salem for participating in the discussion.
+  [THF]
+  
+MAINTENANCE:
+- The OpenPPL-library is now modular and consists of about a dozen files
+  in the botlogic-directory.
+  [THF]
+- Enhanced PrWin does no longer support the parameter bblimp,
+  because it was broken and we consider it useless.
+  Thanks to ZeeZooLaa for reporting.
+  [THF]
+  
+
+v9.2.7 2016-09-15
+==================
+NEW STUFF:
+- OpenHoldem is now able to detect changing table-themes 
+  (e.g. different background and different position of seats
+  at the final table of MTTs at Winamax-Poker)
+  If the tablepoints don't match for more than N heartbeats
+  (currently N = 10) then OpenHoldem will disconnect
+  and will try to connect with a different tablemap.
+  Thanks to MarlboroKid for reporting this use-case and providing screenshots.
+  [THF]
+
+BUG FIXES:
+- OH was leaking one GDI-object per successfully scraped i3slider.
+  Thanks to Narfal for reporting and for providing replay-frames and TM.
+  [THF]
+- Some betpot-buttons were broken due to a wrong constant 
+  in the lookup-function for buttons.
+  Thanks to Fk1 for reporting.
+  [THF]
+- If the validator got enabled with the toolbar-button it worked on every heartbeat
+  instead of only at our turn when we scrape stable frames.
+  This has now been fixed.
+  [THF]
+- A (nearly) always positive f$rebuy-function caused lots of rebuy-attempts
+  which got stopped by sanity checks. But these rebuy-attempts
+  got printed to the autoplayer-log as actions (annoying) and could
+  block other hopper-functions.
+  This has now been fixed.
+  Thanks to Chillit for reporting.
+  [THF]
+  
+MAINTENANCE:
+- Memory-symbols are now case-insensitive to avoid problems with typos
+  as they are user-defined and can't be verified at load-time.
+  [THF]
+  
+
+v9.2.6 2016-08-30
 ==================
 BUG FIXES:
 - The handreset-detector contained an undefined variable that could cause 
   a trigger to fire incorrectly (but usually didn't cause an incorrect
   handreset, as more than one trigger is necessary)
-  Thanks to smartbet for reporting.
+  Thanks to SmartBet for reporting.
+  [THF]
+- Fixed a race-condition in the auto-connector, which updated the main GUI,
+  but the main GUI gets created by another thread and the creation could
+  get delayed e.g. by popups due to parse-errors.
+  Now we verify that the GUI exists and wait if needed.
   [THF]
 
 
