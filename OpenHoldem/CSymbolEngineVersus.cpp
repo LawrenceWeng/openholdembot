@@ -112,22 +112,22 @@ void CSymbolEngineVersus::ClearWinTieLosData() {
   }
 }
 
-double CSymbolEngineVersus::ExpectedWinHandVsHand(int plCard0, int plCard1, int oppCard0, int oppCard1) {
-	int betround = p_betround_calculator->betround();
+double CSymbolEngineVersus::ExpectedWinHandVsHand(int betround, int plCard0, int plCard1, int oppCard0, int oppCard1) {
 	long pos = 0;
-	int wintemp = 0, lostemp = 0;
-	int nwin = 0, ntie = 0, nlos = 0, nhands = 0;
+	unsigned int wintemp = 0, tietemp = 0, lostemp = 0;
+	int nwin = 0, ntie = 0, nlos = 0;
 	BYTE byte[8] = { 0 };
+
+	if (plCard0 >= plCard1) {
+		SwapInts(&plCard0, &plCard1);
+	}
+	if (oppCard0 >= oppCard1) {
+		SwapInts(&oppCard0, &oppCard1);
+	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// PREFLOP
 	if (betround == kBetroundPreflop) {
-		if (plCard0 >= plCard1) {
-			SwapInts(&plCard0, &plCard1);
-		}
-		if (oppCard0 >= oppCard1) {
-			SwapInts(&oppCard0, &oppCard1);
-		}
 		// figure out offset into file
 		unsigned int offset = 0;
 		//for (int i=1; i<card_player[0]; i++)  offset += (52-i)*1225;
@@ -165,11 +165,61 @@ double CSymbolEngineVersus::ExpectedWinHandVsHand(int plCard0, int plCard1, int 
 		nwin += wintemp;
 		ntie += 1712304 - wintemp - lostemp;
 		nlos += lostemp;
-		nhands = nhands + 1;
 	}
-	//else flop, etc
-	return nwin / (nwin + nlos);
-	//return (nwin + ntie / 2) / nhands;
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// FLOP, TURN, RIVER
+	else if (betround >= kBetroundFlop)
+	{
+		CardMask		plCards, oppCards, deadCards, comCardsScrape, comCardsEnum, comCardsAll, usedCards;
+
+		// Common cards
+		CardMask_RESET(comCardsScrape);
+		if (betround >= kBetroundFlop)  CardMask_SET(comCardsScrape, card_common[0]);
+		if (betround >= kBetroundFlop)  CardMask_SET(comCardsScrape, card_common[1]);
+		if (betround >= kBetroundFlop)  CardMask_SET(comCardsScrape, card_common[2]);
+		if (betround >= kBetroundTurn)  CardMask_SET(comCardsScrape, card_common[3]);
+		if (betround >= kBetroundRiver) CardMask_SET(comCardsScrape, card_common[4]);
+
+		// player cards
+		CardMask_RESET(plCards);
+		CardMask_SET(plCards, plCard0);
+		CardMask_SET(plCards, plCard1);
+
+		// all used cards
+		CardMask_OR(usedCards, comCardsScrape, plCards);
+
+		if (!CardMask_CARD_IS_SET(usedCards, oppCard0) && !CardMask_CARD_IS_SET(usedCards, oppCard1))
+		{
+			CardMask_RESET(oppCards);
+			CardMask_SET(oppCards, oppCard0);
+			CardMask_SET(oppCards, oppCard1);
+
+			// Enumerate through all possible river situations (exclude player cards and opponent cards)
+			CardMask_OR(deadCards, usedCards, oppCards);
+			wintemp = tietemp = lostemp = 0;
+
+			if (betround == kBetroundFlop || betround == kBetroundTurn)
+			{
+				ENUMERATE_N_CARDS_D(comCardsEnum, betround == kBetroundFlop ? 2 :
+					betround == kBetroundTurn ? 1 : 0, deadCards,
+					{
+						CardMask_OR(comCardsAll, comCardsScrape, comCardsEnum);
+				DoCalc(plCards, oppCards, comCardsAll, &wintemp, &tietemp, &lostemp);
+					});
+			}
+			else
+			{
+				DoCalc(plCards, oppCards, comCardsScrape, &wintemp, &tietemp, &lostemp);
+			}
+
+			nwin += wintemp;
+			ntie += tietemp;
+			nlos += lostemp;
+		}
+	}
+
+
+	return ((double)nwin + (double)ntie/2) / (nwin + nlos + ntie);
 }
 
 bool CSymbolEngineVersus::GetCounts() {

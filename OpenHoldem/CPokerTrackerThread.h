@@ -16,6 +16,7 @@
 
 #include "libpq-fe.h"
 #include <map>
+#include <vector>
 #include "MagicNumbers.h"
 
 const int k_advanced_stat_update_every    =    5;
@@ -73,6 +74,10 @@ private:
 	bool				SkipUpdateForChair(int chair);
 	void				RecalcSkippedUpdates(int chr);
 	void				ReportUpdateComplete(int updatedCount, int chair);
+	void				CreateAverageTable();
+	std::vector<CString> GetStatNamesFromType(int stat_type);
+	int					RecalculateStat(int stat_type);
+	void				UpdateStatInDB(CString stat_name, double result, double opp);
 	void				SetPlayerName(int chr, bool found, const char* pt_name, const char* scraped_name);
 	int					GetSkippedUpdates(int chr){return _player_data[chr].skipped_updates;}
 	bool				IsFound(int chair);

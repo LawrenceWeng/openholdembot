@@ -15,6 +15,7 @@
 #include "CPokerTrackerThread.h"
 
 #include <assert.h>
+#include <vector>
 #include <process.h>
 #include <comdef.h>
 #include "CAutoConnector.h"
@@ -382,6 +383,201 @@ bool CPokerTrackerThread::FindName(const char *oh_scraped_name, char *best_name)
 	return result;
 }
 
+void CPokerTrackerThread::UpdateStatInDB(CString stat_name, double result, double opp)
+{
+	char playerName[kMaxLengthOfPlayername];
+	clock_t	updStart, updEnd;
+	int			duration;
+	PGresult	*res = NULL;
+
+	//No more unnecessary queries when we don't even have a siteid to check
+	int siteid = pt_lookup.GetSiteId();
+	if (siteid == kUndefined)
+		return;
+
+	if (!_connected || PQstatus(_pgconn) != CONNECTION_OK)
+		return;
+
+	strcpy(playerName, "%");
+	int  decimal, sign;
+
+	// get query string for the requested statistic
+	CString query = "INSERT INTO stat_averages (stat_name, value_avg, value_opp, last_updated) values ('"+ stat_name+
+		"', " + CString(_fcvt(result, 7, &decimal, &sign)) + "', " + CString(_fcvt(opp, 0, &decimal, &sign)) + ", current_date) \
+		ON CONFLICT(stat_name) DO UPDATE SET value_avg = " + CString(_fcvt(result, 7, &decimal, &sign)) + "', value_opp = " + CString(_fcvt(opp, 0, &decimal, &sign)) +
+		"', last_updated = current_date";
+
+	// Do the query against the PT database
+	updStart = clock();
+	try
+	{
+		// See if we can find the player name in the database
+		write_log(preferences.debug_pokertracker(),
+			"[PokerTracker] Updating for m_chr %d: %s\n",
+			kAverage, query);
+		res = PQexec(_pgconn, query);
+	}
+	catch (_com_error &e)
+	{
+		write_log(preferences.debug_pokertracker(), "[PokerTracker] ERROR\n");
+		write_log(preferences.debug_pokertracker(), _T("\tCode = %08lx\n"), e.Error());
+		write_log(preferences.debug_pokertracker(), _T("\tCode meaning = %s\n"), e.ErrorMessage());
+		_bstr_t bstrSource(e.Source());
+		_bstr_t bstrDescription(e.Description());
+		write_log(preferences.debug_pokertracker(), _T("\tSource = %s\n"), (LPCTSTR)bstrSource);
+		write_log(preferences.debug_pokertracker(), _T("\tDescription = %s\n"), (LPCTSTR)bstrDescription);
+		write_log(preferences.debug_pokertracker(), _T("\tQuery = [%s]\n"), query);
+	}
+
+	updEnd = clock();
+	duration = (int)((double)(updEnd - updStart) / 1000);
+	if (duration >= 3)
+		write_log(preferences.debug_pokertracker(), "[PokerTracker] Query time in seconds: [%d]\n", duration);
+}
+
+std::vector<CString> CPokerTrackerThread::GetStatNamesFromType(int stat_type)
+{
+	std::vector<CString> namesVec;
+
+	int index = 0;
+	while (true)
+	{
+		CString name = PT_DLL_GetStatNamesFromType(stat_type, index);
+		if (name.IsEmpty())
+			break;
+
+		namesVec.push_back(name);
+		index++;
+	}
+	return namesVec;
+}
+
+int CPokerTrackerThread::RecalculateStat(int stat_type)
+{
+	char playerName[kMaxLengthOfPlayername];
+	clock_t	updStart, updEnd;
+	int			duration;
+	PGresult	*res = NULL;
+	double		result = kUndefined;
+	double		opp = kUndefined;
+	int			count = 0;
+
+	//No more unnecessary queries when we don't even have a siteid to check
+	int siteid = pt_lookup.GetSiteId();
+	if (siteid == kUndefined)
+		return kUndefined;
+
+	if (!_connected || PQstatus(_pgconn) != CONNECTION_OK)
+		return kUndefined;
+
+	strcpy(playerName, "%");
+
+	assert(stat_type >= 0);
+	assert(stat_type < PT_DLL_GetNumberOfStatTypes());
+
+	std::vector<CString> stat_names = GetStatNamesFromType(stat_type);
+
+	// get query string for the requested statistic
+	CString query = PT_DLL_GetQuery(stat_type,
+		p_symbol_engine_isomaha->isomaha(),
+		p_symbol_engine_istournament->istournament(),
+		siteid, playerName);
+
+	// Do the query against the PT database
+	updStart = clock();
+	try
+	{
+		// See if we can find the player name in the database
+		write_log(preferences.debug_pokertracker(),
+			"[PokerTracker] Querying %d for m_chr %d: %s\n",
+			stat_type, kAverage, query);
+		res = PQexec(_pgconn, query);
+	}
+	catch (_com_error &e)
+	{
+		write_log(preferences.debug_pokertracker(), "[PokerTracker] ERROR\n");
+		write_log(preferences.debug_pokertracker(), _T("\tCode = %08lx\n"), e.Error());
+		write_log(preferences.debug_pokertracker(), _T("\tCode meaning = %s\n"), e.ErrorMessage());
+		_bstr_t bstrSource(e.Source());
+		_bstr_t bstrDescription(e.Description());
+		write_log(preferences.debug_pokertracker(), _T("\tSource = %s\n"), (LPCTSTR)bstrSource);
+		write_log(preferences.debug_pokertracker(), _T("\tDescription = %s\n"), (LPCTSTR)bstrDescription);
+		write_log(preferences.debug_pokertracker(), _T("\tQuery = [%s]\n"), query);
+	}
+
+	updEnd = clock();
+	duration = (int)((double)(updEnd - updStart) / 1000);
+	if (duration >= 3)
+		write_log(preferences.debug_pokertracker(), "[PokerTracker] Query time in seconds: [%d]\n", duration);
+
+
+	int numberOfColumns = PQnfields(res);   //Returns the number of columns (fields) in each row of the query result.
+	int numberOfRows = PQntuples(res);      //Returns the number of rows (tuples) in the query result. 
+	if (numberOfRows > 1) {
+		//error handling of bad data/bad query
+		write_log(preferences.debug_pokertracker(), "[PokerTracker] ERROR: Too many rows returned\n");
+	}
+
+	// Check query return code
+	if (PQresultStatus(res) != PGRES_TUPLES_OK)
+	{
+		switch (PQresultStatus(res))
+		{
+		case PGRES_COMMAND_OK:
+			write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_COMMAND_OK: %s [%s]\n", PQerrorMessage(_pgconn), query);
+			break;
+		case PGRES_EMPTY_QUERY:
+			write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_EMPTY_QUERY: %s [%s]\n", PQerrorMessage(_pgconn), query);
+			break;
+		case PGRES_BAD_RESPONSE:
+			write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_BAD_RESPONSE: %s [%s]\n", PQerrorMessage(_pgconn), query);
+			break;
+		case PGRES_COPY_OUT:
+			write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_COPY_OUT: %s [%s]\n", PQerrorMessage(_pgconn), query);
+			break;
+		case PGRES_COPY_IN:
+			write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_COPY_IN: %s [%s]\n", PQerrorMessage(_pgconn), query);
+			break;
+		case PGRES_NONFATAL_ERROR:
+			write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_NONFATAL_ERROR: %s [%s]\n", PQerrorMessage(_pgconn), query);
+			break;
+		case PGRES_FATAL_ERROR:
+			write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_FATAL_ERROR: %s [%s]\n", PQerrorMessage(_pgconn), query);
+			break;
+		default:
+			write_log(preferences.debug_pokertracker(), "[PokerTracker] GENERIC ERROR: %s [%s]\n", PQerrorMessage(_pgconn), query);
+			break;
+		}
+	}
+	else
+	{
+		if (PQgetisnull(res, 0, 0) != 1)
+		{
+			for (int eachRow = 0; eachRow < numberOfRows; eachRow++)
+			{
+				for (int eachColumn = 0; eachColumn < numberOfColumns / 2; eachColumn++)
+				{
+					//Returns a single field value of one row of a PGresult. Row and column numbers start at 0. 
+					//Do something with each ResultSet's tablecell, possibly adding it to vector<double>
+					result = atof(PQgetvalue(res, eachRow, eachColumn * 2));
+					opp = atof(PQgetvalue(res, eachRow, eachColumn * 2 + 1));
+
+					// update cache with new values
+					PT_DLL_SetStatByName(stat_names[eachColumn], kAverage, result, opp);
+					write_log(preferences.debug_pokertracker(),
+						"[PokerTracker] Query for m_chr %d success: %f\n",
+						kAverage, result);
+
+					UpdateStatInDB(stat_names[eachColumn], result, opp);
+					count++;
+				}
+			}
+		}
+		PQclear(res);
+	}
+	return count;
+}
+
 int CPokerTrackerThread::UpdateStat(int m_chr, int stat_type, int stat)
 {
 	PGresult	*res = NULL;
@@ -417,104 +613,201 @@ int CPokerTrackerThread::UpdateStat(int m_chr, int stat_type, int stat)
 	assert(stat >= 0);
 	assert(stat < PT_DLL_GetNumberOfStats());
 
-	// get query string for the requested statistic
-	CString query = PT_DLL_GetQuery(stat_type,
-		p_symbol_engine_isomaha->isomaha(),
-		p_symbol_engine_istournament->istournament(),
-		siteid, playerName);
-
-	// Do the query against the PT database
-	updStart = clock();
-	try
-	{
-		// See if we can find the player name in the database
-		 write_log(preferences.debug_pokertracker(),
-		 "[PokerTracker] Querying %d for m_chr %d: %s\n",
-			 stat_type, m_chr, query);
-		res = PQexec(_pgconn, query);
-	}
-	catch (_com_error &e)
-	{
-		 write_log(preferences.debug_pokertracker(), "[PokerTracker] ERROR\n");
-		 write_log(preferences.debug_pokertracker(), _T("\tCode = %08lx\n"), e.Error());
-		 write_log(preferences.debug_pokertracker(), _T("\tCode meaning = %s\n"), e.ErrorMessage());
-		_bstr_t bstrSource(e.Source());
-		_bstr_t bstrDescription(e.Description());
-		 write_log(preferences.debug_pokertracker(), _T("\tSource = %s\n"), (LPCTSTR) bstrSource);
-		 write_log(preferences.debug_pokertracker(), _T("\tDescription = %s\n"), (LPCTSTR) bstrDescription);
-		 write_log(preferences.debug_pokertracker(), _T("\tQuery = [%s]\n"), query);
-	}
+	std::vector<CString> stat_names = GetStatNamesFromType(stat_type);
 	
-	updEnd = clock();
-	duration = (int) ((double)(updEnd - updStart) / 1000);
-	if (duration >= 3)
-		 write_log(preferences.debug_pokertracker(), "[PokerTracker] Query time in seconds: [%d]\n", duration);
-
-
-	int numberOfColumns = PQnfields(res);   //Returns the number of columns (fields) in each row of the query result.
-	int numberOfRows = PQntuples(res);      //Returns the number of rows (tuples) in the query result. 
-	if (numberOfRows > 1) {
-		//error handling of bad data/bad query
-		 write_log(preferences.debug_pokertracker(), "[PokerTracker] ERROR: Too many rows returned\n");
-	}
-
-	// Check query return code
-	if (PQresultStatus(res) != PGRES_TUPLES_OK)
+	if (m_chr != kAverage)
 	{
-		switch (PQresultStatus(res))
+		// get query string for the requested statistic
+		CString query = PT_DLL_GetQuery(stat_type,
+			p_symbol_engine_isomaha->isomaha(),
+			p_symbol_engine_istournament->istournament(),
+			siteid, playerName);
+
+		// Do the query against the PT database
+		updStart = clock();
+		try
 		{
-		case PGRES_COMMAND_OK:
-			 write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_COMMAND_OK: %s [%s]\n", PQerrorMessage(_pgconn), query);
-			break;
-		case PGRES_EMPTY_QUERY:
-			 write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_EMPTY_QUERY: %s [%s]\n", PQerrorMessage(_pgconn), query);
-			break;
-		case PGRES_BAD_RESPONSE:
-			 write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_BAD_RESPONSE: %s [%s]\n", PQerrorMessage(_pgconn), query);
-			break;
-		case PGRES_COPY_OUT:
-			 write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_COPY_OUT: %s [%s]\n", PQerrorMessage(_pgconn), query);
-			break;
-		case PGRES_COPY_IN:
-			 write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_COPY_IN: %s [%s]\n", PQerrorMessage(_pgconn), query);
-			break;
-		case PGRES_NONFATAL_ERROR:
-			 write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_NONFATAL_ERROR: %s [%s]\n", PQerrorMessage(_pgconn), query);
-			break;
-		case PGRES_FATAL_ERROR:
-			 write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_FATAL_ERROR: %s [%s]\n", PQerrorMessage(_pgconn), query);
-			break;
-		default:
-			 write_log(preferences.debug_pokertracker(), "[PokerTracker] GENERIC ERROR: %s [%s]\n", PQerrorMessage(_pgconn), query);
-			break;
+			// See if we can find the player name in the database
+			write_log(preferences.debug_pokertracker(),
+				"[PokerTracker] Querying %d for m_chr %d: %s\n",
+				stat_type, m_chr, query);
+			res = PQexec(_pgconn, query);
+		}
+		catch (_com_error &e)
+		{
+			write_log(preferences.debug_pokertracker(), "[PokerTracker] ERROR\n");
+			write_log(preferences.debug_pokertracker(), _T("\tCode = %08lx\n"), e.Error());
+			write_log(preferences.debug_pokertracker(), _T("\tCode meaning = %s\n"), e.ErrorMessage());
+			_bstr_t bstrSource(e.Source());
+			_bstr_t bstrDescription(e.Description());
+			write_log(preferences.debug_pokertracker(), _T("\tSource = %s\n"), (LPCTSTR)bstrSource);
+			write_log(preferences.debug_pokertracker(), _T("\tDescription = %s\n"), (LPCTSTR)bstrDescription);
+			write_log(preferences.debug_pokertracker(), _T("\tQuery = [%s]\n"), query);
+		}
+
+		updEnd = clock();
+		duration = (int)((double)(updEnd - updStart) / 1000);
+		if (duration >= 3)
+			write_log(preferences.debug_pokertracker(), "[PokerTracker] Query time in seconds: [%d]\n", duration);
+
+
+		int numberOfColumns = PQnfields(res);   //Returns the number of columns (fields) in each row of the query result.
+		int numberOfRows = PQntuples(res);      //Returns the number of rows (tuples) in the query result. 
+		if (numberOfRows > 1) {
+			//error handling of bad data/bad query
+			write_log(preferences.debug_pokertracker(), "[PokerTracker] ERROR: Too many rows returned\n");
+		}
+
+		// Check query return code
+		if (PQresultStatus(res) != PGRES_TUPLES_OK)
+		{
+			switch (PQresultStatus(res))
+			{
+			case PGRES_COMMAND_OK:
+				write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_COMMAND_OK: %s [%s]\n", PQerrorMessage(_pgconn), query);
+				break;
+			case PGRES_EMPTY_QUERY:
+				write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_EMPTY_QUERY: %s [%s]\n", PQerrorMessage(_pgconn), query);
+				break;
+			case PGRES_BAD_RESPONSE:
+				write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_BAD_RESPONSE: %s [%s]\n", PQerrorMessage(_pgconn), query);
+				break;
+			case PGRES_COPY_OUT:
+				write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_COPY_OUT: %s [%s]\n", PQerrorMessage(_pgconn), query);
+				break;
+			case PGRES_COPY_IN:
+				write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_COPY_IN: %s [%s]\n", PQerrorMessage(_pgconn), query);
+				break;
+			case PGRES_NONFATAL_ERROR:
+				write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_NONFATAL_ERROR: %s [%s]\n", PQerrorMessage(_pgconn), query);
+				break;
+			case PGRES_FATAL_ERROR:
+				write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_FATAL_ERROR: %s [%s]\n", PQerrorMessage(_pgconn), query);
+				break;
+			default:
+				write_log(preferences.debug_pokertracker(), "[PokerTracker] GENERIC ERROR: %s [%s]\n", PQerrorMessage(_pgconn), query);
+				break;
+			}
+		}
+		else
+		{
+			if (PQgetisnull(res, 0, 0) != 1)
+			{
+				for (int eachRow = 0; eachRow < numberOfRows; eachRow++)
+				{
+					for (int eachColumn = 0; eachColumn < numberOfColumns / 2; eachColumn++)
+					{
+						//Returns a single field value of one row of a PGresult. Row and column numbers start at 0. 
+						//Do something with each ResultSet's tablecell, possibly adding it to vector<double>
+						result = atof(PQgetvalue(res, eachRow, eachColumn * 2));
+						opp = atof(PQgetvalue(res, eachRow, eachColumn * 2 + 1));
+
+						// update cache with new values
+						PT_DLL_SetStatByName(stat_names[eachColumn], m_chr, result, opp);
+						write_log(preferences.debug_pokertracker(),
+							"[PokerTracker] Query for m_chr %d success: %f\n",
+							m_chr, result);
+						count++;
+					}
+				}
+			}
+			PQclear(res);
+
 		}
 	}
 	else
 	{
-		if (PQgetisnull(res,0,0) != 1)
-		{
-			for (int eachRow = 0; eachRow < numberOfRows; eachRow++)
+		for (int i = 0; i<(int)stat_names.size(); ++i) {
+			CString query = "select value_avg, value_opp from stat_averages where stat_name = '" + stat_names[i] + "'";
+
+			// Do the query against the PT database
+			updStart = clock();
+			try
 			{
-				for (int eachColumn = 0; eachColumn < numberOfColumns/2; eachColumn++)
+				// See if we can find the player name in the database
+				write_log(preferences.debug_pokertracker(),
+					"[PokerTracker] Querying %d for m_chr %d: %s\n",
+					stat_type, m_chr, query);
+				res = PQexec(_pgconn, query);
+			}
+			catch (_com_error &e)
+			{
+				write_log(preferences.debug_pokertracker(), "[PokerTracker] ERROR\n");
+				write_log(preferences.debug_pokertracker(), _T("\tCode = %08lx\n"), e.Error());
+				write_log(preferences.debug_pokertracker(), _T("\tCode meaning = %s\n"), e.ErrorMessage());
+				_bstr_t bstrSource(e.Source());
+				_bstr_t bstrDescription(e.Description());
+				write_log(preferences.debug_pokertracker(), _T("\tSource = %s\n"), (LPCTSTR)bstrSource);
+				write_log(preferences.debug_pokertracker(), _T("\tDescription = %s\n"), (LPCTSTR)bstrDescription);
+				write_log(preferences.debug_pokertracker(), _T("\tQuery = [%s]\n"), query);
+			}
+
+			updEnd = clock();
+			duration = (int)((double)(updEnd - updStart) / 1000);
+			if (duration >= 3)
+				write_log(preferences.debug_pokertracker(), "[PokerTracker] Query time in seconds: [%d]\n", duration);
+
+
+			int numberOfColumns = PQnfields(res);   //Returns the number of columns (fields) in each row of the query result.
+			int numberOfRows = PQntuples(res);      //Returns the number of rows (tuples) in the query result. 
+			if (numberOfRows > 1) {
+				//error handling of bad data/bad query
+				write_log(preferences.debug_pokertracker(), "[PokerTracker] ERROR: Too many rows returned\n");
+			}
+
+			// Check query return code
+			if (PQresultStatus(res) != PGRES_TUPLES_OK)
+			{
+				switch (PQresultStatus(res))
+				{
+				case PGRES_COMMAND_OK:
+					write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_COMMAND_OK: %s [%s]\n", PQerrorMessage(_pgconn), query);
+					break;
+				case PGRES_EMPTY_QUERY:
+					write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_EMPTY_QUERY: %s [%s]\n", PQerrorMessage(_pgconn), query);
+					break;
+				case PGRES_BAD_RESPONSE:
+					write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_BAD_RESPONSE: %s [%s]\n", PQerrorMessage(_pgconn), query);
+					break;
+				case PGRES_COPY_OUT:
+					write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_COPY_OUT: %s [%s]\n", PQerrorMessage(_pgconn), query);
+					break;
+				case PGRES_COPY_IN:
+					write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_COPY_IN: %s [%s]\n", PQerrorMessage(_pgconn), query);
+					break;
+				case PGRES_NONFATAL_ERROR:
+					write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_NONFATAL_ERROR: %s [%s]\n", PQerrorMessage(_pgconn), query);
+					break;
+				case PGRES_FATAL_ERROR:
+					write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_FATAL_ERROR: %s [%s]\n", PQerrorMessage(_pgconn), query);
+					break;
+				default:
+					write_log(preferences.debug_pokertracker(), "[PokerTracker] GENERIC ERROR: %s [%s]\n", PQerrorMessage(_pgconn), query);
+					break;
+				}
+				return count + RecalculateStat(stat_type);
+			}
+			else
+			{
+				if (PQgetisnull(res, 0, 0) != 1)
 				{
 					//Returns a single field value of one row of a PGresult. Row and column numbers start at 0. 
 					//Do something with each ResultSet's tablecell, possibly adding it to vector<double>
-					result = atof(PQgetvalue(res, eachRow, eachColumn*2));
-					opp = atof(PQgetvalue(res, eachRow, eachColumn*2 + 1));
+					result = atof(PQgetvalue(res, 0, 0));
+					opp = atof(PQgetvalue(res, 0, 1));
 
 					// update cache with new values
-					PT_DLL_SetStat(count, m_chr, result, opp);
-					 write_log(preferences.debug_pokertracker(), 
-						"[PokerTracker] Query %d for m_chr %d success: %f\n", 
-						 count, m_chr, result);
-					 count++;
+					PT_DLL_SetStatByName(stat_names[i], m_chr, result, opp);
+					write_log(preferences.debug_pokertracker(),
+						"[PokerTracker] Query for m_chr %d success: %f\n",
+						m_chr, result);
+					count++;
 				}
+				PQclear(res);
+
 			}
 		}
-		PQclear(res);
-
 	}
-
 	return count;
 }
 
@@ -759,6 +1052,90 @@ void CPokerTrackerThread::GetStatsForChair(LPVOID pParam, int chair, int sleepTi
 void CPokerTrackerThread::ReportUpdateComplete(int updatedCount, int chair)
 {
 	 write_log(preferences.debug_pokertracker(), "[PokerTracker] Updates for chair [%d][%s] had been completed. Total [%d] updated stats\n", chair, _player_data[chair].scraped_name, updatedCount);
+} 
+
+void CPokerTrackerThread::CreateAverageTable()
+{
+	PGresult	*res = NULL;
+	double		result = kUndefined;
+	double		opp = kUndefined;
+	clock_t		updStart, updEnd;
+	int			duration;
+
+	if (!_connected || PQstatus(_pgconn) != CONNECTION_OK)
+		return;
+
+	// get query string for the requested statistic
+	CString query = "create table IF NOT EXISTS stat_averages \
+		(stat_name text not null CONSTRAINT stat_averages_pk PRIMARY KEY, \
+			value_avg double precision not null, \
+			value_opp double precision not null, \
+			last_updated date not null)";
+
+	// Do the query against the PT database
+	updStart = clock();
+	try
+	{
+		// See if we can find the player name in the database
+		write_log(preferences.debug_pokertracker(),
+			"[PokerTracker] Create averages table if it doesn't exist: %s\n",
+			query);
+		res = PQexec(_pgconn, query);
+	}
+	catch (_com_error &e)
+	{
+		write_log(preferences.debug_pokertracker(), "[PokerTracker] ERROR\n");
+		write_log(preferences.debug_pokertracker(), _T("\tCode = %08lx\n"), e.Error());
+		write_log(preferences.debug_pokertracker(), _T("\tCode meaning = %s\n"), e.ErrorMessage());
+		_bstr_t bstrSource(e.Source());
+		_bstr_t bstrDescription(e.Description());
+		write_log(preferences.debug_pokertracker(), _T("\tSource = %s\n"), (LPCTSTR)bstrSource);
+		write_log(preferences.debug_pokertracker(), _T("\tDescription = %s\n"), (LPCTSTR)bstrDescription);
+		write_log(preferences.debug_pokertracker(), _T("\tQuery = [%s]\n"), query);
+	}
+
+	updEnd = clock();
+	duration = (int)((double)(updEnd - updStart) / 1000);
+	if (duration >= 3)
+		write_log(preferences.debug_pokertracker(), "[PokerTracker] Query time in seconds: [%d]\n", duration);
+
+
+	// Check query return code
+	if (PQresultStatus(res) != PGRES_COMMAND_OK)
+	{
+		switch (PQresultStatus(res))
+		{
+		case PGRES_TUPLES_OK:
+			write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_TUPLES_OK: %s [%s]\n", PQerrorMessage(_pgconn), query);
+			break;
+		case PGRES_EMPTY_QUERY:
+			write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_EMPTY_QUERY: %s [%s]\n", PQerrorMessage(_pgconn), query);
+			break;
+		case PGRES_BAD_RESPONSE:
+			write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_BAD_RESPONSE: %s [%s]\n", PQerrorMessage(_pgconn), query);
+			break;
+		case PGRES_COPY_OUT:
+			write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_COPY_OUT: %s [%s]\n", PQerrorMessage(_pgconn), query);
+			break;
+		case PGRES_COPY_IN:
+			write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_COPY_IN: %s [%s]\n", PQerrorMessage(_pgconn), query);
+			break;
+		case PGRES_NONFATAL_ERROR:
+			write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_NONFATAL_ERROR: %s [%s]\n", PQerrorMessage(_pgconn), query);
+			break;
+		case PGRES_FATAL_ERROR:
+			write_log(preferences.debug_pokertracker(), "[PokerTracker] PGRES_FATAL_ERROR: %s [%s]\n", PQerrorMessage(_pgconn), query);
+			break;
+		default:
+			write_log(preferences.debug_pokertracker(), "[PokerTracker] GENERIC ERROR: %s [%s]\n", PQerrorMessage(_pgconn), query);
+			break;
+		}
+	}
+	else
+	{
+		write_log(preferences.debug_pokertracker(),
+			"[PokerTracker] Create averages table success\n");
+	}
 }
 
 UINT CPokerTrackerThread::PokertrackerThreadFunction(LPVOID pParam)
@@ -810,6 +1187,7 @@ UINT CPokerTrackerThread::PokertrackerThreadFunction(LPVOID pParam)
 		{
 			if (!averages_set && pt_lookup.GetSiteId() != kUndefined)
 			{
+				pParent->CreateAverageTable();
 				for (int i = statUpTo; i < PT_DLL_GetNumberOfStatTypes(); i++)
 				{
 					int result = pParent->UpdateStat(kAverage, i, updatedCount);

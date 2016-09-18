@@ -211,6 +211,18 @@ POKERTRACKER_DLL_API void PT_DLL_SetStat(int stats_index, int chair, double valu
 	}
 }
 
+POKERTRACKER_DLL_API void PT_DLL_SetStatByName(CString symbol_name, int chair, double value, int opp) {
+	int stats_index = GetIndex(symbol_name);
+	PT_DLL_SetStat(stats_index, chair, value, opp);
+}
+
+POKERTRACKER_DLL_API CString PT_DLL_GetStatNamesFromType(int stat_type, int index) {
+	if (index < query_definitions[stat_type].num_queries)
+		return query_definitions[stat_type].name[index];
+	else
+		return "";
+}
+
 POKERTRACKER_DLL_API bool PT_DLL_IsValidSymbol(CString symbol_name) {
 	return (GetIndex(symbol_name) >= 0);
 }

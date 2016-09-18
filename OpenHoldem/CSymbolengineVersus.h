@@ -44,7 +44,7 @@ class CSymbolEngineVersus: public CVirtualSymbolEngine {
   bool VersusBinLoaded()  { return !_versus_bin_not_loaded; }
  public:
   bool GetCounts();
-  double ExpectedWinHandVsHand(int plCard0, int plCard1, int oppCard0, int oppCard1);
+  double ExpectedWinHandVsHand(int betround, int plCard0, int plCard1, int oppCard0, int oppCard1);
  private:
   void DoCalc(const CardMask plCards, const CardMask oppCards, const CardMask comCards, 
 	  unsigned int *wintemp, unsigned int *tietemp, unsigned int *lostemp);
