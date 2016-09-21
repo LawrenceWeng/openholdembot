@@ -17,6 +17,7 @@
 #include "libpq-fe.h"
 #include <map>
 #include <vector>
+#include <sstream>
 #include "MagicNumbers.h"
 
 const int k_advanced_stat_update_every    =    5;
@@ -35,7 +36,6 @@ struct SPlayerData
 
 extern SPlayerData _player_data[kMaxNumberOfPlayers];
 
-
 class CPokerTrackerThread 
 {
 	friend class CSymbolEnginePokerTracker;
@@ -47,6 +47,7 @@ public:
 	void				StartThread();
 	void				StopThread();
 	bool				IsConnected();
+	void				RecalculateDatabaseAverages();
 	CString				CreateConnectionString(const CString ip_address, 
 	const CString port, const CString username,
 	const CString password, const CString DB_name);
@@ -82,6 +83,8 @@ private:
 	int					GetSkippedUpdates(int chr){return _player_data[chr].skipped_updates;}
 	bool				IsFound(int chair);
 	const char* GetPlayerScrapedName(int chair){return _player_data[chair].scraped_name;}
+
+	bool				doRecalculateDatabaseAverages = false;
 
 	CString			_conn_str;
 	bool				_connected;

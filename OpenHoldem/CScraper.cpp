@@ -970,7 +970,7 @@ void CScraper::ScrapeLimits() {
 }
 
 void CScraper::CreateBitmaps(void) {
-	/*HDC				hdcScreen = CreateDC("DISPLAY", NULL, NULL, NULL);
+	HDC				hdcScreen = CreateDC("DISPLAY", NULL, NULL, NULL);
 
 	// Whole window
 	RECT			cr = {0};
@@ -987,7 +987,7 @@ void CScraper::CreateBitmaps(void) {
 		r_iter->second.cur_bmp = CreateCompatibleBitmap(hdcScreen, w, h);
 	}
 
-	DeleteDC(hdcScreen);*/
+	DeleteDC(hdcScreen);
 }
 
 void CScraper::DeleteBitmaps(void) {

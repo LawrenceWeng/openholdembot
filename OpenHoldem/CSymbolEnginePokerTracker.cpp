@@ -133,6 +133,12 @@ bool CSymbolEnginePokerTracker::EvaluateSymbol(const char *name, double *result,
 {
 	bool opp = false;
 	FAST_EXIT_ON_OPENPPL_SYMBOLS(name);
+	if (strcmp(name, "cmd$avgs_recalc") == 0) {
+		// recalc db averages
+		p_pokertracker_thread->RecalculateDatabaseAverages();
+		*result = 0;
+		return true;
+	}
 	if (memcmp(name,"pt_",3)!=0)
 	{
 		// Symbol of a different symbol-engine
@@ -140,6 +146,7 @@ bool CSymbolEnginePokerTracker::EvaluateSymbol(const char *name, double *result,
 	}
 	CString s = name;
 	CheckForChangedPlayersOncePerHeartbeatAndSymbolLookup();
+
 	if (IsOldStylePTSymbol(s))
 	{
 		CString error_message;

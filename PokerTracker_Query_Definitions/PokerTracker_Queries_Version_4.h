@@ -572,7 +572,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 		{
 			PT4_QUERY_SUPPORT__PREFLOP_STEAL_ATTEMPT,
 			// name
-			{ "steal_attempt_co", "steal_attempt_bt", "steal_attempt_sb" },
+			{ "preflop_steal_attempt_co", "preflop_steal_attempt_bt", "preflop_steal_attempt_sb" },
 			// description_for_editor
 			{ "Poker Tracker attempt to steal blinds from cutoff", "Poker Tracker attempt to steal blinds from button" , "Poker Tracker attempt to steal blinds from small blind" },
 			// query
@@ -614,7 +614,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 	{
 		PT4_QUERY_SUPPORT__PREFLOP_FOLD_TO_STEAL,
 		// name
-		{ "fold_to_steal_sb", "fold_to_steal_bb" },
+		{ "preflop_fold_to_steal_sb", "preflop_fold_to_steal_bb" },
 		// description_for_editor
 		{ "Poker Tracker fold to steal as small blind" , "Poker Tracker fold to steal as big blind" },
 		// query
@@ -648,7 +648,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 {
 	PT4_QUERY_SUPPORT__PREFLOP_3B_VS_STEAL,
 	// name
-	{ "3bet_vs_steal_sb", "3bet_vs_steal_bb" },
+	{ "preflop_3bet_vs_steal_sb", "preflop_3bet_vs_steal_bb" },
 	// description_for_editor
 	{ "Poker Tracker SB 3bet vs. steal", "Poker Tracker BB 3bet vs. steal" },
 	// query
@@ -682,7 +682,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 	{
 		PT4_QUERY_SUPPORT__PREFLOP_FOLD_TO_RESTEAL,
 		// name
-		{ "fold_to_resteal_co", "fold_to_resteal_bt", "fold_to_resteal_sb" },
+		{ "preflop_fold_to_resteal_co", "preflop_fold_to_resteal_bt", "preflop_fold_to_resteal_sb" },
 		// description_for_editor
 		{ "Poker Tracker fold to resteal as cut off", "Poker Tracker fold to resteal as button" , "Poker Tracker fold to resteal as small blind" },
 		// query
@@ -724,7 +724,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 	{
 		PT4_QUERY_SUPPORT__PREFLOP_4B_VS_RESTEAL,
 		// name
-		{ "4bet_vs_resteal_co", "4bet_vs_resteal_bt", "4bet_vs_resteal_sb" },
+		{ "preflop_4bet_vs_resteal_co", "preflop_4bet_vs_resteal_bt", "preflop_4bet_vs_resteal_sb" },
 		// description_for_editor
 		{ "Poker Tracker 4bet vs. resteal as cut off", "Poker Tracker 4bet vs. resteal as button" , "Poker Tracker 4bet vs. resteal as small blind" },
 		// query

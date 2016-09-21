@@ -203,6 +203,12 @@ bool CPokerTrackerThread::IsConnected()
 	return (_connected && PQstatus(_pgconn) == CONNECTION_OK);
 }
 
+void CPokerTrackerThread::RecalculateDatabaseAverages()
+{
+	if (doRecalculateDatabaseAverages == false)
+		doRecalculateDatabaseAverages = true;
+}
+
 /* A scraped name is "bad" if it consists only of characters 
    like "l", "1", "i", "." and "," */
 bool CPokerTrackerThread::NameLooksLikeBadScrape(char *oh_scraped_name)
@@ -385,6 +391,16 @@ bool CPokerTrackerThread::FindName(const char *oh_scraped_name, char *best_name)
 
 void CPokerTrackerThread::UpdateStatInDB(CString stat_name, double result, double opp)
 {
+	std::ostringstream o1;
+	if (!(o1 << result))
+	throw;
+	CString result_string = o1.str().c_str();
+
+	std::ostringstream o2;
+	if (!(o2 << opp))
+		throw;
+	CString opp_string = o2.str().c_str();
+
 	char playerName[kMaxLengthOfPlayername];
 	clock_t	updStart, updEnd;
 	int			duration;
@@ -399,13 +415,13 @@ void CPokerTrackerThread::UpdateStatInDB(CString stat_name, double result, doubl
 		return;
 
 	strcpy(playerName, "%");
-	int  decimal, sign;
 
 	// get query string for the requested statistic
 	CString query = "INSERT INTO stat_averages (stat_name, value_avg, value_opp, last_updated) values ('"+ stat_name+
-		"', " + CString(_fcvt(result, 7, &decimal, &sign)) + "', " + CString(_fcvt(opp, 0, &decimal, &sign)) + ", current_date) \
-		ON CONFLICT(stat_name) DO UPDATE SET value_avg = " + CString(_fcvt(result, 7, &decimal, &sign)) + "', value_opp = " + CString(_fcvt(opp, 0, &decimal, &sign)) +
-		"', last_updated = current_date";
+		"', " + result_string + ", " + opp_string +
+		", current_date) ON CONFLICT(stat_name) DO UPDATE SET value_avg = " + result_string +
+		", value_opp = " + opp_string +
+		", last_updated = current_date";
 
 	// Do the query against the PT database
 	updStart = clock();
@@ -785,7 +801,6 @@ int CPokerTrackerThread::UpdateStat(int m_chr, int stat_type, int stat)
 					write_log(preferences.debug_pokertracker(), "[PokerTracker] GENERIC ERROR: %s [%s]\n", PQerrorMessage(_pgconn), query);
 					break;
 				}
-				return count + RecalculateStat(stat_type);
 			}
 			else
 			{
@@ -802,8 +817,13 @@ int CPokerTrackerThread::UpdateStat(int m_chr, int stat_type, int stat)
 						"[PokerTracker] Query for m_chr %d success: %f\n",
 						m_chr, result);
 					count++;
+					PQclear(res);
 				}
-				PQclear(res);
+				else
+				{
+					PQclear(res);
+					return count + RecalculateStat(stat_type);
+				}
 
 			}
 		}
@@ -1028,7 +1048,7 @@ void CPokerTrackerThread::GetStatsForChair(LPVOID pParam, int chair, int sleepTi
 					{
 						/* Update... */
 						write_log(preferences.debug_pokertracker(), "[PokerTracker] GetStatsForChair updating stats [%d] for chair [%d]...\n", i, chair);
-						pParent->UpdateStat(chair, i);
+						pParent->UpdateStat(chair, i, updatedCount);
 						++updatedCount;
 					}
 					/* Sleep between two updates (even if skipped) */
@@ -1199,12 +1219,20 @@ UINT CPokerTrackerThread::PokertrackerThreadFunction(LPVOID pParam)
 						statUpTo = i;
 						break;
 					}
-					/* Verify therad_stop is false */
+					/* Verify thread_stop is false */
 					if (LightSleep(0, pParent))
 						break;
 				}
 				averages_set = true;
 				continue; //needed in case averages fail
+			}
+			if (pParent->doRecalculateDatabaseAverages == true)
+			{ 
+				for (int i = 0; i<PT_DLL_GetNumberOfStatTypes(); i++)
+				{
+					pParent->RecalculateStat(i);
+				}
+				pParent->doRecalculateDatabaseAverages = false;
 			}
 			for (int chair = 0; chair < p_tablemap->nchairs(); ++chair)
 			{
