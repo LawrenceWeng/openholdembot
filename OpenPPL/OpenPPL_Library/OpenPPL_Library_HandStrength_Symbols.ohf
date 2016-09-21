@@ -130,6 +130,18 @@ WHEN Others RETURN False FORCE
 WHEN FirstHoleCardPairsTheFlop AND SecondHoleCardPairsTheFlop AND NOT ispair RETURN True FORCE
 WHEN Others RETURN False FORCE
 
+##HaveBackdoorStraightDraw##
+WHEN betround != ConstBetRoundPreflop RETURN False FORCE
+// Simple check for any backdoorstraight-draws
+// where we contribute at least one card,
+// precisely: board contributes at most two cards.
+// This is not perfect.
+// Example:
+// Board = 456
+// hand: 9T
+// But good enough for the moment ;-)
+WHEN nstraightfill == 2 AND nstraightfillcommon > 2 RETURN True FORCE
+
 ##HaveSecondBestKicker##
 (NumberOfBetterKickers == 1)
 
