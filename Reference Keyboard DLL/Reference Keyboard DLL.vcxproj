@@ -79,7 +79,7 @@
     <Link>
       <OutputFile>$(OutDir)keyboard.dll</OutputFile>
       <ModuleDefinitionFile>keyboarddll.def</ModuleDefinitionFile>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

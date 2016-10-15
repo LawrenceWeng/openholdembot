@@ -79,7 +79,7 @@
     <Link>
       <OutputFile>$(OutDir)Keyboard_DLL_VmWare_Unity_Mode.dll</OutputFile>
       <ModuleDefinitionFile>Keyboard_DLL_VmWare_Unity_Mode.def</ModuleDefinitionFile>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

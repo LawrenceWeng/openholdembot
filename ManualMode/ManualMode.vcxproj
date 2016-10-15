@@ -119,7 +119,7 @@
     <Link>
       <AdditionalDependencies>..\pokereval\Release\poker-eval.lib;..\Release\window_functions.lib;..\dbghelp\dbghelp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)ManualMode.exe</OutputFile>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

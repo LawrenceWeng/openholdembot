@@ -75,6 +75,13 @@ void CScraperPreprocessor::PreprocessMonetaryString(CString *monetary_string)
 	} else {
     result += first_character;
   }
+	
+	if (first_character == '^')
+  {
+	  //completely ignore scrapped monetary strings, if there is a "^" symbol in them
+	  *monetary_string = "";
+	  return;
+  }
 
 	// Now caring about the rest, starting from 2nd character
 	int second_position = 1;

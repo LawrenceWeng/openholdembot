@@ -119,7 +119,7 @@
     <Link>
       <AdditionalDependencies>..\pokereval\Release\poker-eval.lib;..\dbghelp\dbghelp.lib;libxmlrpc.lib;libxmlrpc_abyss.lib;libxmlrpc_client.lib;libxmlrpc_server.lib;libxmlrpc_server_abyss.lib;libxmlrpc_server_cgi.lib;libxmlrpc_server_w32httpsys.lib;libxmlrpc_util.lib;libxmlrpc_xmlparse.lib;libxmlrpc_xmltok.lib;libxmlrpc++.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)ManualMode-XMLRPC.exe</OutputFile>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

@@ -80,7 +80,7 @@
     <Link>
       <OutputFile>$(OutDir)pokertracker_query_definitions.dll</OutputFile>
       <ModuleDefinitionFile>pokertracker_query_definitions.def</ModuleDefinitionFile>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

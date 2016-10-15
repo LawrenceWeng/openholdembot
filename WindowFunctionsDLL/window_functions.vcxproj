@@ -89,7 +89,7 @@
     <Link>
       <OutputFile>$(OutDir)window_functions.dll</OutputFile>
       <ModuleDefinitionFile>window_functions.def</ModuleDefinitionFile>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

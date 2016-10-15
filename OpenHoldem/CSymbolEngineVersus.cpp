@@ -112,7 +112,7 @@ void CSymbolEngineVersus::ClearWinTieLosData() {
   }
 }
 
-double CSymbolEngineVersus::ExpectedWinHandVsHand(int betround, int plCard0, int plCard1, int oppCard0, int oppCard1) {
+double CSymbolEngineVersus::ExpectedWinHandVsHand(int betround, int plCard0, int plCard1, int oppCard0, int oppCard1, int fraction = 1) {
 	long pos = 0;
 	unsigned int wintemp = 0, tietemp = 0, lostemp = 0;
 	int nwin = 0, ntie = 0, nlos = 0;
@@ -200,11 +200,15 @@ double CSymbolEngineVersus::ExpectedWinHandVsHand(int betround, int plCard0, int
 
 			if (betround == kBetroundFlop || betround == kBetroundTurn)
 			{
+				int count = 0;
 				ENUMERATE_N_CARDS_D(comCardsEnum, betround == kBetroundFlop ? 2 :
 					betround == kBetroundTurn ? 1 : 0, deadCards,
-					{
+					{ 
+						if (count++ % fraction != 0 || rand() % fraction != 0)
+							continue;
+
 						CardMask_OR(comCardsAll, comCardsScrape, comCardsEnum);
-				DoCalc(plCards, oppCards, comCardsAll, &wintemp, &tietemp, &lostemp);
+						DoCalc(plCards, oppCards, comCardsAll, &wintemp, &tietemp, &lostemp);
 					});
 			}
 			else
@@ -218,8 +222,10 @@ double CSymbolEngineVersus::ExpectedWinHandVsHand(int betround, int plCard0, int
 		}
 	}
 
-
-	return ((double)nwin + (double)ntie/2) / (nwin + nlos + ntie);
+	if (nwin + nlos + ntie == 0)
+		return kUndefined;
+	else
+		return ((double)nwin + (double)ntie/2) / (nwin + nlos + ntie);
 }
 
 bool CSymbolEngineVersus::GetCounts() {

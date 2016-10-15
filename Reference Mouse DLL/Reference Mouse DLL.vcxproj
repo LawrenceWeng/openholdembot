@@ -79,7 +79,7 @@
     <Link>
       <OutputFile>$(OutDir)mouse.dll</OutputFile>
       <ModuleDefinitionFile>mousedll.def</ModuleDefinitionFile>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

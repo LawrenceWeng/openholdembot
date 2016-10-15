@@ -107,9 +107,9 @@ bool CDllExtension::IsLoaded() {
 	// return _hmod_dll != NULL;
 }
 
-/*EXE_IMPLEMENTS*/ double __stdcall ExpectedWinHandVsHand(int betround, int plCard0, int plCard1, int oppCard0, int oppCard1)
+/*EXE_IMPLEMENTS*/ double __stdcall ExpectedWinHandVsHand(int betround, int plCard0, int plCard1, int oppCard0, int oppCard1, int fraction)
 {
-	return p_symbol_engine_versus->ExpectedWinHandVsHand(betround, plCard0, plCard1, oppCard0, oppCard1);
+	return p_symbol_engine_versus->ExpectedWinHandVsHand(betround, plCard0, plCard1, oppCard0, oppCard1, fraction);
 }
 
 /*EXE_IMPLEMENTS*/ double __stdcall GetSymbol(const char* name_of_single_symbol__not_expression) {
@@ -140,7 +140,7 @@ void __stdcall SendChatMessage(const char *msg) {
 	SendChatMessage((char *)msg);
 }
 
-EXE_IMPLEMENTS void* __stdcall GetPrw1326() {
+void* __stdcall GetPrw1326() {
   assert(p_iterator_thread != NULL);
 	return (void *)(p_iterator_thread->prw1326());
 }
@@ -152,6 +152,15 @@ char* __stdcall GetHandnumber() {
 		k_max_length_of_handnumber, 
 		p_handreset_detector->GetHandNumber());
 	return handnumber_as_char_array;
+}
+
+char* __stdcall GetPlayerName(int chair) {
+	assert(chair < kMaxNumberOfPlayers);
+	static char chairName[kMaxLengthOfPlayername];
+	strcpy_s(chairName,
+		kMaxLengthOfPlayername,
+		_player_data[chair].scraped_name);
+	return chairName;
 }
 
 void __stdcall WriteLog(char* fmt, ...) {

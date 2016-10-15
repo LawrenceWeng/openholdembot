@@ -65,7 +65,7 @@ double CFunction::Evaluate(bool log /* = false */) {
   recursion_depth++;
   if (recursion_depth > kMaxRecursionDepth) {
     CString error_message = CString(
-      "Recursion to deep.\n"
+      "Recursion too deep.\n"
       "Probably endless.\n"
       "Stopping autoplayer.\n"
       "\n"

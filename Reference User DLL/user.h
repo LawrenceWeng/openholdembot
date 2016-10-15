@@ -67,7 +67,8 @@ DLL_IMPLEMENTS void __stdcall DLLOnUnLoad();
 
 // Functions implemented and exported by OpenHoldem,
 // imported by the DLL
-EXE_IMPLEMENTS double __stdcall ExpectedWinHandVsHand(int betround, int plCard0, int plCard1, int oppCard0, int oppCard1);
+EXE_IMPLEMENTS char*  __stdcall GetPlayerName(int chair);
+EXE_IMPLEMENTS double __stdcall ExpectedWinHandVsHand(int betround, int plCard0, int plCard1, int oppCard0, int oppCard1, int fraction = 1);
 EXE_IMPLEMENTS double __stdcall GetSymbol(const char* name_of_single_symbol__not_expression);
 EXE_IMPLEMENTS void*  __stdcall GetPrw1326();
 EXE_IMPLEMENTS char*  __stdcall GetHandnumber();
@@ -80,9 +81,8 @@ EXE_IMPLEMENTS void   __stdcall WriteLog(char* format, ...);
 // avoiding the message-mess of WinHoldem,
 // no longer sending any state-messages
 // http://www.maxinmontreal.com/forums/viewtopic.php?f=174&t=18642
-EXE_IMPLEMENTS extern holdem_state state[kNumberOfHoldemStatesForDLL];
+EXE_IMPLEMENTS extern holdem_state  state[kNumberOfHoldemStatesForDLL];
 EXE_IMPLEMENTS extern int state_index;
 
 #define LAST_STATE state[(state_index-1)&0xff]
-
 #endif // _INC_USER_H
