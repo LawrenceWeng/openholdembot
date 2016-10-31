@@ -167,7 +167,7 @@ void CPokerTrackerThread::Reconnect(void)
 		{
 			PQreset(_pgconn);
 			if (PQstatus(_pgconn) == CONNECTION_OK) {
-				write_log(preferences.debug_pokertracker(), "[PokerTracker] PostgreSQL DB reconnected after bad connection");
+				write_log(preferences.debug_pokertracker(), "[PokerTracker] PostgreSQL DB reconnected after bad connection\n");
 				_connected = true;
 			}
 			else {
@@ -187,7 +187,7 @@ void CPokerTrackerThread::Disconnect(void)
       if (PQstatus(_pgconn) == CONNECTION_OK)
         {
           PQfinish(_pgconn);
-		  write_log(preferences.debug_pokertracker(), "[PokerTracker] Disconnected");
+		  write_log(preferences.debug_pokertracker(), "[PokerTracker] Disconnected\n");
         }
     }
 	_pgconn = NULL;

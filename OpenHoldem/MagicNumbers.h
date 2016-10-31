@@ -565,11 +565,17 @@ const int k_number_of_pocketcard_combinations_without_order = 1326;
 const bool k_ThisMustNotHappen = false;
 
 // For logging
-const bool kAlwaysLogAutoplayerFunctions = true;
+/*const bool kAlwaysLogAutoplayerFunctions = true;
 const bool k_always_log_basic_information = true;
 const bool kAlwaysLogDLLMessages = true;
 const bool k_always_log_errors = true;
-const bool kAlwaysLogOpenPPLInitialization = true;
+const bool kAlwaysLogOpenPPLInitialization = true;*/
+
+const bool kAlwaysLogAutoplayerFunctions = false;
+const bool k_always_log_basic_information = false;
+const bool kAlwaysLogDLLMessages = false;
+const bool k_always_log_errors = false;
+const bool kAlwaysLogOpenPPLInitialization = false;
 const int  kMaxLogSymbolsForWhiteBox = 1;
 
 // For string handling
