@@ -43,13 +43,14 @@ void CHeartbeatDelay::FlexibleSleep() {
     sleeping_factor = MIN(sleeping_factor, 2);
   }
   double modified_heartbeat_delay = default_heartbeat_delay * sleeping_factor;
- write_log(preferences.debug_heartbeat(), "[HeartBeatThread] default delay   %.3f ms.\n", default_heartbeat_delay);
- write_log(preferences.debug_heartbeat(), "[HeartBeatThread] sleeping factor %.3f .\n", sleeping_factor);
- write_log(preferences.debug_heartbeat(), "[HeartBeatThread] modified delay  %.3f ms.\n", modified_heartbeat_delay);
+  write_log(preferences.debug_heartbeat(), "[HeartBeatThread] default delay   %.3f ms.\n", default_heartbeat_delay);
+  write_log(preferences.debug_heartbeat(), "[HeartBeatThread] sleeping factor %.3f .\n", sleeping_factor);
+  write_log(preferences.debug_heartbeat(), "[HeartBeatThread] modified delay  %.3f ms.\n", modified_heartbeat_delay);
   Sleep(modified_heartbeat_delay);
 }
 
 double CHeartbeatDelay::SleepingFactor() {
+  write_log(preferences.debug_alltherest(), "[CHeartbeatDelay] location Johnny_A\n");
   if (!p_autoconnector->IsConnected()) {
     // Keep heartbeat_delay as is
     // We want fast auto-connects 
@@ -125,7 +126,7 @@ double CHeartbeatDelay::SleepingFactorPlayingNotMyTurn() {
     else {
       return 2.0;
     }
-  } else if ((p_table_state->User()->bet() > 0) && (p_symbol_engine_raisers->nopponentschecking() >= 1)) {
+  } else if ((p_table_state->User()->_bet.GetValue() > 0) && (p_symbol_engine_raisers->nopponentschecking() >= 1)) {
     // At least one opponent has to decide about raise / call / fold
     // Slow down a little bit.
     return (1 + 0.5 * p_symbol_engine_raisers->nopponentschecking());

@@ -65,7 +65,6 @@ void CFormulaParser::InitNewParse() {
   // We do NOT clear the function collection here,
   // because we might want to reparse the function-collection!
   // (Formula Editor -> Apply)
-  p_parser_symbol_table->Clear();
   _function_name = "--undefined--";
 }
 
@@ -79,6 +78,8 @@ void CFormulaParser::ParseFormulaFileWithUserDefinedBotLogic(CArchive& formula_f
   ParseFile(formula_file);
   p_parser_symbol_table->VeryfyAllUsedFunctionsAtEndOfParse();
   p_function_collection->CheckForDefaultFormulaEntries();
+  p_function_collection->Evaluate(k_standard_function_names[k_init_on_startup], 
+    preferences.log_ini_functions());
 }
 
 void CFormulaParser::ParseDefaultLibraries() {

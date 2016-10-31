@@ -64,13 +64,13 @@ CopyNeededFile($binary_dir, $new_openholdem_dir, "window_functions.lib")
 CopyNeededFile($binary_dir, $new_tools_dir, "window_functions.dll")
 CopyNeededFile($binary_dir, $new_tools_dir, "window_functions.lib")
 ; Add Keyboard_DLL_VmWare_Unity_Mode into separate directory
-CopyNeededFile($binary_dir, $new_vmware_keyboard_dir, "Keyboard_DLL_VmWare_Unity_Mode.dll")
-CopyNeededFile($binary_dir, $new_vmware_keyboard_dir, "Keyboard_DLL_VmWare_Unity_Mode.lib")
+; CopyNeededFile($binary_dir, $new_vmware_keyboard_dir, "Keyboard_DLL_VmWare_Unity_Mode.dll")
+; CopyNeededFile($binary_dir, $new_vmware_keyboard_dir, "Keyboard_DLL_VmWare_Unity_Mode.lib")
 ; Remove the *.exp and unnecessary *.pdb files.
 FileDelete($new_openholdem_dir & "\*.exp")
 FileDelete($new_openholdem_dir & "\*.pdb")
 ; Add the OpenPPL-library
-CopyNeededFile($openppl_library_dir, $new_bot_logic_dir, "OpenPPL_Library.ohf")
+CopyNeededFile($openppl_library_dir, $new_bot_logic_dir, "*.ohf")
 ; Add OpenPPL_Manual.chm and symbol_pokertracker.pdf
 CopyNeededFile($openppl_manual_dir, $new_openholdem_dir, "OpenPPL_Manual.chm")
 CopyNeededFile($openholdem_manual_dir, $new_openholdem_dir, "OpenHoldem_Manual.chm")

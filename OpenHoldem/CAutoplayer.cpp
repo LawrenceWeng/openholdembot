@@ -40,7 +40,7 @@
 #include "MainFrm.h"
 #include "OpenHoldem.h"
 #include "PokerChat.hpp"
-#include "StringFunctions.h"
+#include "..\StringFunctionsDLL\string_functions.h"
 #include "CMyMutex.h"
 
 CAutoplayer	*p_autoplayer = NULL;
@@ -62,7 +62,8 @@ CAutoplayer::~CAutoplayer(void) {
 }
 
 void CAutoplayer::EngageAutoPlayerUponConnectionIfNeeded() {
-	if (p_autoconnector->IsConnected() && preferences.engage_autoplayer()) {
+  write_log(preferences.debug_alltherest(), "[CAutoplayer] location Johnny_5\n");
+  if (p_autoconnector->IsConnected() && preferences.engage_autoplayer()) {
 		EngageAutoplayer(true);
 	}
 }

@@ -40,6 +40,7 @@
 #include "CPreferences.h"
 #include "CSymbolEngineTableLimits.h"
 #include "CTableState.h"
+#include "CTableTitle.h"
 #include "MagicNumbers.h"
 #include "Numericalfunctions.h"
 
@@ -81,9 +82,7 @@ void CGameState::CaptureState() {
 		playing = false;
 	}
   // Poker window title
-	char title[MAX_WINDOW_TITLE];
-	GetWindowText(p_autoconnector->attached_hwnd(), title, MAX_WINDOW_TITLE);
-  strncpy_s(state[state_index].m_title, 64, title, _TRUNCATE);
+  strncpy_s(state[state_index].m_title, 64, p_table_title->Title(), _TRUNCATE);
 	state[state_index].m_title[63] = '\0';
   // Pot information
   AssertRange(state_index, 0, kMaxIndex);
@@ -109,8 +108,8 @@ void CGameState::CaptureState() {
 	for (int i=0; i<kMaxNumberOfPlayers; i++) {
     // player name, balance, currentbet
     strncpy_s(state[state_index].m_player[i].m_name, 16, p_table_state->Player(i)->name().GetString(), _TRUNCATE);
-    state[state_index].m_player[i].m_balance = p_table_state->Player(i)->balance();
-		state[state_index].m_player[i].m_currentbet = p_table_state->Player(i)->bet();
+    state[state_index].m_player[i].m_balance = p_table_state->Player(i)->_balance.GetValue();
+		state[state_index].m_player[i].m_currentbet = p_table_state->Player(i)->_bet.GetValue();
     // player cards
 		for (int j=0; j<kNumberOfCardsPerPlayer; j++) {
       Card* player_card = p_table_state->Player(i)->hole_cards(j);

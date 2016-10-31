@@ -21,7 +21,6 @@
 #include "CAutoconnector.h"
 #include "CCasinoInterface.h"
 #include "CPreferences.h"
-#include "CScraperPreprocessor.h"
 #include "CStringMatch.h"
 #include "CSymbolEngineActiveDealtPlaying.h"
 #include "CSymbolEngineAutoplayer.h"
@@ -31,6 +30,7 @@
 #include "CSymbolEngineUserchair.h"
 #include "CSymbolEngineTableLimits.h"
 #include "CTableState.h"
+#include "CTableTitle.h"
 #include "..\CTransform\CTransform.h"
 #include "..\CTransform\hash\lookup3.h"
 #include "debug.h"
@@ -160,22 +160,6 @@ void CScraper::EvaluateTrueFalseRegion(bool *result, const CString name) {
       *result = false;
     }
 	}
-}
-
-bool CScraper::EvaluateNumericalRegion(double *result, const CString name) {
-  CString text_result;
-  if (EvaluateRegion(name, &text_result)) {
-		CScraperPreprocessor::PreprocessMonetaryString(&text_result);
-    write_log(preferences.debug_scraper(), "[CScraper] %s result %s\n", 
-      name, text_result.GetString());
-		if (text_result != "") {
-      CScraperPreprocessor::PreprocessMonetaryString(&text_result);
-      CTransform trans;
-			*result = trans.StringToMoney(text_result);
-      return true;
-		}
-	}
-  return false;
 }
 
 void CScraper::ScrapeInterfaceButtons() {
@@ -595,7 +579,7 @@ void CScraper::ScrapeName(int chair) {
 	}
 }
 
-double CScraper::ScrapeUPBalance(int chair, char scrape_u_else_p) {
+CString CScraper::ScrapeUPBalance(int chair, char scrape_u_else_p) {
   CString	name;
   CString text;
   assert((scrape_u_else_p == 'u') || (scrape_u_else_p == 'p'));
@@ -603,37 +587,29 @@ double CScraper::ScrapeUPBalance(int chair, char scrape_u_else_p) {
   if (EvaluateRegion(name, &text)) {
 		if (p_string_match->IsStringAllin(text)) { 
       write_log(preferences.debug_scraper(), "[CScraper] %s, result ALLIN", name);
-       return 0.0;
+       return Number2CString(0.0);
 		}	else if (	text.MakeLower().Find("out")!=-1
 				||	text.MakeLower().Find("inactive")!=-1
 				||	text.MakeLower().Find("away")!=-1 ) {
 			p_table_state->Player(chair)->set_active(false);
 			write_log(preferences.debug_scraper(), "[CScraper] %s, result OUT/INACTIVE/AWAY\n", name);
-      return kUndefined;
+      return Number2CString(kUndefined);
 		}	else {
-			CScraperPreprocessor::ProcessBalanceNumbersOnly(&text);
-			if (text!="" && p_string_match->IsNumeric(text)) {
-        CTransform trans;
-        double result = trans.StringToMoney(text);
-			  write_log(preferences.debug_scraper(), "[CScraper] u%dbalance, result %s\n", chair, text.GetString());
-        return result;
-      }
+      return text;
 		}
 	}
-  return kUndefined;
+  return Number2CString(kUndefined);;
 }
 
 void CScraper::ScrapeBalance(int chair) {
 	RETURN_IF_OUT_OF_RANGE (chair, p_tablemap->LastChair())
   // Scrape uXbalance and pXbalance
-  double result = ScrapeUPBalance(chair, 'p');
-  if (result >= 0) {
-    p_table_state->Player(chair)->set_balance(result);
+  CString balance = ScrapeUPBalance(chair, 'p');
+  if (p_table_state->Player(chair)->_balance.SetValue(balance)) {
     return;
   }
-  result = ScrapeUPBalance(chair, 'u');
-  if (result >= 0) {
-    p_table_state->Player(chair)->set_balance(result);
+  balance = ScrapeUPBalance(chair, 'u');
+  if (p_table_state->Player(chair)->_balance.SetValue(balance)) {
     return;
   }
 }
@@ -645,39 +621,35 @@ void CScraper::ScrapeBet(int chair) {
 	CString				text = "";
 	CString				s = "", t="";
 
-	p_table_state->Player(chair)->set_bet(0.0);
-  	// Player bet pXbet
+	p_table_state->Player(chair)->_bet.Reset();
+  // Player bet pXbet
   s.Format("p%dbet", chair);
-  double result = 0;
-	if (EvaluateNumericalRegion(&result, s)) {
-	  p_table_state->Player(chair)->set_bet(result);
+  CString result;
+  EvaluateRegion(s, &result);
+	if (p_table_state->Player(chair)->_bet.SetValue(result)) {
 		__HDC_FOOTER_ATTENTION_HAS_TO_BE_CALLED_ON_EVERY_FUNCTION_EXIT_OTHERWISE_MEMORY_LEAK
 		return;
 	}
-
-	// uXbet
+  // uXbet
 	s.Format("u%dbet", chair);
-  result = 0;
-	if (EvaluateNumericalRegion(&result, s)) {
-		p_table_state->Player(chair)->set_bet(result);
-		__HDC_FOOTER_ATTENTION_HAS_TO_BE_CALLED_ON_EVERY_FUNCTION_EXIT_OTHERWISE_MEMORY_LEAK
-		return;
-	}		
-		
+  result = "";
+  EvaluateRegion(s, &result);
+  if (p_table_state->Player(chair)->_bet.SetValue(result)) {
+    __HDC_FOOTER_ATTENTION_HAS_TO_BE_CALLED_ON_EVERY_FUNCTION_EXIT_OTHERWISE_MEMORY_LEAK
+      return;
+  }
 	// pXchip00
 	s.Format("p%dchip00", chair);
 	RMapCI r_iter = p_tablemap->r$()->find(s.GetString());
-	if (r_iter != p_tablemap->r$()->end() && p_table_state->Player(chair)->bet() == 0) 	{
+	if (r_iter != p_tablemap->r$()->end() && p_table_state->Player(chair)->_bet.GetValue() == 0) 	{
 		old_bitmap = (HBITMAP) SelectObject(hdcCompatible, _entire_window_cur);
 		double chipscrape_res = DoChipScrape(r_iter);
 		SelectObject(hdcCompatible, old_bitmap);
 
 		t.Format("%.2f", chipscrape_res);
-		CScraperPreprocessor::PreprocessMonetaryString(&t);
-		p_table_state->Player(chair)->set_bet(strtod(t.GetString(), 0));
-
+		p_table_state->Player(chair)->_bet.SetValue(t.GetString());
 		write_log(preferences.debug_scraper(), "[CScraper] p%dchipXY, result %f\n", 
-      chair, p_table_state->Player(chair)->bet());
+      chair, p_table_state->Player(chair)->_bet.GetValue());
 	}
 	__HDC_FOOTER_ATTENTION_HAS_TO_BE_CALLED_ON_EVERY_FUNCTION_EXIT_OTHERWISE_MEMORY_LEAK
 }
@@ -702,17 +674,15 @@ void CScraper::ScrapePots() {
 	CString			s = "", t="";
 	RMapCI			r_iter = p_tablemap->r$()->end();
 
-	for (int j=0; j<kMaxNumberOfPots; j++) {
-    p_table_state->set_pot(j, 0.0);
-  }
+  p_table_state->ResetPots();
 	for (int j=0; j<kMaxNumberOfPots; j++) {
 		// r$c0potX
 		s.Format("c0pot%d", j);
-    double result = 0;
-		if (EvaluateNumericalRegion(&result, s)) {
-			p_table_state->set_pot(j, result);
-			continue;
-		}
+    CString result;
+    EvaluateRegion(s, &result);
+    if (p_table_state->set_pot(j, result)) {
+      continue;
+    }
 		// r$c0potXchip00_index
 		s.Format("c0pot%dchip00", j);
 		r_iter = p_tablemap->r$()->find(s.GetString());
@@ -724,11 +694,8 @@ void CScraper::ScrapePots() {
       old_bitmap = (HBITMAP) SelectObject(hdcCompatible, _entire_window_cur);
 			double chipscrape_res = DoChipScrape(r_iter);
 			SelectObject(hdcCompatible, old_bitmap);
-
 			t.Format("%.2f", chipscrape_res);
-			CScraperPreprocessor::PreprocessMonetaryString(&t);
-			p_table_state->set_pot(j, strtod(t.GetString(), 0));
-
+			p_table_state->set_pot(j, t.GetString());
 			write_log(preferences.debug_scraper(), 
         "[CScraper] c0pot%dchipXY, result %f\n", j, p_table_state->Pot(j));
 
@@ -750,39 +717,26 @@ void CScraper::ScrapePots() {
 
 void CScraper::ScrapeMTTRegions() {
   assert(p_symbol_engine_mtt_info != NULL);
-	double result = 0;
-	p_symbol_engine_mtt_info->set_mtt_number_entrants(0);	
-	if (EvaluateNumericalRegion(&result, "mtt_number_entrants")) {	
+	CString result;
+	if (EvaluateRegion("mtt_number_entrants", &result)) {	
 		p_symbol_engine_mtt_info->set_mtt_number_entrants(result);
 	}
-	result = 0;
-	p_symbol_engine_mtt_info->set_mtt_players_remaining(0);
-	if (EvaluateNumericalRegion(&result, "mtt_players_remaining")) {
+	if (EvaluateRegion("mtt_players_remaining", &result)) {
 		p_symbol_engine_mtt_info->set_mtt_players_remaining(result);
 	}
-	result = 0;
-	p_symbol_engine_mtt_info->set_mtt_my_rank(0);
-	if (EvaluateNumericalRegion(&result, "mtt_my_rank")) {
+	if (EvaluateRegion("mtt_my_rank", &result)) {
 		p_symbol_engine_mtt_info->set_mtt_my_rank(result);
 	}
-	result = 0;
-	p_symbol_engine_mtt_info->set_mtt_paid_places(0);
-	if (EvaluateNumericalRegion(&result, "mtt_paid_places")) {
+	if (EvaluateRegion("mtt_paid_places", &result)) {
 		p_symbol_engine_mtt_info->set_mtt_paid_places(result);
 	}
-	result = 0;
-	p_symbol_engine_mtt_info->set_mtt_largest_stack(0);
-	if (EvaluateNumericalRegion(&result, "mtt_largest_stack")) {
+	if (EvaluateRegion("mtt_largest_stack", &result)) {
 		p_symbol_engine_mtt_info->set_mtt_largest_stack(result);
 	}
-	result = 0;
-	p_symbol_engine_mtt_info->set_mtt_average_stack(0);
-	if (EvaluateNumericalRegion(&result, "mtt_average_stack")) {
+	if (EvaluateRegion("mtt_average_stack", &result)) {
 		p_symbol_engine_mtt_info->set_mtt_average_stack(result);
 	}
-	result = 0;
-	p_symbol_engine_mtt_info->set_mtt_smallest_stack(0);
-	if (EvaluateNumericalRegion(&result, "mtt_smallest_stack")) {
+	if (EvaluateRegion("mtt_smallest_stack", &result)) {
 		p_symbol_engine_mtt_info->set_mtt_smallest_stack(result);
 	}
 }
@@ -790,8 +744,6 @@ void CScraper::ScrapeMTTRegions() {
 void CScraper::ScrapeLimits() {
 	__HDC_HEADER
 	CString				text = "";
-	CString				titletext = "";
-	char				  c_titletext[MAX_WINDOW_TITLE] = {0};
 	bool				  got_new_scrape = false, log_blind_change = false;
 	CTransform		trans;
 	CString				s = "";
@@ -802,7 +754,7 @@ void CScraper::ScrapeLimits() {
 	// the titlebar.  That way if we do not find handnumber
 	// information in the titlebar we won't overwrite the values we scraped
 	// from the handnumber region.
-
+  //
 	// r$c0handnumber
 	if (EvaluateRegion("c0handnumber", &text)) {
 		if (text!="") {
@@ -811,7 +763,6 @@ void CScraper::ScrapeLimits() {
 		}
 		write_log(preferences.debug_scraper(), "[CScraper] c0handnumber, result %s\n", text.GetString());
 	}
-
 	for (int j=0; j<=9; j++) {
 		// r$c0handnumberX
 		s.Format("c0handnumber%d", j);
@@ -837,44 +788,29 @@ void CScraper::ScrapeLimits() {
 	// information we scraped from those specific regions with
 	// default values if we can't find them in the titlebar.
 	CString l_handnumber = p_table_state->_s_limit_info.handnumber(); 
-
 	// s$ttlimits - Scrape blinds/stakes/limit info from title text
 	s_iter = p_tablemap->s$()->find("ttlimits");
-	if (s_iter != p_tablemap->s$()->end())
-	{
-		GetWindowText(p_autoconnector->attached_hwnd(), c_titletext, MAX_WINDOW_TITLE-1);
-		titletext = c_titletext;
-	 	
-		CScraperPreprocessor::PreprocessTitleString(&titletext);
+	if (s_iter != p_tablemap->s$()->end()) {
+    CString titletext = p_table_title->PreprocessedTitle();
     trans.ParseStringBSL(
 			titletext, s_iter->second.text, NULL,
 			&l_handnumber, &l_sblind, &l_bblind, &l_bbet, &l_ante, 
       &l_limit, &l_sb_bb, &l_bb_BB, &l_buyin);
-
 		write_log(preferences.debug_scraper(), "[CScraper] ttlimits, result sblind/bblind/bbet/ante/gametype: %.2f / %.2f / %.2f / %.2f / %i\n", 
       l_sblind, l_bblind, l_bbet, l_ante, l_limit);
-
 		// s$ttlimitsX - Scrape blinds/stakes/limit info from title text
-		for (int j=0; j<=9; j++)
-		{
+		for (int j=0; j<=9; j++) {
 			s.Format("ttlimits%d", j);
 			s_iter = p_tablemap->s$()->find(s.GetString());
-			if (s_iter != p_tablemap->s$()->end())
-			{
-				GetWindowText(p_autoconnector->attached_hwnd(), c_titletext, MAX_WINDOW_TITLE-1);
-				titletext = c_titletext;
-	
-				CScraperPreprocessor::PreprocessTitleString(&titletext);
+			if (s_iter != p_tablemap->s$()->end()) {
 				trans.ParseStringBSL(
 					titletext, s_iter->second.text, NULL,
 					&l_handnumber, &l_sblind, &l_bblind, &l_bbet, &l_ante, 
           &l_limit, &l_sb_bb, &l_bb_BB, &l_buyin);
-
 				write_log(preferences.debug_scraper(), "[CScraper] ttlimits, result sblind/bblind/bbet/ante/gametype: %.2f / %.2f / %.2f / %.2f / %i\n", 
           l_sblind, l_bblind, l_bbet, l_ante, l_limit);
 			}
 		}
-
 		// c0limits needs both
     // * a region r$c0limits to define where to scrape the limis 
     // * a symbol s$c0limits to define how to interpret the scrape text,
@@ -936,37 +872,42 @@ void CScraper::ScrapeLimits() {
 			p_table_state->_s_limit_info._handnumber = l_handnumber;
     }
     if (l_sblind != kUndefined) {
-			p_table_state->_s_limit_info._sblind = l_sblind;
+			p_table_state->_s_limit_info._sblind.SetValue(Number2CString(l_sblind));
     }
     if (l_bblind != kUndefined) {
-			p_table_state->_s_limit_info._bblind = l_bblind;
+			p_table_state->_s_limit_info._bblind.SetValue(Number2CString(l_bblind));
     }
     if (l_bbet != kUndefined) {
-			p_table_state->_s_limit_info._bbet = l_bbet;
+			p_table_state->_s_limit_info._bbet.SetValue(Number2CString(l_bbet));
     }
     if (l_ante != kUndefined) {
-			p_table_state->_s_limit_info._ante = l_ante;
+			p_table_state->_s_limit_info._ante.SetValue(Number2CString(l_ante));
     }
     if (l_limit != kUndefined) {
 			p_table_state->_s_limit_info._limit = l_limit;
     }
     if (l_sb_bb != kUndefined) {
-			p_table_state->_s_limit_info._sb_bb = l_sb_bb;
+			p_table_state->_s_limit_info._sb_bb.SetValue(Number2CString(l_sb_bb));
     }
     if (l_bb_BB != kUndefined) {
-			p_table_state->_s_limit_info._bb_BB = l_bb_BB;
+			p_table_state->_s_limit_info._bb_BB.SetValue(Number2CString(l_bb_BB));
     }
     if (l_buyin != kUndefined) {
-			p_table_state->_s_limit_info._buyin = l_buyin;
+			p_table_state->_s_limit_info._buyin.SetValue(Number2CString(l_buyin));
     }
+    CString result;
     // r$c0smallblind
-    EvaluateNumericalRegion(&p_table_state->_s_limit_info._sblind, "c0smallblind");
+    EvaluateRegion("c0smallblind", &result);
+    p_table_state->_s_limit_info._sblind.SetValue(result);
 		// r$c0bigblind
-    EvaluateNumericalRegion(&p_table_state->_s_limit_info._bblind, "c0bigblind");
+    EvaluateRegion("c0bigblind", &result);
+    p_table_state->_s_limit_info._bblind.SetValue(result);
 		// r$c0bigbet
-    EvaluateNumericalRegion(&p_table_state->_s_limit_info._bbet, "c0bigbet");
+    EvaluateRegion("c0bigbet", &result);
+    p_table_state->_s_limit_info._bbet.SetValue(result);
 		// r$c0ante
-    EvaluateNumericalRegion(&p_table_state->_s_limit_info._ante, "c0ante");
+    EvaluateRegion("c0ante", &result);
+    p_table_state->_s_limit_info._ante.SetValue(result);
 		// r$c0isfinaltable
     EvaluateTrueFalseRegion(&p_table_state->_s_limit_info._is_final_table, "c0isfinaltable");
 	}

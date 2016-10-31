@@ -64,7 +64,7 @@
 #include "OpenHoldemDoc.h"
 #include "SAPrefsDialog.h"
 #include "Singletons.h"
-#include "StringFunctions.h"
+#include "..\StringFunctionsDLL\string_functions.h"
 
 // CMainFrame
 
@@ -438,7 +438,7 @@ void CMainFrame::OnFileOpen()
 
 	cfd.m_ofn.lpstrInitialDir = preferences.path_ohf();
   // http://msdn.microsoft.com/en-us/library/windows/desktop/ms646839%28v=vs.85%29.aspx
-  cfd.m_ofn.lpstrFilter = "OpenHoldem Formula Files (*.ohf, *.oppl)\0*.ohf;*.oppl\0All files (*.*)\0*.*\0\0";
+  cfd.m_ofn.lpstrFilter = "OpenHoldem Formula Files (*.ohf, *.oppl, *.txt)\0*.ohf;*.oppl;*.txt\0All files (*.*)\0*.*\0\0";
 	cfd.m_ofn.lpstrTitle = "Select Formula file to OPEN";
 	if (cfd.DoModal() == IDOK)
 	{				
@@ -463,6 +463,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent) {
 		// Autoplayer
 		// Since OH 4.0.5 we support autoplaying immediatelly after connection
 		// without the need to know the userchair to act on secondary formulas.
+    write_log(preferences.debug_alltherest(), "[GUI] location Johnny_E\n");
 		if (p_symbol_engine_userchair != NULL
 			  && p_autoconnector->IsConnected()) 	{
 			p_flags_toolbar->EnableButton(ID_MAIN_TOOLBAR_AUTOPLAYER, true);

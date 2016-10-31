@@ -1,4 +1,26 @@
-v9.2.8 2016-09-xx
+v9.3.0 2016-10-29
+==================
+NEW STUFF:
+- Improved preprocessing of tiles, bets, balances and pots 
+  to handle non-standard number formats (extra dots, spaces in numbers, ...)
+  Some ttlimits might needs small changes, please revisit your tablemaps.
+  For details please see http://www.maxinmontreal.com/forums/viewtopic.php?f=117&t=20164
+  [THF]
+
+BUG FIXES:
+- The modular OpenPPl-library of the redacted version 9.2.80%
+  missed some symbols and the adapted parser did not warn about that.
+  Thanks to Johnny and JohnNash for reporting.
+  [THF]
+
+MAINTENANCE:
+- The introduction of advanced preprocessing for titles, bets and balances
+  made the tablemap-options "balancenumbersonly" and "scraperpreprocessordll" superfluous.
+  Therefore they got removed.
+  [THF]
+
+  
+v9.2.8 2016-10-01
 ==================
 NEW STUFF:
 - Implemented a BitCount-operator,
@@ -6,8 +28,8 @@ NEW STUFF:
   because WinHoldems backtick-operator is cryptic and hard to read.
   [THF]
 - Finally implemented HaveBackdoorStraightDraw.
-  The implementation is not perfect, see the comment in the library.
-  Improvements are very welcome.
+  Thanks to KaeKruse, Lavezzi, Guysmo and Sloboz
+  for their code and opinions.
   [THF]
 
 BUG FIXES:
@@ -15,6 +37,12 @@ BUG FIXES:
   one of them is good (both hole-cards are paired and count), 
   in the bad case one of our pairs is the lowest one.
   Thanks To NewBot and Salem for participating in the discussion.
+  [THF]
+- The OPPL-symbol HaveSecondNutStraight failed if the assumed
+  2nd best straight connected with the board to a better straight
+  of "6 cards".
+  Thanks to ChuckneverMuck for reporting and to Darkmund,
+  Fifer, Johnny and BillW for perticipating in the discussion.
   [THF]
   
 MAINTENANCE:
@@ -26,7 +54,7 @@ MAINTENANCE:
   we cleaned up the DLL-interfaces and removed these parameters.
   Now openholdem cares about restoration of mouse-position
   and input-focus once at the end of an action-sequence.
-  It will do so for Manualmode, oHReplay and other offline-simulators
+  It will do so for Manualmode, OHReplay and other offline-simulators
   for convenience, but keep the new position at real casinos
   for stalth reasons.
   [THF]

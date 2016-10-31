@@ -16,9 +16,13 @@
 //
 
 #include "stdafx.h"
-#include "..\OpenHoldem\CScraperPreprocessor.h"
 #include "DialogEditSymbols.h"
 #include "OpenScrapeDoc.h"
+#include "..\OpenHoldem\CTableTitle.h"
+
+// !!!!! ugly temp solution as DLL does not yet work
+#include "..\StringFunctionsDLL\string_functions.cpp"
+#include "..\OpenHoldem\CTableTitle.cpp"
 
 // CDlgEditSymbols dialog
 
@@ -39,6 +43,7 @@ void CDlgEditSymbols::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_NAME, m_Name);
 	DDX_Control(pDX, IDC_VALUE, m_Value);
 	DDX_Control(pDX, IDC_TITLETEXT, m_Titletext);
+  DDX_Control(pDX, IDC_TITLETEXT_PREPROCESSED, m_Titletext_preprocessed);
 	DDX_Control(pDX, IDC_PARSERESULTS, m_ParseResults);
 	DDX_Control(pDX, IDC_PARSEBUTTON, m_ParseButton);
 }
@@ -57,14 +62,15 @@ END_MESSAGE_MAP()
 BOOL CDlgEditSymbols::OnInitDialog()
 {
 	CDialog::OnInitDialog();
-
-	CString		text;
-
+ 	CString		text;
 	CDialog::OnInitDialog();
 
-	SetWindowText(titletext.GetString());
-	m_Titletext.SetWindowText(titlebartext.GetString());
-
+  SetWindowText(titletext);
+  CTableTitle tabletitle;
+  tabletitle.SetTitle(titlebartext);
+  SetWindowText(tabletitle.Title());
+  m_Titletext.SetWindowText(tabletitle.Title());
+  m_Titletext_preprocessed.SetWindowText(tabletitle.PreprocessedTitle());
 	// Set drop down choices for "Record name" field and select current
 	for (int i=0; i<strings.GetSize(); i++)  m_Name.AddString(strings[i]);
 	m_Name.SelectString(-1, name);
@@ -83,7 +89,6 @@ void CDlgEditSymbols::OnBnClickedOk()
 {
 	m_Name.GetWindowText(name);
 	m_Value.GetWindowText(value);
-
 	OnOK();
 }
 
@@ -98,11 +103,11 @@ void CDlgEditSymbols::OnBnClickedParsebutton()
 
 	m_Titletext.GetWindowText(text);
 	m_Value.GetWindowText(format);
-	
-  CScraperPreprocessor scrper_preprocessor;
-  scrper_preprocessor.PreprocessTitleString(&text);
-	trans.ParseStringBSL(text, format, &results);
-
+  CTableTitle tabletitle;
+  tabletitle.SetTitle(text);
+  CString preprocessed_title = tabletitle.PreprocessedTitle();
+  m_Titletext_preprocessed.SetWindowText(preprocessed_title);
+  trans.ParseStringBSL(preprocessed_title, format, &results);
 	m_ParseResults.SetWindowText(results.GetString());
 }
 

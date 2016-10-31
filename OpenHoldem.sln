@@ -37,6 +37,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Keyboard_DLL_VmWare_Unity_M
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "window_functions", "WindowFunctionsDLL\window_functions.vcxproj", "{E87D7887-ADDE-41DB-AA09-3DDAB950FAA5}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "string_functions", "StringFunctionsDLL\string_functions.vcxproj", "{9A3A25E1-3045-4EC3-BE51-5BD55F1F94B9}"
+EndProject
 Global
 	GlobalSection(Performance) = preSolution
 		HasPerformanceSessions = true
@@ -47,8 +49,8 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4B4F8898-50C6-4F07-8771-B140482DBA69}.Debug|Win32.ActiveCfg = Debug|Win32
-		{4B4F8898-50C6-4F07-8771-B140482DBA69}.Debug|Win32.Build.0 = Debug|Win32
+		{4B4F8898-50C6-4F07-8771-B140482DBA69}.Debug|Win32.ActiveCfg = Release - Optimized|Win32
+		{4B4F8898-50C6-4F07-8771-B140482DBA69}.Debug|Win32.Build.0 = Release - Optimized|Win32
 		{4B4F8898-50C6-4F07-8771-B140482DBA69}.Release - Optimized|Win32.ActiveCfg = Release - Optimized|Win32
 		{4B4F8898-50C6-4F07-8771-B140482DBA69}.Release - Optimized|Win32.Build.0 = Release - Optimized|Win32
 		{4B4F8898-50C6-4F07-8771-B140482DBA69}.Release|Win32.ActiveCfg = Release - Optimized|Win32
@@ -134,6 +136,12 @@ Global
 		{E87D7887-ADDE-41DB-AA09-3DDAB950FAA5}.Release - Optimized|Win32.Build.0 = Release|Win32
 		{E87D7887-ADDE-41DB-AA09-3DDAB950FAA5}.Release|Win32.ActiveCfg = Release|Win32
 		{E87D7887-ADDE-41DB-AA09-3DDAB950FAA5}.Release|Win32.Build.0 = Release|Win32
+		{9A3A25E1-3045-4EC3-BE51-5BD55F1F94B9}.Debug|Win32.ActiveCfg = Release|Win32
+		{9A3A25E1-3045-4EC3-BE51-5BD55F1F94B9}.Debug|Win32.Build.0 = Release|Win32
+		{9A3A25E1-3045-4EC3-BE51-5BD55F1F94B9}.Release - Optimized|Win32.ActiveCfg = Release|Win32
+		{9A3A25E1-3045-4EC3-BE51-5BD55F1F94B9}.Release - Optimized|Win32.Build.0 = Release|Win32
+		{9A3A25E1-3045-4EC3-BE51-5BD55F1F94B9}.Release|Win32.ActiveCfg = Release|Win32
+		{9A3A25E1-3045-4EC3-BE51-5BD55F1F94B9}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

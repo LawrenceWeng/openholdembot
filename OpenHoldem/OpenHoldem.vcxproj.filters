@@ -193,6 +193,9 @@
     <Filter Include="Source Files\HandhistoryGenerator">
       <UniqueIdentifier>{3a6f2946-c39b-42b6-b351-1c126988f61a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Temp">
+      <UniqueIdentifier>{a37fce48-f069-4910-b6e3-7743df529ef9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CFileSystemMonitor.cpp">
@@ -223,6 +226,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="crc32hash.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CScrapedMoney.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CValidator.cpp">
@@ -540,9 +546,6 @@
     <ClCompile Include="CScraper.cpp">
       <Filter>Source Files\Scraper</Filter>
     </ClCompile>
-    <ClCompile Include="CScraperPreprocessor.cpp">
-      <Filter>Source Files\Scraper</Filter>
-    </ClCompile>
     <ClCompile Include="CardFunctions.cpp">
       <Filter>Source Files\Various Function Libraries</Filter>
     </ClCompile>
@@ -559,9 +562,6 @@
       <Filter>Source Files\Various Function Libraries</Filter>
     </ClCompile>
     <ClCompile Include="NumericalFunctions.cpp">
-      <Filter>Source Files\Various Function Libraries</Filter>
-    </ClCompile>
-    <ClCompile Include="StringFunctions.cpp">
       <Filter>Source Files\Various Function Libraries</Filter>
     </ClCompile>
     <ClCompile Include="CFormulaFileSplitter.cpp">
@@ -971,6 +971,9 @@
     <None Include="OpenHoldem.def">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="..\StringFunctionsDLL\string_functions.cpp">
+      <Filter>Temp</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CFileSystemMonitor.h">
@@ -995,6 +998,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CMyMutex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CScrapedMoney.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="COcclusionCheck.h">
@@ -1375,9 +1381,6 @@
     <ClInclude Include="CScraper.h">
       <Filter>Header Files\Scraper</Filter>
     </ClInclude>
-    <ClInclude Include="CScraperPreprocessor.h">
-      <Filter>Header Files\Scraper</Filter>
-    </ClInclude>
     <ClInclude Include="..\CTablemap\CTablemap.h">
       <Filter>Header Files\CTablemap</Filter>
     </ClInclude>
@@ -1406,9 +1409,6 @@
       <Filter>Header Files\Various Function Libraries</Filter>
     </ClInclude>
     <ClInclude Include="NumericalFunctions.h">
-      <Filter>Header Files\Various Function Libraries</Filter>
-    </ClInclude>
-    <ClInclude Include="StringFunctions.h">
       <Filter>Header Files\Various Function Libraries</Filter>
     </ClInclude>
     <ClInclude Include="CFormulaFileSplitter.h">
@@ -1635,9 +1635,6 @@
     </ClInclude>
     <ClInclude Include="CCasinoHotkey.h">
       <Filter>Header Files\AutoPlayer</Filter>
-    </ClInclude>
-    <ClInclude Include="CTablepointChecker.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

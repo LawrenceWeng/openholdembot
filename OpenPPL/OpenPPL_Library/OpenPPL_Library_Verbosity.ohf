@@ -86,7 +86,7 @@ $$cr3
 ##RankOfRiverCard##
 $$cr4
 
-##SuitOfFirstCard##
+##SuitOfFirstFlopCard##
 $$cs0
 
 ##SuitOfSecondFlopCard##
@@ -95,7 +95,7 @@ $$cs1
 ##SuitOfThirdFlopCard##
 $$cs2
 
-##SuitOfTurncard##
+##SuitOfTurnCard##
 $$cs3
 
 ##SuitOfRiverCard##
@@ -118,3 +118,41 @@ $$cs4
 // The last 20 bits of pokerval encode the ranks of our made hand
 // Four bits per card
 (pokerval >> 0) & 0x0F
+
+//*****************************************************************************
+//
+// OpenPPL - Aliases
+//
+// Alternative names for some symbols
+//
+//*****************************************************************************
+
+##FirstFlopCard##
+RankOfFirstFlopCard
+
+##SecondFlopCard##
+RankOfSecondFlopCard
+
+##ThirdFlopCard##
+RankOfThirdFlopCard
+
+##TurnCard##
+RankOfTurnCard
+
+##RiverCard##
+RankOfRiverCard
+
+##FirstFlopSuit##
+SuitOfFirstFlopCard
+
+##SecondFlopSuit##
+SuitOfSecondFlopCard
+
+##ThirdFlopSuit##
+SuitOfThirdFlopCard
+
+##TurnSuit##
+SuitOfTurnCard
+
+##RiverSuit##
+SuitOfRiverCard
