@@ -40,3 +40,4 @@ scintilla/bin
 /OpenHoldem/Backup/OpenHoldem.sln
 /OpenHoldem/Backup
 /OpenHoldem
+*.psess

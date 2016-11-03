@@ -112,7 +112,7 @@ void CSymbolEngineVersus::ClearWinTieLosData() {
   }
 }
 
-double CSymbolEngineVersus::ExpectedWinHandVsHand(int betround, int plCard0, int plCard1, int oppCard0, int oppCard1, int fraction = 1) {
+double CSymbolEngineVersus::ExpectedWinHandVsHand(int betround, int plCard0, int plCard1, int oppCard0, int oppCard1, int iterations = 0) {
 	long pos = 0;
 	unsigned int wintemp = 0, tietemp = 0, lostemp = 0;
 	int nwin = 0, ntie = 0, nlos = 0;
@@ -201,15 +201,26 @@ double CSymbolEngineVersus::ExpectedWinHandVsHand(int betround, int plCard0, int
 			if (betround == kBetroundFlop || betround == kBetroundTurn)
 			{
 				int count = 0;
-				ENUMERATE_N_CARDS_D(comCardsEnum, betround == kBetroundFlop ? 2 :
-					betround == kBetroundTurn ? 1 : 0, deadCards,
-					{ 
-						if (count++ % fraction != 0 || rand() % fraction != 0)
-							continue;
 
-						CardMask_OR(comCardsAll, comCardsScrape, comCardsEnum);
-						DoCalc(plCards, oppCards, comCardsAll, &wintemp, &tietemp, &lostemp);
-					});
+				if (iterations > 0 && iterations < (betround == kBetroundFlop ? 46*47 : betround == kBetroundTurn ? 46 : 1))
+				{
+					//(cards_var, dead_cards, num_cards, num_iter, action)
+					MONTECARLO_N_CARDS_D(comCardsEnum, deadCards, (betround == kBetroundFlop ? 2 : betround == kBetroundTurn ? 1 : 0),
+						iterations,
+						{
+							CardMask_OR(comCardsAll, comCardsScrape, comCardsEnum);
+							DoCalc(plCards, oppCards, comCardsAll, &wintemp, &tietemp, &lostemp);
+						});
+				}
+				else
+				{
+					//(cards_var, n_cards, dead_cards,action)
+					ENUMERATE_N_CARDS_D(comCardsEnum, (betround == kBetroundFlop ? 2 : betround == kBetroundTurn ? 1 : 0), deadCards,
+						{
+							CardMask_OR(comCardsAll, comCardsScrape, comCardsEnum);
+							DoCalc(plCards, oppCards, comCardsAll, &wintemp, &tietemp, &lostemp);
+						});
+				}
 			}
 			else
 			{

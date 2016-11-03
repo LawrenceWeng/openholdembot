@@ -68,7 +68,7 @@ DLL_IMPLEMENTS void __stdcall DLLOnUnLoad();
 // Functions implemented and exported by OpenHoldem,
 // imported by the DLL
 EXE_IMPLEMENTS char*  __stdcall GetPlayerName(int chair);
-EXE_IMPLEMENTS double __stdcall ExpectedWinHandVsHand(int betround, int plCard0, int plCard1, int oppCard0, int oppCard1, int fraction = 1);
+EXE_IMPLEMENTS double __stdcall ExpectedWinHandVsHand(int betround, int plCard0, int plCard1, int oppCard0, int oppCard1, int iterations = 0);
 EXE_IMPLEMENTS double __stdcall GetSymbol(const char* name_of_single_symbol__not_expression);
 EXE_IMPLEMENTS void*  __stdcall GetPrw1326();
 EXE_IMPLEMENTS char*  __stdcall GetHandnumber();

@@ -31,6 +31,15 @@ CScrapedMoney::~CScrapedMoney() {
 }
 
 bool CScrapedMoney::SetValue(CString scraped_value) {
+
+	char first_character = scraped_value.GetAt(0);
+	if (first_character == '^')
+	{
+		//completely ignore scrapped monetary strings, if there is a "^" symbol in them
+		scraped_value == "";
+		return false;
+	}
+
   RemoveLeftWhiteSpace(&scraped_value);
   RemoveRightWhiteSpace(&scraped_value);
   RemoveMultipleWhiteSpaces(&scraped_value);

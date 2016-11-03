@@ -1636,6 +1636,9 @@
     <ClInclude Include="CCasinoHotkey.h">
       <Filter>Header Files\AutoPlayer</Filter>
     </ClInclude>
+    <ClInclude Include="CTablepointChecker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="OpenHoldem.rc">
