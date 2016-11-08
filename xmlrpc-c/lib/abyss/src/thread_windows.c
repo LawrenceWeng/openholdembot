@@ -1,9 +1,9 @@
 /* This code is just a first draft by someone who doesn't know anything
    about Windows.  It has never been compiled.  It is just a framework
-   for someone who knows Windows to pick and finish.
+   for someone who knows Windows to pick up and finish.
 
    Bryan Henderson redesigned the threading structure for Abyss in
-   April 2006 and wrote this file then.  He use the former
+   April 2006 and wrote this file then.  He used the former
    threading code, which did work on Windows, as a basis.
 */
 
@@ -168,71 +168,4 @@ ThreadUpdateStatus(TThread * const threadP ATTR_UNUSED) {
 }
  
  
-
-/*********************************************************************
-** Mutex
-*********************************************************************/
-
-struct abyss_mutex {
-    HANDLE winMutex;
-};
-
-
-bool
-MutexCreate(TMutex ** const mutexPP) {
-
-    TMutex * mutexP;
-    bool succeeded;
-
-    MALLOCVAR(mutexP);
-
-    if (mutexP) {
-
-        mutexP->winMutex = CreateMutex(NULL, FALSE, NULL);
-
-        succeeded = (mutexP->winMutex != NULL);
-    } else
-        succeeded = FALSE;
-
-    if (!succeeded)
-        free(mutexP);
-
-    *mutexPP = mutexP;
-
-    return succeeded;
-}
- 
-
-
-bool
-MutexLock(TMutex * const mutexP) {
-
-    return (WaitForSingleObject(mutexP->winMutex, INFINITE) != WAIT_TIMEOUT);
-}
-
-
-
-bool
-MutexUnlock(TMutex * const mutexP) {
-
-    return ReleaseMutex(mutexP->winMutex);
-}
-
-
-bool
-MutexTryLock(TMutex * const mutexP) {
-
-    return (WaitForSingleObject(mutexP->winMutex, 0) != WAIT_TIMEOUT);
-}
-
-
-
-void
-MutexDestroy(TMutex * const mutexP) {
-
-    CloseHandle(mutexP->winMutex);
-
-    free(mutexP);
-}
-
 

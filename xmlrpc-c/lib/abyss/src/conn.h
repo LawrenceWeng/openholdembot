@@ -4,9 +4,7 @@
 #include "bool.h"
 #include "xmlrpc-c/abyss.h"
 #include "thread.h"
-
-//dw
-#include "int.h"
+#include <int.h>
 
 struct TFile;
 

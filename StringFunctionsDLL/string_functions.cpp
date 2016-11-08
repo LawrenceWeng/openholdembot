@@ -199,8 +199,15 @@ void RemoveSpacesInsideNumbers(CString *s) {
   // last_index is the last position where the first digit might occur.
   int last_index = length - 4;
   for (int i = 0; i < last_index; ++i) {
+
+	  unsigned char a0 = s->GetAt(i);
+	  unsigned char a1 = s->GetAt(i + 1);
+	  unsigned char a2 = s->GetAt(i + 2);
+	  unsigned char a3 = s->GetAt(i + 3);
+	  unsigned char a4 = s->GetAt(i + 4);
+	  unsigned char a5 = s->GetAt(i + 5);
     if (isdigit(s->GetAt(i))
-      && isspace(s->GetAt(i + 1))
+	  && isspace(s->GetAt(i + 1))
       && isdigit(s->GetAt(i + 2))
       && isdigit(s->GetAt(i + 3))
       && isdigit(s->GetAt(i + 4))

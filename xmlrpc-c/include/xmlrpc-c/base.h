@@ -3,10 +3,12 @@
 #ifndef XMLRPC_H_INCLUDED
 #define XMLRPC_H_INCLUDED
 
+#include <math.h>
+
 #include <stddef.h>
 #include <stdarg.h>
 #include <time.h>
-#include <xmlrpc-c/c_util.h>
+#include <xmlrpc-c/c_util.h>  /* For XMLRPC_DLLEXPORT */
 #include <xmlrpc-c/util.h>
 #include <xmlrpc-c/config.h>
   /* Defines XMLRPC_HAVE_WCHAR, XMLRPC_INT64, XMLRPC_HAVE_TIMEVAL */
@@ -35,6 +37,16 @@ extern "C" {
 #else
 #define XMLRPC_LIB_EXPORTED
 #endif
+
+/*=========================================================================
+**  Global static library initialization
+**=======================================================================*/
+
+void
+xmlrpc_init(xmlrpc_env * const envP);
+
+void
+xmlrpc_term(void);
 
 /*=========================================================================
 **  Version of libxmlrpc

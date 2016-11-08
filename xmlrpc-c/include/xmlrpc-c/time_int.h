@@ -4,6 +4,7 @@
 #include <time.h>
 
 #include "xmlrpc_config.h"
+#include "xmlrpc-c/c_util.h"  /* For XMLRPC_DLLEXPORT */
 #include "xmlrpc-c/util.h"
 #include "int.h"
 
@@ -21,6 +22,7 @@
 #endif
 
 #if HAVE_TIMESPEC
+  # include <sys/time.h> /* for struct timespec */
   typedef struct timespec xmlrpc_timespec;
 #else
   typedef struct {

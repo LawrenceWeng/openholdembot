@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <bitset>
+#include <algorithm>
 
 #include "xmlrpc-c/girerr.hpp"
 using girerr::error;
@@ -14,7 +15,7 @@ using namespace xmlrpc_c;
 
 namespace {
 
-char const table_a2b_base64[] = {
+signed char const table_a2b_base64[] = {
     -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1,
     -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1,
     -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,62, -1,-1,-1,63,

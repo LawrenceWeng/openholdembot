@@ -18,7 +18,7 @@
 #include "bool.h"
 #include "int.h"
 
-#include <xmlrpc-c/c_util.h>
+#include <xmlrpc-c/c_util.h>  /* For XMLRPC_DLLEXPORT */
 #include <xmlrpc-c/util_int.h>
 #include <xmlrpc-c/base.h>
 
@@ -41,7 +41,8 @@ extern "C" {
 
 struct _xmlrpc_value {
     xmlrpc_type _type;
-    int _refcount;
+    struct lock * lockP;
+    unsigned int refcount;
 
     /* Certain data types store their data directly in the xmlrpc_value. */
     union {

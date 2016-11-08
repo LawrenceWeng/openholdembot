@@ -32,7 +32,8 @@
 #define _WIN32_WINNT 0x0502
 
 /* See compilation note above if the compiler doesn't find this header file */
-#include <http_ab.h>
+#include <http.h>
+
 #include <strsafe.h>
 
 #include "xmlrpc_config.h"
@@ -40,9 +41,6 @@
 #include "xmlrpc-c/server.h"
 #include "xmlrpc-c/server_w32httpsys.h"
 #include "version.h"
-
-//dw for PHTTP_REQUEST
-#include <http.h>
 
 #pragma comment( lib, "httpapi" )
 #pragma message( "Compiling HTTPS server ..." )

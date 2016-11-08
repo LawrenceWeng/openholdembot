@@ -157,7 +157,7 @@ ThreadCreate(TThread **      const threadPP,
              TThreadProc   * const func,
              TThreadDoneFn * const threadDone,
              bool            const useSigchld,
-             size_t          const stackSize,
+             size_t          const stackSize ATTR_UNUSED,
              const char **   const errorP) {
     
     TThread * threadP;
@@ -216,21 +216,21 @@ ThreadCreate(TThread **      const threadPP,
 
 bool
 ThreadRun(TThread * const threadP ATTR_UNUSED) {
-    return TRUE;    
+    return true;
 }
 
 
 
 bool
 ThreadStop(TThread * const threadP ATTR_UNUSED) {
-    return TRUE;
+    return true;
 }
 
 
 
 bool
 ThreadKill(TThread * const threadP ATTR_UNUSED) {
-    return TRUE;
+    return true;
 }
 
 
@@ -285,48 +285,8 @@ ThreadRelease(TThread * const threadP) {
 bool
 ThreadForks(void) {
 
-    return TRUE;
+    return true;
 }
 
 
 
-/*********************************************************************
-** Mutex
-*********************************************************************/
-
-/* As two processes don't share memory, there is nothing to synchronize,
-   so locking is a no-op.
-*/
-
-bool
-MutexCreate(TMutex ** const mutexP ATTR_UNUSED) {
-    return TRUE;
-}
-
-
-
-bool
-MutexLock(TMutex * const mutexP ATTR_UNUSED) {
-    return TRUE;
-}
-
-
-
-bool
-MutexUnlock(TMutex * const mutexP ATTR_UNUSED) {
-    return TRUE;
-}
-
-
-
-bool
-MutexTryLock(TMutex * const mutexP ATTR_UNUSED) {
-    return TRUE;
-}
-
-
-
-void
-MutexDestroy(TMutex * const mutexP ATTR_UNUSED) {
-
-}

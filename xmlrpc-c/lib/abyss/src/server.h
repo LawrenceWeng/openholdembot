@@ -4,12 +4,12 @@
 #include <sys/types.h>
 
 #include "bool.h"
+#include "xmlrpc-c/lock.h"
 #include "xmlrpc-c/abyss.h"
 
 #include "data.h"
 
 struct TFile;
-struct abyss_mutex;
 
 struct _TServer {
     bool traceIsActive;
@@ -35,12 +35,16 @@ struct _TServer {
     const char * logfilename;
     bool logfileisopen;
     struct TFile * logfileP;
-    struct abyss_mutex * logmutexP;
+    lock * logLockP;
     const char * name;
     bool serverAcceptsConnections;
         /* We listen for and accept TCP connections for HTTP transactions.
            (The alternative is the user supplies a TCP-connected socket
            for each transaction)
+        */
+    bool readyToAccept;
+        /* We are the kind of server that listens for TCP connections and the
+           user has initialized us to do so (called ServerInit()).
         */
     uint16_t port;
         /* Meaningful only when 'chanSwitchBound' is false: TCP port

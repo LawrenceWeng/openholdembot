@@ -409,7 +409,8 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						P.player_name LIKE '%SCREENNAME%' AND \
-						S.position = l.position) foo",
+						S.position = l.position AND \
+						S.cnt_players = l.cnt_players) foo",
 		// stat_group
 		pt_group_basic
 	},
@@ -458,7 +459,8 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 							S.id_gametype = %GAMETYPE% AND \
 							P.id_site = %SITEID% AND \
 							P.player_name LIKE '%SCREENNAME%' AND \
-							S.position = l.position) foo",
+							S.position = l.position AND \
+							S.cnt_players = l.cnt_players) foo",
 		// stat_group
 		pt_group_basic
 	},
@@ -507,7 +509,8 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 							S.id_gametype = %GAMETYPE% AND \
 							P.id_site = %SITEID% AND \
 							P.player_name LIKE '%SCREENNAME%' AND \
-							S.position = l.position) foo",
+							S.position = l.position AND \
+							S.cnt_players = l.cnt_players) foo",
 		// stat_group
 		pt_group_basic
 	},
@@ -603,7 +606,8 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 							S.id_gametype = %GAMETYPE% AND \
 							P.id_site = %SITEID% AND \
 							P.player_name LIKE '%SCREENNAME%' AND \
-							S.position = l.position) foo",
+							S.position = l.position AND \
+							S.cnt_players = l.cnt_players) foo",
 			// stat_group
 			pt_group_advanced
 		},
@@ -713,7 +717,8 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
 					P.player_name LIKE '%SCREENNAME%' AND \
-					S.position = l.position) foo",
+					S.position = l.position AND \
+					S.cnt_players = l.cnt_players) foo",
 					// stat_group
 					pt_group_positional
 	},
@@ -755,7 +760,8 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
 					P.player_name LIKE '%SCREENNAME%' AND \
-					S.position = l.position) foo",
+					S.position = l.position AND \
+					S.cnt_players = l.cnt_players) foo",
 					// stat_group
 					pt_group_positional
 	},
@@ -832,7 +838,8 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
 					P.player_name LIKE '%SCREENNAME%' AND \
-					S.position = l.position) foo",
+					S.position = l.position AND \
+					S.cnt_players = l.cnt_players) foo",
 		// stat_group
 		pt_group_advanced
 	},
@@ -882,6 +889,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					P.id_site = %SITEID% AND \
 					P.player_name LIKE '%SCREENNAME%' AND \
 					S.position = l.position AND \
+					S.cnt_players = l.cnt_players AND \
 					flg_p_face_raise AND s.amt_p_2bet_facing > 0 AND NOT(s.flg_p_limp) AND NOT s.flg_p_3bet_def_opp AND NOT flg_p_4bet_def_opp) foo",
 		// stat_group
 		pt_group_advanced
@@ -932,6 +940,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					P.id_site = %SITEID% AND \
 					P.player_name LIKE '%SCREENNAME%' AND \
 					S.position = l.position AND \
+					S.cnt_players = l.cnt_players AND \
 					NOT flg_p_face_raise) foo",
 		// stat_group
 		pt_group_advanced
@@ -982,6 +991,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					P.id_site = %SITEID% AND \
 					P.player_name LIKE '%SCREENNAME%' AND \
 					S.position = l.position AND \
+					S.cnt_players = l.cnt_players AND \
 					flg_p_face_raise AND flg_p_limp) foo",
 		// stat_group
 		pt_group_advanced
@@ -1018,6 +1028,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					P.id_site = %SITEID% AND \
 					P.player_name LIKE '%SCREENNAME%' AND \
 					S.position = l.position AND \
+					S.cnt_players = l.cnt_players AND \
 					flg_p_face_raise AND flg_p_limp) foo",
 			// stat_group
 			pt_group_advanced
@@ -1054,6 +1065,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					P.id_site = %SITEID% AND \
 					P.player_name LIKE '%SCREENNAME%' AND \
 					S.position = l.position AND \
+					S.cnt_players = l.cnt_players AND \
 					flg_p_face_raise AND NOT flg_p_limp) foo",
 		// stat_group
 		pt_group_advanced
@@ -1125,6 +1137,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					P.id_site = %SITEID% AND \
 					P.player_name LIKE '%SCREENNAME%' AND \
 					S.position = l.position AND \
+					S.cnt_players = l.cnt_players AND \
 					flg_p_face_raise) foo",
 		// stat_group
 		pt_group_advanced
@@ -1198,6 +1211,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					P.id_site = %SITEID% AND \
 					P.player_name LIKE '%SCREENNAME%' AND \
 					S.position = l.position AND \
+					S.cnt_players = l.cnt_players AND \
 					flg_p_face_raise) foo",
 			// stat_group
 			pt_group_advanced
