@@ -14,7 +14,7 @@
 #ifndef INC_POKERTRACKER_QUERIES_VERSION_4_H
 #define INC_POKERTRACKER_QUERIES_VERSION_4_H
 
-#define MAX_STATS_PER_TYPE 4
+#define MAX_STATS_PER_TYPE 5
 
 // GENERAL STATS
 // ICON disabled, as not supported by PT 4.
@@ -49,44 +49,76 @@
 #define PT4_QUERY_SUPPORT__AGGRESSION_FACTOR			(4)	// "af"
 
 // AFq
-#define PT4_QUERY_SUPPORT__AGGRESSION_FREQUENCY			(4)	// "afq" 
+#define PT4_QUERY_SUPPORT__AGGRESSION_FREQUENCY			(5)	// "afq" 
 // LFq
-#define PT4_QUERY_SUPPORT__LAYDOWN_FREQUENCY			(4)	// "lfq" 
+#define PT4_QUERY_SUPPORT__LAYDOWN_FREQUENCY			(5)	// "lfq" 
+
+// Hero AFq
+#define PT4_QUERY_SUPPORT__HERO_AGGRESSION_FREQUENCY	(5)	// "hero_afq" 
+// Hero LFq
+#define PT4_QUERY_SUPPORT__HERO_LAYDOWN_FREQUENCY		(5)	// "hero_lfq" 
 
 // Street seen
 #define PT4_QUERY_SUPPORT__SEEN_PCT			  			(3)	// "seen"
 
 // Continuation bet
 // Flop
-#define PT4_QUERY_SUPPORT__FLOP_CBET					(3)	// "flop_cbet"
+#define PT4_QUERY_SUPPORT__FLOP_CBET					(2)	// "flop_cbet"
+#define PT4_QUERY_SUPPORT__FLOP_CBET_MW					(1)	// "flop_cbet_mw"
 #define PT4_QUERY_SUPPORT__FLOP_FOLD_TO_CBET			(2)	// "flop_fold_to_cbet"
+#define PT4_QUERY_SUPPORT__FLOP_FOLD_TO_CBET_MW			(1)	// "flop_fold_to_cbet_mw"
 #define PT4_QUERY_SUPPORT__FLOP_RAISE_CBET				(2)	// "flop_raise_cbet"
+#define PT4_QUERY_SUPPORT__FLOP_RAISE_CBET_MW			(1)	// "flop_raise_cbet_mw"
 #define PT4_QUERY_SUPPORT__FLOP_DONKBET					(1)	// "flop_donkbet"
-#define PT4_QUERY_SUPPORT__FLOP_FOLD_TO_DONKBET			(3)	// "flop_fold_to_donkbet"
-#define PT4_QUERY_SUPPORT__FLOP_RAISE_DONKBET			(3)	// "flop_raise_donkbet"
+#define PT4_QUERY_SUPPORT__FLOP_DONKBET_MW				(1)	// "flop_donkbet_mw"
+#define PT4_QUERY_SUPPORT__FLOP_FOLD_TO_DONKBET			(1)	// "flop_fold_to_donkbet"
+#define PT4_QUERY_SUPPORT__FLOP_FOLD_TO_DONKBET_MW		(2)	// "flop_fold_to_donkbet_mw"
+#define PT4_QUERY_SUPPORT__FLOP_RAISE_DONKBET			(1)	// "flop_raise_donkbet"
+#define PT4_QUERY_SUPPORT__FLOP_RAISE_DONKBET_MW		(2)	// "flop_raise_donkbet_mw"
 #define PT4_QUERY_SUPPORT__FLOP_FLOAT     				(1)	// "flop_float" (PT's stat for: bet IP flop vs missed cbet)
-#define PT4_QUERY_SUPPORT__FLOP_FOLD_TO_FLOAT			(3)	// "flop_fold_to_float"
-#define PT4_QUERY_SUPPORT__FLOP_RAISE_FLOAT				(3)	// "flop_raise_float"
+#define PT4_QUERY_SUPPORT__FLOP_FLOAT_MW     			(1)	// "flop_float_mw" (PT's stat for: bet IP flop vs missed cbet)
+#define PT4_QUERY_SUPPORT__FLOP_FOLD_TO_FLOAT			(1)	// "flop_fold_to_float"
+#define PT4_QUERY_SUPPORT__FLOP_FOLD_TO_FLOAT_MW		(2)	// "flop_fold_to_float_mw"
+#define PT4_QUERY_SUPPORT__FLOP_RAISE_FLOAT				(1)	// "flop_raise_float"
+#define PT4_QUERY_SUPPORT__FLOP_RAISE_FLOAT_MW			(2)	// "flop_raise_float_mw"
 // Turn
-#define PT4_QUERY_SUPPORT__TURN_CBET					(3)	// "turn_cbet"
+#define PT4_QUERY_SUPPORT__TURN_CBET					(2)	// "turn_cbet"
+#define PT4_QUERY_SUPPORT__TURN_CBET_MW					(1)	// "turn_cbet_mw"
 #define PT4_QUERY_SUPPORT__TURN_FOLD_TO_CBET			(2)	// "turn_fold_to_cbet"
+#define PT4_QUERY_SUPPORT__TURN_FOLD_TO_CBET_MW			(1)	// "turn_fold_to_cbet_mw"
 #define PT4_QUERY_SUPPORT__TURN_RAISE_CBET				(2)	// "turn_raise_cbet"
+#define PT4_QUERY_SUPPORT__TURN_RAISE_CBET_MW			(1)	// "turn_raise_cbet_mw"
 #define PT4_QUERY_SUPPORT__TURN_DONKBET					(1)	// "turn_donkbet"
-#define PT4_QUERY_SUPPORT__TURN_FOLD_TO_DONKBET			(3)	// "turn_fold_to_donkbet"
-#define PT4_QUERY_SUPPORT__TURN_RAISE_DONKBET			(3)	// "turn_raise_donkbet"
+#define PT4_QUERY_SUPPORT__TURN_DONKBET_MW				(1)	// "turn_donkbet_mw"
+#define PT4_QUERY_SUPPORT__TURN_FOLD_TO_DONKBET			(1)	// "turn_fold_to_donkbet"
+#define PT4_QUERY_SUPPORT__TURN_FOLD_TO_DONKBET_MW		(2)	// "turn_fold_to_donkbet_mw"
+#define PT4_QUERY_SUPPORT__TURN_RAISE_DONKBET			(1)	// "turn_raise_donkbet"
+#define PT4_QUERY_SUPPORT__TURN_RAISE_DONKBET_MW		(2)	// "turn_raise_donkbet_mw"
 #define PT4_QUERY_SUPPORT__TURN_FLOAT     				(1)	// "turn_float" (PT's stat for: bet IP turn vs missed cbet)
-#define PT4_QUERY_SUPPORT__TURN_FOLD_TO_FLOAT			(3)	// "turn_fold_to_float"
-#define PT4_QUERY_SUPPORT__TURN_RAISE_FLOAT				(3)	// "turn_raise_float"
+#define PT4_QUERY_SUPPORT__TURN_FLOAT_MW     			(1)	// "turn_float_mw" (PT's stat for: bet IP turn vs missed cbet)
+#define PT4_QUERY_SUPPORT__TURN_FOLD_TO_FLOAT			(1)	// "turn_fold_to_float"
+#define PT4_QUERY_SUPPORT__TURN_FOLD_TO_FLOAT_MW		(2)	// "turn_fold_to_float_mw"
+#define PT4_QUERY_SUPPORT__TURN_RAISE_FLOAT				(1)	// "turn_raise_float"
+#define PT4_QUERY_SUPPORT__TURN_RAISE_FLOAT_MW			(2)	// "turn_raise_float_mw"
 // River
-#define PT4_QUERY_SUPPORT__RIVER_CBET					(3)	// "river_cbet"
+#define PT4_QUERY_SUPPORT__RIVER_CBET					(2)	// "river_cbet"
+#define PT4_QUERY_SUPPORT__RIVER_CBET_MW				(1)	// "river_cbet_mw"
 #define PT4_QUERY_SUPPORT__RIVER_FOLD_TO_CBET			(2)	// "river_fold_to_cbet"
-#define PT4_QUERY_SUPPORT__RIVER_RAISE_CBET				(2)	// "turn_raise_cbet"
+#define PT4_QUERY_SUPPORT__RIVER_FOLD_TO_CBET_MW		(1)	// "river_fold_to_cbet_mw"
+#define PT4_QUERY_SUPPORT__RIVER_RAISE_CBET				(2)	// "river_raise_cbet"
+#define PT4_QUERY_SUPPORT__RIVER_RAISE_CBET_MW			(1)	// "river_raise_cbet_mw"
 #define PT4_QUERY_SUPPORT__RIVER_DONKBET				(1)	// "river_donkbet"
-#define PT4_QUERY_SUPPORT__RIVER_FOLD_TO_DONKBET		(3)	// "river_fold_to_donkbet"
-#define PT4_QUERY_SUPPORT__RIVER_RAISE_DONKBET			(3)	// "turn_raise_donkbet"
+#define PT4_QUERY_SUPPORT__RIVER_DONKBET_MW				(1)	// "river_donkbet_mw"
+#define PT4_QUERY_SUPPORT__RIVER_FOLD_TO_DONKBET		(1)	// "river_fold_to_donkbet"
+#define PT4_QUERY_SUPPORT__RIVER_FOLD_TO_DONKBET_MW		(2)	// "river_fold_to_donkbet_mw"
+#define PT4_QUERY_SUPPORT__RIVER_RAISE_DONKBET			(1)	// "river_raise_donkbet"
+#define PT4_QUERY_SUPPORT__RIVER_RAISE_DONKBET_MW		(2)	// "river_raise_donkbet_mw"
 #define PT4_QUERY_SUPPORT__RIVER_FLOAT     				(1)	// "river_float" (PT's stat for: bet IP river vs missed cbet)
-#define PT4_QUERY_SUPPORT__RIVER_FOLD_TO_FLOAT			(3)	// "river_fold_to_float"
-#define PT4_QUERY_SUPPORT__RIVER_RAISE_FLOAT			(3)	// "turn_raise_float"
+#define PT4_QUERY_SUPPORT__RIVER_FLOAT_MW     			(1)	// "river_float_mw" (PT's stat for: bet IP river vs missed cbet)
+#define PT4_QUERY_SUPPORT__RIVER_FOLD_TO_FLOAT			(1)	// "river_fold_to_float"
+#define PT4_QUERY_SUPPORT__RIVER_FOLD_TO_FLOAT_MW		(2)	// "river_fold_to_float_mw"
+#define PT4_QUERY_SUPPORT__RIVER_RAISE_FLOAT			(1)	// "river_raise_float"
+#define PT4_QUERY_SUPPORT__RIVER_RAISE_FLOAT_MW			(2)	// "river_raise_float_mw"
 
 // POSTFLOP Other stats
 #define PT4_QUERY_SUPPORT__POSTFLOP_FOLD_TO_3B			(0)	// "postflop_fold_to_3bet"
@@ -143,6 +175,10 @@ const int k_number_of_pokertracker_stat_types =  //GENERAL STATS
 + (PT4_QUERY_SUPPORT__AGGRESSION_FREQUENCY > 0 ? 1 : 0)
 //  LFq
 + (PT4_QUERY_SUPPORT__LAYDOWN_FREQUENCY > 0 ? 1 : 0)
+//  Hero AFq
++ (PT4_QUERY_SUPPORT__HERO_AGGRESSION_FREQUENCY > 0 ? 1 : 0)
+//  Hero LFq
++ (PT4_QUERY_SUPPORT__HERO_LAYDOWN_FREQUENCY > 0 ? 1 : 0)
 // POSTFLOP stats
 + (PT4_QUERY_SUPPORT__POSTFLOP_FOLD_TO_3B > 0 ? 1 : 0)
 //  Street seen
@@ -150,34 +186,61 @@ const int k_number_of_pokertracker_stat_types =  //GENERAL STATS
 //  Continuation bet
 //  Flop
 + (PT4_QUERY_SUPPORT__FLOP_CBET > 0 ? 1 : 0)
++ (PT4_QUERY_SUPPORT__FLOP_CBET_MW > 0 ? 1 : 0)
 + (PT4_QUERY_SUPPORT__FLOP_FOLD_TO_CBET > 0 ? 1 : 0)
++ (PT4_QUERY_SUPPORT__FLOP_FOLD_TO_CBET_MW > 0 ? 1 : 0)
 + (PT4_QUERY_SUPPORT__FLOP_RAISE_CBET > 0 ? 1 : 0)
++ (PT4_QUERY_SUPPORT__FLOP_RAISE_CBET_MW > 0 ? 1 : 0)
 + (PT4_QUERY_SUPPORT__FLOP_DONKBET > 0 ? 1 : 0)
++ (PT4_QUERY_SUPPORT__FLOP_DONKBET_MW > 0 ? 1 : 0)
 + (PT4_QUERY_SUPPORT__FLOP_FOLD_TO_DONKBET > 0 ? 1 : 0)
++ (PT4_QUERY_SUPPORT__FLOP_FOLD_TO_DONKBET_MW > 0 ? 1 : 0)
 + (PT4_QUERY_SUPPORT__FLOP_RAISE_DONKBET > 0 ? 1 : 0)
++ (PT4_QUERY_SUPPORT__FLOP_RAISE_DONKBET_MW > 0 ? 1 : 0)
 + (PT4_QUERY_SUPPORT__FLOP_FLOAT > 0 ? 1 : 0)
++ (PT4_QUERY_SUPPORT__FLOP_FLOAT_MW > 0 ? 1 : 0)
 + (PT4_QUERY_SUPPORT__FLOP_FOLD_TO_FLOAT > 0 ? 1 : 0)
++ (PT4_QUERY_SUPPORT__FLOP_FOLD_TO_FLOAT_MW > 0 ? 1 : 0)
 + (PT4_QUERY_SUPPORT__FLOP_RAISE_FLOAT > 0 ? 1 : 0)
++ (PT4_QUERY_SUPPORT__FLOP_RAISE_FLOAT_MW > 0 ? 1 : 0)
 //  Turn
 + (PT4_QUERY_SUPPORT__TURN_CBET > 0 ? 1 : 0)
++ (PT4_QUERY_SUPPORT__TURN_CBET_MW > 0 ? 1 : 0)
 + (PT4_QUERY_SUPPORT__TURN_FOLD_TO_CBET > 0 ? 1 : 0)
++ (PT4_QUERY_SUPPORT__TURN_FOLD_TO_CBET_MW > 0 ? 1 : 0)
 + (PT4_QUERY_SUPPORT__TURN_RAISE_CBET > 0 ? 1 : 0)
++ (PT4_QUERY_SUPPORT__TURN_RAISE_CBET_MW > 0 ? 1 : 0)
 + (PT4_QUERY_SUPPORT__TURN_DONKBET > 0 ? 1 : 0)
++ (PT4_QUERY_SUPPORT__TURN_DONKBET_MW > 0 ? 1 : 0)
 + (PT4_QUERY_SUPPORT__TURN_FOLD_TO_DONKBET > 0 ? 1 : 0)
++ (PT4_QUERY_SUPPORT__TURN_FOLD_TO_DONKBET_MW > 0 ? 1 : 0)
 + (PT4_QUERY_SUPPORT__TURN_RAISE_DONKBET > 0 ? 1 : 0)
++ (PT4_QUERY_SUPPORT__TURN_RAISE_DONKBET_MW > 0 ? 1 : 0)
 + (PT4_QUERY_SUPPORT__TURN_FLOAT > 0 ? 1 : 0)
++ (PT4_QUERY_SUPPORT__TURN_FLOAT_MW > 0 ? 1 : 0)
 + (PT4_QUERY_SUPPORT__TURN_FOLD_TO_FLOAT > 0 ? 1 : 0)
++ (PT4_QUERY_SUPPORT__TURN_FOLD_TO_FLOAT_MW > 0 ? 1 : 0)
 + (PT4_QUERY_SUPPORT__TURN_RAISE_FLOAT > 0 ? 1 : 0)
++ (PT4_QUERY_SUPPORT__TURN_RAISE_FLOAT_MW > 0 ? 1 : 0)
 //  River
 + (PT4_QUERY_SUPPORT__RIVER_CBET > 0 ? 1 : 0)
++ (PT4_QUERY_SUPPORT__RIVER_CBET_MW > 0 ? 1 : 0)
 + (PT4_QUERY_SUPPORT__RIVER_FOLD_TO_CBET > 0 ? 1 : 0)
++ (PT4_QUERY_SUPPORT__RIVER_FOLD_TO_CBET_MW > 0 ? 1 : 0)
 + (PT4_QUERY_SUPPORT__RIVER_RAISE_CBET > 0 ? 1 : 0)
++ (PT4_QUERY_SUPPORT__RIVER_RAISE_CBET_MW > 0 ? 1 : 0)
 + (PT4_QUERY_SUPPORT__RIVER_DONKBET > 0 ? 1 : 0)
++ (PT4_QUERY_SUPPORT__RIVER_DONKBET_MW > 0 ? 1 : 0)
 + (PT4_QUERY_SUPPORT__RIVER_FOLD_TO_DONKBET > 0 ? 1 : 0)
++ (PT4_QUERY_SUPPORT__RIVER_FOLD_TO_DONKBET_MW > 0 ? 1 : 0)
 + (PT4_QUERY_SUPPORT__RIVER_RAISE_DONKBET > 0 ? 1 : 0)
++ (PT4_QUERY_SUPPORT__RIVER_RAISE_DONKBET_MW > 0 ? 1 : 0)
 + (PT4_QUERY_SUPPORT__RIVER_FLOAT > 0 ? 1 : 0)
++ (PT4_QUERY_SUPPORT__RIVER_FLOAT_MW > 0 ? 1 : 0)
 + (PT4_QUERY_SUPPORT__RIVER_FOLD_TO_FLOAT > 0 ? 1 : 0)
++ (PT4_QUERY_SUPPORT__RIVER_FOLD_TO_FLOAT_MW > 0 ? 1 : 0)
 + (PT4_QUERY_SUPPORT__RIVER_RAISE_FLOAT > 0 ? 1 : 0)
++ (PT4_QUERY_SUPPORT__RIVER_RAISE_FLOAT_MW > 0 ? 1 : 0)
 //  Flop Other stats
 + (PT4_QUERY_SUPPORT__FLOP_FOLD_TO_RAISE > 0 ? 1 : 0)
 + (PT4_QUERY_SUPPORT__FLOP_3B > 0 ? 1 : 0)
@@ -228,6 +291,10 @@ PT4_QUERY_SUPPORT__ICON
 + PT4_QUERY_SUPPORT__AGGRESSION_FREQUENCY
 //  LFq
 + PT4_QUERY_SUPPORT__LAYDOWN_FREQUENCY
+//  Hero AFq
++ PT4_QUERY_SUPPORT__HERO_AGGRESSION_FREQUENCY
+//  Hero LFq
++ PT4_QUERY_SUPPORT__HERO_LAYDOWN_FREQUENCY
 // POSTFLOP stats
 + PT4_QUERY_SUPPORT__POSTFLOP_FOLD_TO_3B
 //  Street seen
@@ -235,34 +302,61 @@ PT4_QUERY_SUPPORT__ICON
 //  Continuation bet
 //  Flop
 + PT4_QUERY_SUPPORT__FLOP_CBET
++ PT4_QUERY_SUPPORT__FLOP_CBET_MW
 + PT4_QUERY_SUPPORT__FLOP_FOLD_TO_CBET
++ PT4_QUERY_SUPPORT__FLOP_FOLD_TO_CBET_MW
 + PT4_QUERY_SUPPORT__FLOP_RAISE_CBET
++ PT4_QUERY_SUPPORT__FLOP_RAISE_CBET_MW
 + PT4_QUERY_SUPPORT__FLOP_DONKBET
++ PT4_QUERY_SUPPORT__FLOP_DONKBET_MW
 + PT4_QUERY_SUPPORT__FLOP_FOLD_TO_DONKBET
++ PT4_QUERY_SUPPORT__FLOP_FOLD_TO_DONKBET_MW
 + PT4_QUERY_SUPPORT__FLOP_RAISE_DONKBET
++ PT4_QUERY_SUPPORT__FLOP_RAISE_DONKBET_MW
 + PT4_QUERY_SUPPORT__FLOP_FLOAT
++ PT4_QUERY_SUPPORT__FLOP_FLOAT_MW
 + PT4_QUERY_SUPPORT__FLOP_FOLD_TO_FLOAT
++ PT4_QUERY_SUPPORT__FLOP_FOLD_TO_FLOAT_MW
 + PT4_QUERY_SUPPORT__FLOP_RAISE_FLOAT
++ PT4_QUERY_SUPPORT__FLOP_RAISE_FLOAT_MW
 //  Turn
 + PT4_QUERY_SUPPORT__TURN_CBET
++ PT4_QUERY_SUPPORT__TURN_CBET_MW
 + PT4_QUERY_SUPPORT__TURN_FOLD_TO_CBET
++ PT4_QUERY_SUPPORT__TURN_FOLD_TO_CBET_MW
 + PT4_QUERY_SUPPORT__TURN_RAISE_CBET
++ PT4_QUERY_SUPPORT__TURN_RAISE_CBET_MW
 + PT4_QUERY_SUPPORT__TURN_DONKBET
++ PT4_QUERY_SUPPORT__TURN_DONKBET_MW
 + PT4_QUERY_SUPPORT__TURN_FOLD_TO_DONKBET
++ PT4_QUERY_SUPPORT__TURN_FOLD_TO_DONKBET_MW
 + PT4_QUERY_SUPPORT__TURN_RAISE_DONKBET
++ PT4_QUERY_SUPPORT__TURN_RAISE_DONKBET_MW
 + PT4_QUERY_SUPPORT__TURN_FLOAT
++ PT4_QUERY_SUPPORT__TURN_FLOAT_MW
 + PT4_QUERY_SUPPORT__TURN_FOLD_TO_FLOAT
++ PT4_QUERY_SUPPORT__TURN_FOLD_TO_FLOAT_MW
 + PT4_QUERY_SUPPORT__TURN_RAISE_FLOAT
++ PT4_QUERY_SUPPORT__TURN_RAISE_FLOAT_MW
 //  River
 + PT4_QUERY_SUPPORT__RIVER_CBET
++ PT4_QUERY_SUPPORT__RIVER_CBET_MW
 + PT4_QUERY_SUPPORT__RIVER_FOLD_TO_CBET
++ PT4_QUERY_SUPPORT__RIVER_FOLD_TO_CBET_MW
 + PT4_QUERY_SUPPORT__RIVER_RAISE_CBET
++ PT4_QUERY_SUPPORT__RIVER_RAISE_CBET_MW
 + PT4_QUERY_SUPPORT__RIVER_DONKBET
++ PT4_QUERY_SUPPORT__RIVER_DONKBET_MW
 + PT4_QUERY_SUPPORT__RIVER_FOLD_TO_DONKBET
++ PT4_QUERY_SUPPORT__RIVER_FOLD_TO_DONKBET_MW
 + PT4_QUERY_SUPPORT__RIVER_RAISE_DONKBET
++ PT4_QUERY_SUPPORT__RIVER_RAISE_DONKBET_MW
 + PT4_QUERY_SUPPORT__RIVER_FLOAT
++ PT4_QUERY_SUPPORT__RIVER_FLOAT_MW
 + PT4_QUERY_SUPPORT__RIVER_FOLD_TO_FLOAT
++ PT4_QUERY_SUPPORT__RIVER_FOLD_TO_FLOAT_MW
 + PT4_QUERY_SUPPORT__RIVER_RAISE_FLOAT
++ PT4_QUERY_SUPPORT__RIVER_RAISE_FLOAT_MW
 //  Flop Other stats
 + PT4_QUERY_SUPPORT__FLOP_FOLD_TO_RAISE
 + PT4_QUERY_SUPPORT__FLOP_3B
@@ -353,14 +447,14 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				 end) as result, ActionOpportunities \
 		 FROM	(SELECT	count(*) \
 						 as ActionCount, \
-						count(distinct P.player_name) \
+						count(distinct REPLACE(P.player_name, ' ', '')) \
 						 as ActionOpportunities \
 				 FROM	player as P, %TYPE%_hand_player_statistics as S \
 				 WHERE	S.id_player = P.id_player AND \
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%') foo",
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
 		// stat_group
 		pt_group_basic
 	},
@@ -408,7 +502,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%' AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 						S.position = l.position AND \
 						S.cnt_players = l.cnt_players) foo",
 		// stat_group
@@ -458,7 +552,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 							NOT S.flg_hero AND \
 							S.id_gametype = %GAMETYPE% AND \
 							P.id_site = %SITEID% AND \
-							P.player_name LIKE '%SCREENNAME%' AND \
+							REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 							S.position = l.position AND \
 							S.cnt_players = l.cnt_players) foo",
 		// stat_group
@@ -508,7 +602,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 							NOT S.flg_hero AND \
 							S.id_gametype = %GAMETYPE% AND \
 							P.id_site = %SITEID% AND \
-							P.player_name LIKE '%SCREENNAME%' AND \
+							REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 							S.position = l.position AND \
 							S.cnt_players = l.cnt_players) foo",
 		// stat_group
@@ -537,7 +631,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%') foo",
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
 		// stat_group
 		pt_group_basic
 	},
@@ -564,7 +658,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%') foo",
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
 		// stat_group
 		pt_group_basic
 	},
@@ -605,7 +699,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 							NOT S.flg_hero AND \
 							S.id_gametype = %GAMETYPE% AND \
 							P.id_site = %SITEID% AND \
-							P.player_name LIKE '%SCREENNAME%' AND \
+							REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 							S.position = l.position AND \
 							S.cnt_players = l.cnt_players) foo",
 			// stat_group
@@ -641,7 +735,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 							NOT S.flg_hero AND \
 							S.id_gametype = %GAMETYPE% AND \
 							P.id_site = %SITEID% AND \
-							P.player_name LIKE '%SCREENNAME%') foo",
+							REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
 							// stat_group
 							pt_group_advanced
 	},
@@ -675,7 +769,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%') foo",
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
 						// stat_group
 						pt_group_positional
 	},
@@ -716,7 +810,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					NOT S.flg_hero AND \
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
-					P.player_name LIKE '%SCREENNAME%' AND \
+					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 					S.position = l.position AND \
 					S.cnt_players = l.cnt_players) foo",
 					// stat_group
@@ -759,7 +853,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					NOT S.flg_hero AND \
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
-					P.player_name LIKE '%SCREENNAME%' AND \
+					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 					S.position = l.position AND \
 					S.cnt_players = l.cnt_players) foo",
 					// stat_group
@@ -789,7 +883,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				 		S.flg_p_face_raise AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%') foo",
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
 		// stat_group
 		pt_group_advanced
 	},
@@ -837,7 +931,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					NOT S.flg_hero AND \
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
-					P.player_name LIKE '%SCREENNAME%' AND \
+					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 					S.position = l.position AND \
 					S.cnt_players = l.cnt_players) foo",
 		// stat_group
@@ -887,7 +981,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					NOT S.flg_hero AND \
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
-					P.player_name LIKE '%SCREENNAME%' AND \
+					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 					S.position = l.position AND \
 					S.cnt_players = l.cnt_players AND \
 					flg_p_face_raise AND s.amt_p_2bet_facing > 0 AND NOT(s.flg_p_limp) AND NOT s.flg_p_3bet_def_opp AND NOT flg_p_4bet_def_opp) foo",
@@ -938,7 +1032,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					NOT S.flg_hero AND \
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
-					P.player_name LIKE '%SCREENNAME%' AND \
+					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 					S.position = l.position AND \
 					S.cnt_players = l.cnt_players AND \
 					NOT flg_p_face_raise) foo",
@@ -989,7 +1083,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					NOT S.flg_hero AND \
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
-					P.player_name LIKE '%SCREENNAME%' AND \
+					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 					S.position = l.position AND \
 					S.cnt_players = l.cnt_players AND \
 					flg_p_face_raise AND flg_p_limp) foo",
@@ -1026,7 +1120,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					NOT S.flg_hero AND \
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
-					P.player_name LIKE '%SCREENNAME%' AND \
+					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 					S.position = l.position AND \
 					S.cnt_players = l.cnt_players AND \
 					flg_p_face_raise AND flg_p_limp) foo",
@@ -1063,7 +1157,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					NOT S.flg_hero AND \
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
-					P.player_name LIKE '%SCREENNAME%' AND \
+					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 					S.position = l.position AND \
 					S.cnt_players = l.cnt_players AND \
 					flg_p_face_raise AND NOT flg_p_limp) foo",
@@ -1100,7 +1194,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%' AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 						S.flg_p_first_raise) foo",
 		// stat_group
 		pt_group_advanced
@@ -1135,7 +1229,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					NOT S.flg_hero AND \
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
-					P.player_name LIKE '%SCREENNAME%' AND \
+					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 					S.position = l.position AND \
 					S.cnt_players = l.cnt_players AND \
 					flg_p_face_raise) foo",
@@ -1174,7 +1268,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%' AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 						S.flg_p_first_raise) foo",
 			// stat_group
 			pt_group_advanced
@@ -1209,7 +1303,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					NOT S.flg_hero AND \
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
-					P.player_name LIKE '%SCREENNAME%' AND \
+					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 					S.position = l.position AND \
 					S.cnt_players = l.cnt_players AND \
 					flg_p_face_raise) foo",
@@ -1264,7 +1358,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%') foo",
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
 		// stat_group
 		pt_group_advanced
 	},
@@ -1275,9 +1369,9 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 	{
 		PT4_QUERY_SUPPORT__AGGRESSION_FREQUENCY,
 		// name
-		{ "flop_afq", "turn_afq", "river_afq", "total_afq" },
+		{ "preflop_afq", "flop_afq", "turn_afq", "river_afq", "total_afq" },
 		// description_for_editor
-		{ "Poker Tracker flop aggression frequency", "Poker Tracker turn aggression frequency", "Poker Tracker river aggression frequency", "Poker Tracker total aggression frequency" },
+		{ "Poker Tracker preflop aggression frequency", "Poker Tracker flop aggression frequency", "Poker Tracker turn aggression frequency", "Poker Tracker river aggression frequency", "Poker Tracker total aggression frequency" },
 		// query
 		"SELECT (case when (AggressionCount1 + PassiveCount1) = 0 then -1 \
 				else cast(AggressionCount1 as real) / (AggressionCount1 + PassiveCount1) \
@@ -1290,33 +1384,40 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				end) as result3, AggressionCount3 + PassiveCount3, \
 				(case when(AggressionCount4 + PassiveCount4) = 0 then - 1 \
 				else cast(AggressionCount4 as real) / (AggressionCount4 + PassiveCount4) \
-				end) as result4, AggressionCount4 + PassiveCount4 \
-		 FROM	(SELECT	sum(cnt_f_raise) + sum(case when flg_f_bet then 1 else 0 end) \
+				end) as result4, AggressionCount4 + PassiveCount4, \
+				(case when(AggressionCount5 + PassiveCount5) = 0 then - 1 \
+				else cast(AggressionCount5 as real) / (AggressionCount5 + PassiveCount5) \
+				end) as result5, AggressionCount5 + PassiveCount5 \
+		 FROM	(SELECT	sum(case when flg_p_face_raise then cnt_p_raise else 0 end) \
 						 as AggressionCount1, \
-						sum(cnt_f_call) + sum(case when flg_f_fold then 1 else 0 end) \
+						sum(case when flg_p_face_raise then cnt_p_call else 0 end) \
 						 as PassiveCount1, \
-						sum(cnt_t_raise) + sum(case when flg_t_bet then 1 else 0 end) \
+						sum(cnt_f_raise) + sum(case when flg_f_bet then 1 else 0 end) \
 						 as AggressionCount2, \
-						sum(cnt_t_call) + sum(case when flg_t_fold then 1 else 0 end) \
+						sum(cnt_f_call) + sum(case when flg_f_fold then 1 else 0 end) \
 						 as PassiveCount2, \
-						sum(cnt_r_raise) + sum(case when flg_r_bet then 1 else 0 end) \
+						sum(cnt_t_raise) + sum(case when flg_t_bet then 1 else 0 end) \
 						 as AggressionCount3, \
-						sum(cnt_r_call) + sum(case when flg_r_fold then 1 else 0 end) \
+						sum(cnt_t_call) + sum(case when flg_t_fold then 1 else 0 end) \
 						 as PassiveCount3, \
+						sum(cnt_r_raise) + sum(case when flg_r_bet then 1 else 0 end) \
+						 as AggressionCount4, \
+						sum(cnt_r_call) + sum(case when flg_r_fold then 1 else 0 end) \
+						 as PassiveCount4, \
 						sum(cnt_f_raise) + sum(case when flg_f_bet then 1 else 0 end) \
 						+ sum(cnt_t_raise) + sum(case when flg_t_bet then 1 else 0 end) \
 						+ sum(cnt_r_raise) + sum(case when flg_r_bet then 1 else 0 end) \
-						   as AggressionCount4, \
+						   as AggressionCount5, \
 						  sum(cnt_f_call) + sum(case when flg_f_fold then 1 else 0 end) \
                         + sum(cnt_t_call) + sum(case when flg_t_fold then 1 else 0 end) \
                         + sum(cnt_r_call) + sum(case when flg_r_fold then 1 else 0 end) \
-						   as PassiveCount4 \
+						   as PassiveCount5 \
 				 FROM	player as P, %TYPE%_hand_player_statistics as S \
 				 WHERE	S.id_player = P.id_player AND \
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%') foo",
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
 						// stat_group
 						pt_group_advanced
 	},
@@ -1327,9 +1428,9 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 		{
 			PT4_QUERY_SUPPORT__LAYDOWN_FREQUENCY,
 			// name
-			{ "flop_lfq", "turn_lfq", "river_lfq", "total_lfq" },
+			{ "preflop_lfq", "flop_lfq", "turn_lfq", "river_lfq", "total_lfq" },
 			// description_for_editor
-			{ "Poker Tracker flop laydown frequency", "Poker Tracker turn laydown frequency", "Poker Tracker river laydown frequency", "Poker Tracker total laydown frequency" },
+			{ "Poker Tracker preflop laydown frequency", "Poker Tracker flop laydown frequency", "Poker Tracker turn laydown frequency", "Poker Tracker river laydown frequency", "Poker Tracker total laydown frequency" },
 			// query
 			"SELECT (case when (LaydownCount1 + PlayCount1) = 0 then -1 \
 				else cast(LaydownCount1 as real) / (LaydownCount1 + PlayCount1) \
@@ -1342,35 +1443,164 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				end) as result3, LaydownCount3 + PlayCount3, \
 				(case when(LaydownCount4 + PlayCount4) = 0 then - 1 \
 				else cast(LaydownCount4 as real) / (LaydownCount4 + PlayCount4) \
-				end) as result4, LaydownCount4 + PlayCount4 \
-		 FROM	(SELECT	sum(case when flg_f_fold then 1 else 0 end) \
+				end) as result4, LaydownCount4 + PlayCount4, \
+				(case when(LaydownCount5 + PlayCount5) = 0 then - 1 \
+				else cast(LaydownCount5 as real) / (LaydownCount5 + PlayCount5) \
+				end) as result5, LaydownCount5 + PlayCount5 \
+		 FROM	(SELECT	sum(case when flg_p_face_raise and flg_f_fold then 1 else 0 end) \
 						 as LaydownCount1, \
-						sum(cnt_f_call) + sum(cnt_f_raise) \
+						sum(case when flg_p_face_raise then cnt_p_call + cnt_p_raise else 0 end) \
 						 as PlayCount1, \
-						sum(case when flg_t_fold then 1 else 0 end) \
+						sum(case when flg_f_fold then 1 else 0 end) \
 						 as LaydownCount2, \
-						sum(cnt_t_call) + sum(cnt_t_raise) \
+						sum(cnt_f_call) + sum(cnt_f_raise) \
 						 as PlayCount2, \
-						sum(case when flg_r_fold then 1 else 0 end) \
+						sum(case when flg_t_fold then 1 else 0 end) \
 						 as LaydownCount3, \
-						sum(cnt_r_call) + sum(cnt_r_raise) \
+						sum(cnt_t_call) + sum(cnt_t_raise) \
 						 as PlayCount3, \
+						sum(case when flg_r_fold then 1 else 0 end) \
+						 as LaydownCount4, \
+						sum(cnt_r_call) + sum(cnt_r_raise) \
+						 as PlayCount4, \
 						sum(case when flg_f_fold then 1 else 0 end) \
 						+ sum(case when flg_t_fold then 1 else 0 end) \
 						+ sum(case when flg_r_fold then 1 else 0 end) \
-						   as LaydownCount4, \
+						   as LaydownCount5, \
 						  sum(cnt_f_call) + sum(cnt_f_raise) \
                         + sum(cnt_t_call) + sum(cnt_t_raise) \
                         + sum(cnt_r_call) + sum(cnt_r_raise) \
-						   as PlayCount4 \
+						   as PlayCount5 \
 				 FROM	player as P, %TYPE%_hand_player_statistics as S \
 				 WHERE	S.id_player = P.id_player AND \
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%') foo",
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
 			// stat_group
 			pt_group_advanced
+		},
+#endif
+
+#if PT4_QUERY_SUPPORT__HERO_AGGRESSION_FREQUENCY
+		// PT4 query to get hero flop aggression factor 
+		{
+			PT4_QUERY_SUPPORT__HERO_AGGRESSION_FREQUENCY,
+			// name
+			{ "preflop_hero_afq", "flop_hero_afq", "turn_hero_afq", "river_hero_afq", "total_hero_afq" },
+			// description_for_editor
+			{ "Poker Tracker preflop hero aggression frequency", "Poker Tracker flop hero aggression frequency", "Poker Tracker turn hero aggression frequency", "Poker Tracker river hero aggression frequency", "Poker Tracker total hero aggression frequency" },
+			// query
+			"SELECT (case when (AggressionCount1 + PassiveCount1) = 0 then -1 \
+				else cast(AggressionCount1 as real) / (AggressionCount1 + PassiveCount1) \
+				end) as result1, AggressionCount1 + PassiveCount1, \
+				(case when (AggressionCount2 + PassiveCount2) = 0 then -1 \
+				else cast(AggressionCount2 as real) / (AggressionCount2 + PassiveCount2) \
+				end) as result2, AggressionCount2 + PassiveCount2, \
+				(case when(AggressionCount3 + PassiveCount3) = 0 then - 1 \
+				else cast(AggressionCount3 as real) / (AggressionCount3 + PassiveCount3) \
+				end) as result3, AggressionCount3 + PassiveCount3, \
+				(case when(AggressionCount4 + PassiveCount4) = 0 then - 1 \
+				else cast(AggressionCount4 as real) / (AggressionCount4 + PassiveCount4) \
+				end) as result4, AggressionCount4 + PassiveCount4, \
+				(case when(AggressionCount5 + PassiveCount5) = 0 then - 1 \
+				else cast(AggressionCount5 as real) / (AggressionCount5 + PassiveCount5) \
+				end) as result5, AggressionCount5 + PassiveCount5 \
+		 FROM	(SELECT	sum(case when S.flg_p_face_raise then S.cnt_p_raise else 0 end) \
+						 as AggressionCount1, \
+						sum(case when S.flg_p_face_raise then S.cnt_p_call else 0 end) \
+						 as PassiveCount1, \
+						sum(S.cnt_f_raise) + sum(case when S.flg_f_bet then 1 else 0 end) \
+						 as AggressionCount2, \
+						sum(S.cnt_f_call) + sum(case when S.flg_f_fold then 1 else 0 end) \
+						 as PassiveCount2, \
+						sum(S.cnt_t_raise) + sum(case when S.flg_t_bet then 1 else 0 end) \
+						 as AggressionCount3, \
+						sum(S.cnt_t_call) + sum(case when S.flg_t_fold then 1 else 0 end) \
+						 as PassiveCount3, \
+						sum(S.cnt_r_raise) + sum(case when S.flg_r_bet then 1 else 0 end) \
+						 as AggressionCount4, \
+						sum(S.cnt_r_call) + sum(case when S.flg_r_fold then 1 else 0 end) \
+						 as PassiveCount4, \
+						sum(S.cnt_f_raise) + sum(case when S.flg_f_bet then 1 else 0 end) \
+						+ sum(S.cnt_t_raise) + sum(case when S.flg_t_bet then 1 else 0 end) \
+						+ sum(S.cnt_r_raise) + sum(case when S.flg_r_bet then 1 else 0 end) \
+						   as AggressionCount5, \
+						  sum(S.cnt_f_call) + sum(case when S.flg_f_fold then 1 else 0 end) \
+                        + sum(S.cnt_t_call) + sum(case when S.flg_t_fold then 1 else 0 end) \
+                        + sum(S.cnt_r_call) + sum(case when S.flg_r_fold then 1 else 0 end) \
+						   as PassiveCount5 \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, cash_hand_player_statistics as H \
+				 WHERE	H.id_player = P.id_player AND \
+						S.flg_hero AND \
+						S.id_hand = H.id_hand AND \
+						NOT H.flg_hero AND \
+						H.id_gametype = %GAMETYPE% AND \
+						P.id_site = %SITEID% AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
+						// stat_group
+						pt_group_advanced
+		},
+#endif
+
+#if PT4_QUERY_SUPPORT__HERO_LAYDOWN_FREQUENCY
+		// PT4 query to get hero flop laydown factor 
+		{
+			PT4_QUERY_SUPPORT__HERO_LAYDOWN_FREQUENCY,
+			// name
+			{ "preflop_hero_lfq", "flop_hero_lfq", "turn_hero_lfq", "river_hero_lfq", "total_hero_lfq" },
+			// description_for_editor
+			{ "Poker Tracker preflop hero laydown frequency", "Poker Tracker flop hero laydown frequency", "Poker Tracker turn hero laydown frequency", "Poker Tracker river hero laydown frequency", "Poker Tracker total hero laydown frequency" },
+			// query
+			"SELECT (case when (LaydownCount1 + PlayCount1) = 0 then -1 \
+				else cast(LaydownCount1 as real) / (LaydownCount1 + PlayCount1) \
+				end) as result1, LaydownCount1 + PlayCount1, \
+				(case when (LaydownCount2 + PlayCount2) = 0 then -1 \
+				else cast(LaydownCount2 as real) / (LaydownCount2 + PlayCount2) \
+				end) as result2, LaydownCount2 + PlayCount2, \
+				(case when(LaydownCount3 + PlayCount3) = 0 then - 1 \
+				else cast(LaydownCount3 as real) / (LaydownCount3 + PlayCount3) \
+				end) as result3, LaydownCount3 + PlayCount3, \
+				(case when(LaydownCount4 + PlayCount4) = 0 then - 1 \
+				else cast(LaydownCount4 as real) / (LaydownCount4 + PlayCount4) \
+				end) as result4, LaydownCount4 + PlayCount4, \
+				(case when(LaydownCount5 + PlayCount5) = 0 then - 1 \
+				else cast(LaydownCount5 as real) / (LaydownCount5 + PlayCount5) \
+				end) as result5, LaydownCount5 + PlayCount5 \
+		 FROM	(SELECT	sum(case when S.flg_p_face_raise and S.flg_f_fold then 1 else 0 end) \
+						 as LaydownCount1, \
+						sum(case when S.flg_p_face_raise then S.cnt_p_call + S.cnt_p_raise else 0 end) \
+						 as PlayCount1, \
+						sum(case when S.flg_f_fold then 1 else 0 end) \
+						 as LaydownCount2, \
+						sum(S.cnt_f_call) + sum(S.cnt_f_raise) \
+						 as PlayCount2, \
+						sum(case when S.flg_t_fold then 1 else 0 end) \
+						 as LaydownCount3, \
+						sum(S.cnt_t_call) + sum(S.cnt_t_raise) \
+						 as PlayCount3, \
+						sum(case when S.flg_r_fold then 1 else 0 end) \
+						 as LaydownCount4, \
+						sum(S.cnt_r_call) + sum(S.cnt_r_raise) \
+						 as PlayCount4, \
+						sum(case when S.flg_f_fold then 1 else 0 end) \
+						+ sum(case when S.flg_t_fold then 1 else 0 end) \
+						+ sum(case when S.flg_r_fold then 1 else 0 end) \
+						   as LaydownCount5, \
+						  sum(S.cnt_f_call) + sum(S.cnt_f_raise) \
+                        + sum(S.cnt_t_call) + sum(S.cnt_t_raise) \
+                        + sum(S.cnt_r_call) + sum(S.cnt_r_raise) \
+						   as PlayCount5 \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, cash_hand_player_statistics as H \
+				 WHERE	H.id_player = P.id_player AND \
+						S.flg_hero AND \
+						S.id_hand = H.id_hand AND \
+						NOT H.flg_hero AND \
+						H.id_gametype = %GAMETYPE% AND \
+						P.id_site = %SITEID% AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
+						// stat_group
+						pt_group_advanced
 		},
 #endif
 
@@ -1409,56 +1639,51 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%') foo",
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
 		// stat_group
 		pt_group_advanced
 	},
 #endif
 
 #if PT4_QUERY_SUPPORT__FLOP_CBET
-	// PT4  query to get cbet on FLOP 
+				// PT4  query to get cbet on FLOP 
 	{
 		PT4_QUERY_SUPPORT__FLOP_CBET,
 		// name
-		{ "flop_cbet_op", "flop_cbet_cp", "flop_cbet_ip" },
+		{ "flop_cbet_op", "flop_cbet_ip" },
 		// description_for_editor
-		{ "Poker Tracker flop cbet OP","Poker Tracker flop cbet CP","Poker Tracker flop cbet IP" },
+		{ "Poker Tracker flop cbet OP", "Poker Tracker flop cbet IP" },
 		// query
 		"SELECT (case when ActionOpportunities1 = 0 then -1 \
 				 else cast(ActionCount1 as real) / ActionOpportunities1 \
 				 end) as result1, ActionOpportunities1, \
 				(case when ActionOpportunities2 = 0 then -1 \
 				 else cast(ActionCount2 as real) / ActionOpportunities2 \
-				 end) as result2, ActionOpportunities2, \
-				(case when ActionOpportunities3 = 0 then -1 \
-				 else cast(ActionCount3 as real) / ActionOpportunities3 \
-				 end) as result3, ActionOpportunities3 \
+				 end) as result2, ActionOpportunities2 \
 		 FROM	(SELECT	sum(case when l.action LIKE '%R' AND flg_f_open_opp AND flg_f_first AND flg_f_bet then 1 else 0 end) \
 						 as ActionCount1, \
 						sum(case when l.action LIKE '%R' AND flg_f_open_opp AND flg_f_first then 1 else 0 end) \
 						 as ActionOpportunities1, \
-						 sum(case when l.action LIKE '%R' AND flg_f_open_opp AND NOT flg_f_first AND NOT flg_f_has_position AND flg_f_bet then 1 else 0 end) \
-						 as ActionCount2, \
-						 sum(case when l.action LIKE '%R' AND flg_f_open_opp AND NOT flg_f_first AND NOT flg_f_has_position then 1 else 0 end) \
-						 as ActionOpportunities2, \
 						 sum(case when l.action LIKE '%R' AND flg_f_open_opp AND flg_f_has_position AND flg_f_bet then 1 else 0 end) \
-						 as ActionCount3, \
+						 as ActionCount2, \
 						 sum(case when l.action LIKE '%R' AND flg_f_open_opp AND flg_f_has_position then 1 else 0 end) \
-						 as ActionOpportunities3 \
-				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l \
+						 as ActionOpportunities2 \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, %TYPE%_hand_summary H \
 				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_f = 2 AND \
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%' AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 						S.id_action_p = l.id_action) foo",
-		// stat_group
-		pt_group_advanced
+				// stat_group
+				pt_group_advanced
 	},
 #endif
 
 #if PT4_QUERY_SUPPORT__FLOP_FOLD_TO_CBET
-	// PT4  query to get FLOP fold to cbet 
+				// PT4  query to get FLOP fold to cbet 
 	{
 		PT4_QUERY_SUPPORT__FLOP_FOLD_TO_CBET,
 		// name
@@ -1480,23 +1705,25 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						 as ActionCount2, \
 						 sum(case when S.position < S.val_f_bet_aggressor_pos then 1 else 0 end) \
 						 as ActionOpportunities2 \
-				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions m \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions m, %TYPE%_hand_summary H \
 				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_f = 2 AND \
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%' AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 						S.id_action_f = m.id_action AND \
 						S.val_p_raise_aggressor_pos = S.val_f_bet_aggressor_pos AND \
 						S.val_f_bet_aggressor_pos != -1 AND \
 						S.amt_f_raise_facing = 0) foo",
-						// stat_group
-						pt_group_advanced
+				// stat_group
+				pt_group_advanced
 	},
 #endif
 
 #if PT4_QUERY_SUPPORT__FLOP_RAISE_CBET
-	// PT4  query to get raise cbet on FLOP 
+				// PT4  query to get raise cbet on FLOP 
 	{
 		PT4_QUERY_SUPPORT__FLOP_RAISE_CBET,
 		// name
@@ -1518,29 +1745,31 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						 as ActionCount2, \
 						 sum(case when S.position < S.val_f_bet_aggressor_pos then 1 else 0 end) \
 						 as ActionOpportunities2 \
-				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions m \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions m, %TYPE%_hand_summary H \
 				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_f = 2 AND \
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%' AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 						S.id_action_f = m.id_action AND \
 						S.val_p_raise_aggressor_pos = S.val_f_bet_aggressor_pos AND \
 						S.val_f_bet_aggressor_pos != -1 AND \
 						S.amt_f_raise_facing = 0) foo",
-						// stat_group
-						pt_group_advanced
+				// stat_group
+				pt_group_advanced
 	},
 #endif
-	
+
 #if PT4_QUERY_SUPPORT__FLOP_DONKBET
-		// PT4  query to get FLOP donk 
+				// PT4  query to get FLOP donkbet 
 	{
 		PT4_QUERY_SUPPORT__FLOP_DONKBET,
 		// name
-		{"flop_donkbet"},
+		{ "flop_donkbet" },
 		// description_for_editor
-		{"Poker Tracker donk flop"},
+		{ "Poker Tracker donkbet flop" },
 		// query
 		"SELECT (case when ActionOpportunities = 0 then -1 \
 				 else cast(ActionCount as real) / ActionOpportunities \
@@ -1549,122 +1778,99 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						 as ActionCount, \
 						sum(case when true then 1 else 0 end) \
 						 as ActionOpportunities \
-				 FROM	player as P, %TYPE%_hand_summary as HSum, %TYPE%_hand_player_statistics as S, lookup_actions l \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, %TYPE%_hand_summary H \
 				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_f = 2 AND \
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
-						HSum.id_hand = S.id_hand AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%' AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 						S.val_p_raise_aggressor_pos < S.position AND \
 						S.val_p_raise_aggressor_pos != -1 AND \
 						l.action LIKE '%C' AND \
 						S.id_action_p = l.id_action AND \
 						S.flg_f_open_opp) foo",
-		// stat_group
-		pt_group_advanced
+				// stat_group
+				pt_group_advanced
 	},
 #endif
 
 #if PT4_QUERY_SUPPORT__FLOP_FOLD_TO_DONKBET
-			// PT4  query to get FLOP fold to donkbet
-		{
-			PT4_QUERY_SUPPORT__FLOP_FOLD_TO_DONKBET,
-			// name
-			{ "flop_fold_to_donkbet_op", "flop_fold_to_donkbet_cp", "flop_fold_to_donkbet_ip" },
-			// description_for_editor
-			{ "Poker Tracker flop fold to donkbet OP","Poker Tracker flop fold to donkbet CP","Poker Tracker fold to donkbet IP" },
-			// query
-			"SELECT (case when ActionOpportunities1 = 0 then -1 \
+				// PT4  query to get FLOP fold to donkbet
+	{
+		PT4_QUERY_SUPPORT__FLOP_FOLD_TO_DONKBET,
+		// name
+		{ "flop_fold_to_donkbet" },
+		// description_for_editor
+		{ "Poker Tracker flop fold to donkbet" },
+		// query
+		"SELECT (case when ActionOpportunities1 = 0 then -1 \
 				 else cast(ActionCount1 as real) / ActionOpportunities1 \
-				 end) as result1, ActionOpportunities1, \
-				(case when ActionOpportunities2 = 0 then -1 \
-				 else cast(ActionCount2 as real) / ActionOpportunities2 \
-				 end) as result2, ActionOpportunities2, \
-				(case when ActionOpportunities3 = 0 then -1 \
-				 else cast(ActionCount3 as real) / ActionOpportunities3 \
-				 end) as result3, ActionOpportunities3 \
-		 FROM	(SELECT	sum(case when S.position > S.val_f_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
+				 end) as result1, ActionOpportunities1 \
+		 FROM	(SELECT	sum(case when (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
 						 as ActionCount1, \
-						sum(case when S.position > S.val_f_bet_aggressor_pos then 1 else 0 end) \
-						 as ActionOpportunities1, \
-						 sum(case when S.val_p_raise_aggressor_pos = -1 AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
-						 as ActionCount2, \
-						 sum(case when S.val_p_raise_aggressor_pos = -1 then 1 else 0 end) \
-						 as ActionOpportunities2, \
-						 sum(case when S.position < S.val_f_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
-						 as ActionCount3, \
-						 sum(case when S.position < S.val_f_bet_aggressor_pos then 1 else 0 end) \
-						 as ActionOpportunities3 \
-				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions m \
+						count(*) \
+						 as ActionOpportunities1 \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions m, %TYPE%_hand_summary H \
 				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_f = 2 AND \
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%' AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 						S.id_action_f = m.id_action AND \
 						amt_f_bet_facing > 0 AND \
 						(flg_p_first_raise OR flg_p_face_raise) AND \
 						((S.val_p_raise_aggressor_pos < S.val_f_bet_aggressor_pos AND S.val_p_raise_aggressor_pos != -1) \
 						 OR (S.position < S.val_f_bet_aggressor_pos AND S.val_p_raise_aggressor_pos = -1))) foo",
-			// stat_group
-			pt_group_advanced
-		},
+				// stat_group
+				pt_group_advanced
+	},
 #endif
 
 #if PT4_QUERY_SUPPORT__FLOP_RAISE_DONKBET
-			// PT4  query to get raise donkbet on FLOP 
-		{
-			PT4_QUERY_SUPPORT__FLOP_RAISE_DONKBET,
-			// name
-			{ "flop_raise_donkbet_op", "flop_raise_donkbet_cp", "flop_raise_donkbet_ip" },
-			// description_for_editor
-			{ "Poker Tracker flop raise donkbet OP","Poker Tracker flop raise donkbet CP","Poker Tracker raise donkbet IP" },
-			// query
-			"SELECT (case when ActionOpportunities1 = 0 then -1 \
+				// PT4  query to get raise donkbet on FLOP 
+	{
+		PT4_QUERY_SUPPORT__FLOP_RAISE_DONKBET,
+		// name
+		{ "flop_raise_donkbet_op" },
+		// description_for_editor
+		{ "Poker Tracker flop raise donkbet" },
+		// query
+		"SELECT (case when ActionOpportunities1 = 0 then -1 \
 				 else cast(ActionCount1 as real) / ActionOpportunities1 \
-				 end) as result1, ActionOpportunities1, \
-				(case when ActionOpportunities2 = 0 then -1 \
-				 else cast(ActionCount2 as real) / ActionOpportunities2 \
-				 end) as result2, ActionOpportunities2, \
-				(case when ActionOpportunities3 = 0 then -1 \
-				 else cast(ActionCount3 as real) / ActionOpportunities3 \
-				 end) as result3, ActionOpportunities3 \
-		 FROM	(SELECT	sum(case when S.position > S.val_f_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
+				 end) as result1, ActionOpportunities1 \
+		 FROM	(SELECT	sum(case when (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
 						 as ActionCount1, \
-						sum(case when S.position > S.val_f_bet_aggressor_pos then 1 else 0 end) \
-						 as ActionOpportunities1, \
-						 sum(case when S.val_p_raise_aggressor_pos = -1 AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
-						 as ActionCount2, \
-						 sum(case when S.val_p_raise_aggressor_pos = -1 then 1 else 0 end) \
-						 as ActionOpportunities2, \
-						 sum(case when S.position < S.val_f_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
-						 as ActionCount3, \
-						 sum(case when S.position < S.val_f_bet_aggressor_pos then 1 else 0 end) \
-						 as ActionOpportunities3 \
-				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions m \
+						count(*) \
+						 as ActionOpportunities1 \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions m, %TYPE%_hand_summary H \
 				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_f = 2 AND \
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%' AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 						S.id_action_f = m.id_action AND \
 						amt_f_bet_facing > 0 AND \
 						(flg_p_first_raise OR flg_p_face_raise) AND \
 						((S.val_p_raise_aggressor_pos < S.val_f_bet_aggressor_pos AND S.val_p_raise_aggressor_pos != -1) \
 						 OR (S.position < S.val_f_bet_aggressor_pos AND S.val_p_raise_aggressor_pos = -1))) foo",
-			pt_group_advanced
-		},
+				pt_group_advanced
+	},
 #endif
 
 #if PT4_QUERY_SUPPORT__FLOP_FLOAT
-		// PT4  query to get flop float 
+				// PT4  query to get flop float 
 	{
 		PT4_QUERY_SUPPORT__FLOP_FLOAT,
 		// name
-		{"flop_float"},
+		{ "flop_float" },
 		// description_for_editor
-		{"Poker Tracker flop float"},
+		{ "Poker Tracker flop float" },
 		// query
 		"SELECT (case when ActionOpportunities = 0 then -1 \
 				 else cast(ActionCount as real) / ActionOpportunities \
@@ -1673,159 +1879,131 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						 as ActionCount, \
 						sum(case when true then 1 else 0 end) \
 						 as ActionOpportunities \
-				 FROM	player as P, %TYPE%_hand_summary as HSum, %TYPE%_hand_player_statistics as S, lookup_actions l \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, %TYPE%_hand_summary H \
 				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_f = 2 AND \
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
-						HSum.id_hand = S.id_hand AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%' AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 						S.val_p_raise_aggressor_pos > S.position AND \
 						S.val_p_raise_aggressor_pos != -1 AND \
 						l.action LIKE '%C' AND \
 						S.id_action_p = l.id_action AND \
 						S.flg_f_open_opp) foo",
-		// stat_group
-		pt_group_advanced
+				// stat_group
+				pt_group_advanced
 	},
 #endif
 
 #if PT4_QUERY_SUPPORT__FLOP_FOLD_TO_FLOAT
-	// PT4  query to get FLOP fold to float
-		{
-			PT4_QUERY_SUPPORT__FLOP_FOLD_TO_FLOAT,
-			// name
-			{ "flop_fold_to_float_op", "flop_fold_to_float_cp", "flop_fold_to_float_ip" },
-			// description_for_editor
-			{ "Poker Tracker flop fold to float OP","Poker Tracker flop fold to float CP","Poker Tracker fold to float IP" },
-			// query
-			"SELECT (case when ActionOpportunities1 = 0 then -1 \
+				// PT4  query to get FLOP fold to float
+	{
+		PT4_QUERY_SUPPORT__FLOP_FOLD_TO_FLOAT,
+		// name
+		{ "flop_fold_to_float" },
+		// description_for_editor
+		{ "Poker Tracker flop fold to float" },
+		// query
+		"SELECT (case when ActionOpportunities1 = 0 then -1 \
 				 else cast(ActionCount1 as real) / ActionOpportunities1 \
-				 end) as result1, ActionOpportunities1, \
-				(case when ActionOpportunities2 = 0 then -1 \
-				 else cast(ActionCount2 as real) / ActionOpportunities2 \
-				 end) as result2, ActionOpportunities2, \
-				(case when ActionOpportunities3 = 0 then -1 \
-				 else cast(ActionCount3 as real) / ActionOpportunities3 \
-				 end) as result3, ActionOpportunities3 \
-		 FROM	(SELECT	sum(case when S.position > S.val_f_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
+				 end) as result1, ActionOpportunities1 \
+		 FROM	(SELECT	sum(case when (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
 						 as ActionCount1, \
-						sum(case when S.position > S.val_f_bet_aggressor_pos then 1 else 0 end) \
-						 as ActionOpportunities1, \
-						 sum(case when S.val_p_raise_aggressor_pos = -1 AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
-						 as ActionCount2, \
-						 sum(case when S.val_p_raise_aggressor_pos = -1 then 1 else 0 end) \
-						 as ActionOpportunities2, \
-						 sum(case when S.position < S.val_f_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
-						 as ActionCount3, \
-						 sum(case when S.position < S.val_f_bet_aggressor_pos then 1 else 0 end) \
-						 as ActionOpportunities3 \
-				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions m \
+						count(*) \
+						 as ActionOpportunities1 \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions m, %TYPE%_hand_summary H \
 				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_f = 2 AND \
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%' AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 						S.id_action_f = m.id_action AND \
 						amt_f_bet_facing > 0 AND \
 						(flg_p_first_raise OR flg_p_face_raise) AND \
 						((S.val_p_raise_aggressor_pos > S.val_f_bet_aggressor_pos AND S.val_p_raise_aggressor_pos != -1) \
 						 OR (S.position > S.val_f_bet_aggressor_pos AND S.val_p_raise_aggressor_pos = -1))) foo",
-						// stat_group
-						pt_group_advanced
-		},
+				// stat_group
+				pt_group_advanced
+	},
 #endif
 
 #if PT4_QUERY_SUPPORT__FLOP_RAISE_FLOAT
-	// PT4  query to get raise float on FLOP 
+				// PT4  query to get raise float on FLOP 
 	{
 		PT4_QUERY_SUPPORT__FLOP_RAISE_FLOAT,
 		// name
-		{ "flop_raise_float_op", "flop_raise_float_cp", "flop_raise_float_ip" },
+		{ "flop_raise_float" },
 		// description_for_editor
-		{ "Poker Tracker flop raise float OP","Poker Tracker flop raise float CP","Poker Tracker raise float IP" },
+		{ "Poker Tracker flop raise float" },
 		// query
 		"SELECT (case when ActionOpportunities1 = 0 then -1 \
 				else cast(ActionCount1 as real) / ActionOpportunities1 \
-				end) as result1, ActionOpportunities1, \
-			(case when ActionOpportunities2 = 0 then -1 \
-				else cast(ActionCount2 as real) / ActionOpportunities2 \
-				end) as result2, ActionOpportunities2, \
-			(case when ActionOpportunities3 = 0 then -1 \
-				else cast(ActionCount3 as real) / ActionOpportunities3 \
-				end) as result3, ActionOpportunities3 \
-		FROM	(SELECT	sum(case when S.position > S.val_f_bet_aggressor_pos AND (substring(m.action from 1 for 1) = 'R' OR substring(m.action from 1 for 2) = 'XR') then 1 else 0 end) \
+				end) as result1, ActionOpportunities1 \
+		FROM	(SELECT	sum(case when (substring(m.action from 1 for 1) = 'R' OR substring(m.action from 1 for 2) = 'XR') then 1 else 0 end) \
 						as ActionCount1, \
-					sum(case when S.position > S.val_f_bet_aggressor_pos then 1 else 0 end) \
-						as ActionOpportunities1, \
-						sum(case when S.val_p_raise_aggressor_pos = -1 AND (substring(m.action from 1 for 1) = 'R' OR substring(m.action from 1 for 2) = 'XR') then 1 else 0 end) \
-						as ActionCount2, \
-						sum(case when S.val_p_raise_aggressor_pos = -1 then 1 else 0 end) \
-						as ActionOpportunities2, \
-						sum(case when S.position < S.val_f_bet_aggressor_pos AND (substring(m.action from 1 for 1) = 'R' OR substring(m.action from 1 for 2) = 'XR') then 1 else 0 end) \
-						as ActionCount3, \
-						sum(case when S.position < S.val_f_bet_aggressor_pos then 1 else 0 end) \
-						as ActionOpportunities3 \
-				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions m \
+						count(*) \
+						as ActionOpportunities1 \
+				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions m, %TYPE%_hand_summary H \
 				WHERE	S.id_player = P.id_player AND \
-					NOT S.flg_hero AND \
-					S.id_gametype = %GAMETYPE% AND \
-					P.id_site = %SITEID% AND \
-					P.player_name LIKE '%SCREENNAME%' AND \
-					S.id_action_f = m.id_action AND \
-					amt_f_bet_facing > 0 AND \
-					(flg_p_first_raise OR flg_p_face_raise) AND \
-					((S.val_p_raise_aggressor_pos > S.val_f_bet_aggressor_pos AND S.val_p_raise_aggressor_pos != -1) \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_f = 2 AND \
+						NOT S.flg_hero AND \
+						S.id_gametype = %GAMETYPE% AND \
+						P.id_site = %SITEID% AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
+						S.id_action_f = m.id_action AND \
+						amt_f_bet_facing > 0 AND \
+						(flg_p_first_raise OR flg_p_face_raise) AND \
+						((S.val_p_raise_aggressor_pos > S.val_f_bet_aggressor_pos AND S.val_p_raise_aggressor_pos != -1) \
 						OR (S.position > S.val_f_bet_aggressor_pos AND S.val_p_raise_aggressor_pos = -1))) foo",
-						// stat_group
-					pt_group_advanced
+				// stat_group
+				pt_group_advanced
 	},
 #endif
 
 #if PT4_QUERY_SUPPORT__TURN_CBET
-	// PT4  query to get cbet on TURN 
+				// PT4  query to get cbet on TURN 
 	{
 		PT4_QUERY_SUPPORT__TURN_CBET,
 		// name
-		{ "turn_cbet_op", "turn_cbet_cp", "turn_cbet_ip" },
+		{ "turn_cbet_op", "turn_cbet_ip" },
 		// description_for_editor
-		{ "Poker Tracker turn cbet OP","Poker Tracker turn cbet CP","Poker Tracker turn cbet IP" },
+		{ "Poker Tracker turn cbet OP", "Poker Tracker turn cbet IP" },
 		// query
 		"SELECT (case when ActionOpportunities1 = 0 then -1 \
 				 else cast(ActionCount1 as real) / ActionOpportunities1 \
 				 end) as result1, ActionOpportunities1, \
 				(case when ActionOpportunities2 = 0 then -1 \
 				 else cast(ActionCount2 as real) / ActionOpportunities2 \
-				 end) as result2, ActionOpportunities2, \
-				(case when ActionOpportunities3 = 0 then -1 \
-				 else cast(ActionCount3 as real) / ActionOpportunities3 \
-				 end) as result3, ActionOpportunities3 \
+				 end) as result2, ActionOpportunities2 \
 		 FROM	(SELECT	sum(case when (l.action LIKE '%B' OR l.action LIKE '%R') AND flg_t_open_opp AND flg_t_first AND flg_t_bet then 1 else 0 end) \
 						 as ActionCount1, \
 						sum(case when (l.action LIKE '%B' OR l.action LIKE '%R') AND flg_t_open_opp AND flg_t_first then 1 else 0 end) \
 						 as ActionOpportunities1, \
-						sum(case when (l.action LIKE '%B' OR l.action LIKE '%R') AND flg_t_open_opp AND NOT flg_t_first AND NOT flg_t_has_position AND flg_t_bet then 1 else 0 end) \
-						 as ActionCount2, \
-						sum(case when (l.action LIKE '%B' OR l.action LIKE '%R') AND flg_t_open_opp AND NOT flg_t_first AND NOT flg_t_has_position then 1 else 0 end) \
-						 as ActionOpportunities2, \
 						sum(case when (l.action LIKE '%B' OR l.action LIKE '%R') AND flg_t_open_opp AND flg_t_has_position AND flg_t_bet then 1 else 0 end) \
-						 as ActionCount3, \
+						 as ActionCount2, \
 						sum(case when (l.action LIKE '%B' OR l.action LIKE '%R') AND flg_t_open_opp AND flg_t_has_position then 1 else 0 end) \
-						 as ActionOpportunities3 \
-				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l \
+						 as ActionOpportunities2 \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, %TYPE%_hand_summary H \
 				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_t = 2 AND \
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%' AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 						S.id_action_f = l.id_action) foo",
-						// stat_group
-						pt_group_advanced
+				// stat_group
+				pt_group_advanced
 	},
 #endif
 
 #if PT4_QUERY_SUPPORT__TURN_FOLD_TO_CBET
-	// PT4  query to get TURN fold to cbet 
+				// PT4  query to get TURN fold to cbet 
 	{
 		PT4_QUERY_SUPPORT__TURN_FOLD_TO_CBET,
 		// name
@@ -1847,25 +2025,27 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						 as ActionCount2, \
 						 sum(case when S.position < S.val_f_bet_aggressor_pos then 1 else 0 end) \
 						 as ActionOpportunities2 \
-				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
 				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_t = 2 AND \
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%' AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 						S.id_action_t = m.id_action AND \
 						S.id_action_f = l.id_action AND \
 						l.action like '%C' AND \
 						S.amt_t_bet_facing > 0 AND \
 						((S.val_f_bet_aggressor_pos = S.val_t_bet_aggressor_pos AND S.val_f_bet_aggressor_pos != -1 AND S.val_f_raise_aggressor_pos = -1) \
 						 OR(S.val_f_raise_aggressor_pos = S.val_t_bet_aggressor_pos AND S.val_f_raise_aggressor_pos != -1))) foo",
-						// stat_group
-						pt_group_advanced
+				// stat_group
+				pt_group_advanced
 	},
 #endif
 
 #if PT4_QUERY_SUPPORT__TURN_RAISE_CBET
-	// PT4  query to get raise cbet on TURN 
+				// PT4  query to get raise cbet on TURN 
 	{
 		PT4_QUERY_SUPPORT__TURN_RAISE_CBET,
 		// name
@@ -1887,31 +2067,33 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						 as ActionCount2, \
 						 sum(case when S.position < S.val_f_bet_aggressor_pos then 1 else 0 end) \
 						 as ActionOpportunities2 \
-				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
 				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_t = 2 AND \
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%' AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 						S.id_action_t = m.id_action AND \
 						S.id_action_f = l.id_action AND \
 						l.action like '%C' AND \
 						S.amt_t_bet_facing > 0 AND \
 						((S.val_f_bet_aggressor_pos = S.val_t_bet_aggressor_pos AND S.val_f_bet_aggressor_pos != -1 AND S.val_f_raise_aggressor_pos = -1) \
 						 OR(S.val_f_raise_aggressor_pos = S.val_t_bet_aggressor_pos AND S.val_f_raise_aggressor_pos != -1))) foo",
-						// stat_group
-						pt_group_advanced
+				// stat_group
+				pt_group_advanced
 	},
 #endif
 
 #if PT4_QUERY_SUPPORT__TURN_DONKBET
-	// PT4  query to get TURN donk 
+				// PT4  query to get TURN donkbet 
 	{
 		PT4_QUERY_SUPPORT__TURN_DONKBET,
 		// name
 		{ "turn_donkbet" },
 		// description_for_editor
-		{ "Poker Tracker donk turn" },
+		{ "Poker Tracker donkbet turn" },
 		// query
 		"SELECT (case when ActionOpportunities = 0 then -1 \
 				 else cast(ActionCount as real) / ActionOpportunities \
@@ -1920,59 +2102,48 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						 as ActionCount, \
 						sum(case when true then 1 else 0 end) \
 						 as ActionOpportunities \
-				 FROM	player as P, %TYPE%_hand_summary as HSum, %TYPE%_hand_player_statistics as S, lookup_actions l \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, %TYPE%_hand_summary H \
 				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_t = 2 AND \
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
-						HSum.id_hand = S.id_hand AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%' AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 						l.action LIKE '%C' AND \
 						((S.val_f_raise_aggressor_pos != -1 AND S.val_f_raise_aggressor_pos < S.position) \
 						OR (S.val_f_raise_aggressor_pos = -1 AND S.val_f_bet_aggressor_pos < S.position)) AND \
 						S.id_action_f = l.id_action AND \
 						S.flg_t_open_opp) foo",
-						// stat_group
-						pt_group_advanced
+				// stat_group
+				pt_group_advanced
 	},
 #endif
 
 #if PT4_QUERY_SUPPORT__TURN_FOLD_TO_DONKBET
-	// PT4  query to get TURN fold to donkbet
-		{
-			PT4_QUERY_SUPPORT__TURN_FOLD_TO_DONKBET,
-			// name
-			{ "turn_fold_to_donkbet_op", "turn_fold_to_donkbet_cp", "turn_fold_to_donkbet_ip" },
-			// description_for_editor
-			{ "Poker Tracker turn fold to donkbet OP","Poker Tracker turn fold to donkbet CP","Poker Tracker fold to donkbet IP" },
-			// query
-			"SELECT (case when ActionOpportunities1 = 0 then -1 \
+				// PT4  query to get TURN fold to donkbet
+	{
+		PT4_QUERY_SUPPORT__TURN_FOLD_TO_DONKBET,
+		// name
+		{ "turn_fold_to_donkbet" },
+		// description_for_editor
+		{ "Poker Tracker turn fold to donkbet" },
+		// query
+		"SELECT (case when ActionOpportunities1 = 0 then -1 \
 				 else cast(ActionCount1 as real) / ActionOpportunities1 \
-				 end) as result1, ActionOpportunities1, \
-				(case when ActionOpportunities2 = 0 then -1 \
-				 else cast(ActionCount2 as real) / ActionOpportunities2 \
-				 end) as result2, ActionOpportunities2, \
-				(case when ActionOpportunities3 = 0 then -1 \
-				 else cast(ActionCount3 as real) / ActionOpportunities3 \
-				 end) as result3, ActionOpportunities3 \
-		 FROM	(SELECT	sum(case when l.action like '%C' AND S.position > S.val_t_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
+				 end) as result1, ActionOpportunities1 \
+		 FROM	(SELECT	sum(case when l.action like '%C' AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
 						 as ActionCount1, \
-						sum(case when l.action like '%C' AND S.position > S.val_t_bet_aggressor_pos then 1 else 0 end) \
-						 as ActionOpportunities1, \
-						 sum(case when (l.action like '%R' OR l.action like '%B') AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
-						 as ActionCount2, \
-						 sum(case when (l.action like '%R' OR l.action like '%B') then 1 else 0 end) \
-						 as ActionOpportunities2, \
-						 sum(case when l.action like '%C' AND S.position < S.val_t_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
-						 as ActionCount3, \
-						 sum(case when l.action like '%C' AND S.position < S.val_t_bet_aggressor_pos then 1 else 0 end) \
-						 as ActionOpportunities3 \
-				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m \
+						sum(case when l.action like '%C' then 1 else 0 end) \
+						 as ActionOpportunities1 \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
 				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_t = 2 AND \
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%' AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 						S.id_action_t = m.id_action AND \
 						S.id_action_f = l.id_action AND \
 						amt_t_bet_facing > 0 AND \
@@ -1981,47 +2152,35 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						 OR(l.action like '%B' AND S.position < S.val_t_bet_aggressor_pos) \
 						 OR(l.action like '%C' AND S.val_f_bet_aggressor_pos < S.val_t_bet_aggressor_pos AND S.val_f_bet_aggressor_pos != -1 AND S.val_f_raise_aggressor_pos = -1) \
 						 OR(l.action like '%C' AND S.val_f_raise_aggressor_pos < S.val_t_bet_aggressor_pos AND S.val_f_raise_aggressor_pos != -1))) foo",
-						 // stat_group
-						 pt_group_advanced
-		},
+				// stat_group
+				pt_group_advanced
+	},
 #endif
 
 #if PT4_QUERY_SUPPORT__TURN_RAISE_DONKBET
-		// PT4  query to get raise donkbet on TURN 
-		{
-			PT4_QUERY_SUPPORT__TURN_RAISE_DONKBET,
-			// name
-			{ "turn_raise_donkbet_op", "turn_raise_donkbet_cp", "turn_raise_donkbet_ip" },
-			// description_for_editor
-			{ "Poker Tracker turn raise donkbet OP","Poker Tracker turn raise donkbet CP","Poker Tracker raise donkbet IP" },
-			// query
-			"SELECT (case when ActionOpportunities1 = 0 then -1 \
+				// PT4  query to get raise donkbet on TURN 
+	{
+		PT4_QUERY_SUPPORT__TURN_RAISE_DONKBET,
+		// name
+		{ "turn_raise_donkbet" },
+		// description_for_editor
+		{ "Poker Tracker turn raise donkbet" },
+		// query
+		"SELECT (case when ActionOpportunities1 = 0 then -1 \
 				 else cast(ActionCount1 as real) / ActionOpportunities1 \
-				 end) as result1, ActionOpportunities1, \
-				(case when ActionOpportunities2 = 0 then -1 \
-				 else cast(ActionCount2 as real) / ActionOpportunities2 \
-				 end) as result2, ActionOpportunities2, \
-				(case when ActionOpportunities3 = 0 then -1 \
-				 else cast(ActionCount3 as real) / ActionOpportunities3 \
-				 end) as result3, ActionOpportunities3 \
-		 FROM	(SELECT	sum(case when l.action like '%C' AND S.position > S.val_t_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
+				 end) as result1, ActionOpportunities1 \
+		 FROM	(SELECT	sum(case when l.action like '%C' AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
 						 as ActionCount1, \
-						sum(case when l.action like '%C' AND S.position > S.val_t_bet_aggressor_pos then 1 else 0 end) \
-						 as ActionOpportunities1, \
-						 sum(case when (l.action like '%R' OR l.action like '%B') AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
-						 as ActionCount2, \
-						 sum(case when (l.action like '%R' OR l.action like '%B') then 1 else 0 end) \
-						 as ActionOpportunities2, \
-						 sum(case when l.action like '%C' AND S.position < S.val_t_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
-						 as ActionCount3, \
-						 sum(case when l.action like '%C' AND S.position < S.val_t_bet_aggressor_pos then 1 else 0 end) \
-						 as ActionOpportunities3 \
-				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m \
+						sum(case when l.action like '%C' then 1 else 0 end) \
+						 as ActionOpportunities1 \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
 				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_t = 2 AND \
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%' AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 						S.id_action_t = m.id_action AND \
 						S.id_action_f = l.id_action AND \
 						amt_t_bet_facing > 0 AND \
@@ -2030,13 +2189,13 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						 OR(l.action like '%B' AND S.position < S.val_t_bet_aggressor_pos) \
 						 OR(l.action like '%C' AND S.val_f_bet_aggressor_pos < S.val_t_bet_aggressor_pos AND S.val_f_bet_aggressor_pos != -1 AND S.val_f_raise_aggressor_pos = -1) \
 						 OR(l.action like '%C' AND S.val_f_raise_aggressor_pos < S.val_t_bet_aggressor_pos AND S.val_f_raise_aggressor_pos != -1))) foo",
-						 // stat_group
-						 pt_group_advanced
-		},
+				// stat_group
+				pt_group_advanced
+	},
 #endif
 
 #if PT4_QUERY_SUPPORT__TURN_FLOAT
-		// PT4  query to get turn float 
+				// PT4  query to get turn float 
 	{
 		PT4_QUERY_SUPPORT__TURN_FLOAT,
 		// name
@@ -2051,59 +2210,48 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						 as ActionCount, \
 						sum(case when true then 1 else 0 end) \
 						 as ActionOpportunities \
-				 FROM	player as P, %TYPE%_hand_summary as HSum, %TYPE%_hand_player_statistics as S, lookup_actions l \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, %TYPE%_hand_summary H \
 				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_t = 2 AND \
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
-						HSum.id_hand = S.id_hand AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%' AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 						l.action LIKE '%C' AND \
 						((S.val_f_raise_aggressor_pos != -1 AND S.val_f_raise_aggressor_pos > S.position) \
 						OR (S.val_f_raise_aggressor_pos = -1 AND S.val_f_bet_aggressor_pos > S.position)) AND \
 						S.id_action_f = l.id_action AND \
 						S.flg_t_open_opp) foo",
-						// stat_group
-						pt_group_advanced
+				// stat_group
+				pt_group_advanced
 	},
 #endif
 
 #if PT4_QUERY_SUPPORT__TURN_FOLD_TO_FLOAT
-// PT4  query to get TURN fold to float
+				// PT4  query to get TURN fold to float
 	{
 		PT4_QUERY_SUPPORT__TURN_FOLD_TO_FLOAT,
 		// name
-		{ "turn_fold_to_float_op", "turn_fold_to_float_cp", "turn_fold_to_float_ip" },
+		{ "turn_fold_to_float" },
 		// description_for_editor
-		{ "Poker Tracker turn fold to float OP","Poker Tracker turn fold to float CP","Poker Tracker fold to float IP" },
+		{ "Poker Tracker turn fold to float" },
 		// query
 		"SELECT (case when ActionOpportunities1 = 0 then -1 \
 				else cast(ActionCount1 as real) / ActionOpportunities1 \
-				end) as result1, ActionOpportunities1, \
-			(case when ActionOpportunities2 = 0 then -1 \
-				else cast(ActionCount2 as real) / ActionOpportunities2 \
-				end) as result2, ActionOpportunities2, \
-			(case when ActionOpportunities3 = 0 then -1 \
-				else cast(ActionCount3 as real) / ActionOpportunities3 \
-				end) as result3, ActionOpportunities3 \
-		FROM	(SELECT	sum(case when l.action like '%C' AND S.position > S.val_t_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
+				end) as result1, ActionOpportunities1 \
+		FROM	(SELECT	sum(case when l.action like '%C' AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
 						as ActionCount1, \
-						sum(case when l.action like '%C' AND S.position > S.val_t_bet_aggressor_pos then 1 else 0 end) \
-						as ActionOpportunities1, \
-						sum(case when (l.action like '%R' OR l.action like '%B') AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
-						as ActionCount2, \
-						sum(case when (l.action like '%R' OR l.action like '%B') then 1 else 0 end) \
-						as ActionOpportunities2, \
-						sum(case when l.action like '%C' AND S.position < S.val_t_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
-						as ActionCount3, \
-						sum(case when l.action like '%C' AND S.position < S.val_t_bet_aggressor_pos then 1 else 0 end) \
-						as ActionOpportunities3 \
-				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m \
+						sum(case when l.action like '%C' then 1 else 0 end) \
+						as ActionOpportunities1 \
+				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
 				WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_t = 2 AND \
 					NOT S.flg_hero AND \
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
-					P.player_name LIKE '%SCREENNAME%' AND \
+					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 					S.id_action_t = m.id_action AND \
 					S.id_action_f = l.id_action AND \
 					amt_t_bet_facing > 0 AND \
@@ -2112,47 +2260,35 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						OR(l.action like '%B' AND S.position > S.val_t_bet_aggressor_pos) \
 						OR(l.action like '%C' AND S.val_f_bet_aggressor_pos > S.val_t_bet_aggressor_pos AND S.val_f_bet_aggressor_pos != -1 AND S.val_f_raise_aggressor_pos = -1) \
 						OR(l.action like '%C' AND S.val_f_raise_aggressor_pos > S.val_t_bet_aggressor_pos AND S.val_f_raise_aggressor_pos != -1))) foo",
-						// stat_group
-						pt_group_advanced
+				// stat_group
+				pt_group_advanced
 	},
 #endif
 
 #if PT4_QUERY_SUPPORT__TURN_RAISE_FLOAT
-		// PT4  query to get raise float on TURN 
+				// PT4  query to get raise float on TURN 
 	{
 		PT4_QUERY_SUPPORT__TURN_RAISE_FLOAT,
 		// name
-		{ "turn_raise_float_op", "turn_raise_float_cp", "turn_raise_float_ip" },
+		{ "turn_raise_float" },
 		// description_for_editor
-		{ "Poker Tracker turn raise float OP","Poker Tracker turn raise float CP","Poker Tracker raise float IP" },
+		{ "Poker Tracker turn raise float" },
 		// query
 		"SELECT (case when ActionOpportunities1 = 0 then -1 \
 				else cast(ActionCount1 as real) / ActionOpportunities1 \
-				end) as result1, ActionOpportunities1, \
-			(case when ActionOpportunities2 = 0 then -1 \
-				else cast(ActionCount2 as real) / ActionOpportunities2 \
-				end) as result2, ActionOpportunities2, \
-			(case when ActionOpportunities3 = 0 then -1 \
-				else cast(ActionCount3 as real) / ActionOpportunities3 \
-				end) as result3, ActionOpportunities3 \
-		FROM	(SELECT	sum(case when l.action like '%C' AND S.position > S.val_t_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
+				end) as result1, ActionOpportunities1 \
+		FROM	(SELECT	sum(case when l.action like '%C' AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
 						as ActionCount1, \
-						sum(case when l.action like '%C' AND S.position > S.val_t_bet_aggressor_pos then 1 else 0 end) \
-						as ActionOpportunities1, \
-						sum(case when (l.action like '%R' OR l.action like '%B') AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
-						as ActionCount2, \
-						sum(case when (l.action like '%R' OR l.action like '%B') then 1 else 0 end) \
-						as ActionOpportunities2, \
-						sum(case when l.action like '%C' AND S.position < S.val_t_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
-						as ActionCount3, \
-						sum(case when l.action like '%C' AND S.position < S.val_t_bet_aggressor_pos then 1 else 0 end) \
-						as ActionOpportunities3 \
-				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m \
+						sum(case when l.action like '%C' then 1 else 0 end) \
+						as ActionOpportunities1 \
+				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
 				WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_t = 2 AND \
 					NOT S.flg_hero AND \
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
-					P.player_name LIKE '%SCREENNAME%' AND \
+					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 					S.id_action_t = m.id_action AND \
 					S.id_action_f = l.id_action AND \
 					amt_t_bet_facing > 0 AND \
@@ -2161,55 +2297,50 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						OR(l.action like '%B' AND S.position > S.val_t_bet_aggressor_pos) \
 						OR(l.action like '%C' AND S.val_f_bet_aggressor_pos > S.val_t_bet_aggressor_pos AND S.val_f_bet_aggressor_pos != -1 AND S.val_f_raise_aggressor_pos = -1) \
 						OR(l.action like '%C' AND S.val_f_raise_aggressor_pos > S.val_t_bet_aggressor_pos AND S.val_f_raise_aggressor_pos != -1))) foo",
-					// stat_group
-					pt_group_advanced
+				// stat_group
+				pt_group_advanced
 	},
 #endif
 
 #if PT4_QUERY_SUPPORT__RIVER_CBET
-	// PT4  query to get cbet on RIVER 
+				// PT4  query to get cbet on RIVER 
 	{
 		PT4_QUERY_SUPPORT__RIVER_CBET,
 		// name
-		{ "river_cbet_op", "river_cbet_cp", "river_cbet_ip" },
+		{ "river_cbet_op", "river_cbet_ip" },
 		// description_for_editor
-		{ "Poker Tracker river cbet OP","Poker Tracker river cbet CP","Poker Tracker river cbet IP" },
+		{ "Poker Tracker river cbet OP", "Poker Tracker river cbet IP" },
 		// query
 		"SELECT (case when ActionOpportunities1 = 0 then -1 \
 				 else cast(ActionCount1 as real) / ActionOpportunities1 \
 				 end) as result1, ActionOpportunities1, \
 				(case when ActionOpportunities2 = 0 then -1 \
 				 else cast(ActionCount2 as real) / ActionOpportunities2 \
-				 end) as result2, ActionOpportunities2, \
-				(case when ActionOpportunities3 = 0 then -1 \
-				 else cast(ActionCount3 as real) / ActionOpportunities3 \
-				 end) as result3, ActionOpportunities3 \
+				 end) as result2, ActionOpportunities2 \
 		 FROM	(SELECT	sum(case when (l.action LIKE '%B' OR l.action LIKE '%R') AND flg_r_open_opp AND flg_r_first AND flg_r_bet then 1 else 0 end) \
 						 as ActionCount1, \
 						sum(case when (l.action LIKE '%B' OR l.action LIKE '%R') AND flg_r_open_opp AND flg_r_first then 1 else 0 end) \
 						 as ActionOpportunities1, \
-						sum(case when (l.action LIKE '%B' OR l.action LIKE '%R') AND flg_r_open_opp AND NOT flg_r_first AND NOT flg_r_has_position AND flg_r_bet then 1 else 0 end) \
-						 as ActionCount2, \
-						sum(case when (l.action LIKE '%B' OR l.action LIKE '%R') AND flg_r_open_opp AND NOT flg_r_first AND NOT flg_r_has_position then 1 else 0 end) \
-						 as ActionOpportunities2, \
 						sum(case when (l.action LIKE '%B' OR l.action LIKE '%R') AND flg_r_open_opp AND flg_r_has_position AND flg_r_bet then 1 else 0 end) \
-						 as ActionCount3, \
+						 as ActionCount2, \
 						sum(case when (l.action LIKE '%B' OR l.action LIKE '%R') AND flg_r_open_opp AND flg_r_has_position then 1 else 0 end) \
-						 as ActionOpportunities3 \
-				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l \
+						 as ActionOpportunities2 \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, %TYPE%_hand_summary H \
 				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%' AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 						S.id_action_t = l.id_action) foo",
-						// stat_group
-						pt_group_advanced
+				// stat_group
+				pt_group_advanced
 	},
 #endif
 
 #if PT4_QUERY_SUPPORT__RIVER_FOLD_TO_CBET
-	// PT4  query to get RIVER fold to cbet 
+				// PT4  query to get RIVER fold to cbet 
 	{
 		PT4_QUERY_SUPPORT__RIVER_FOLD_TO_CBET,
 		// name
@@ -2231,25 +2362,27 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						 as ActionCount2, \
 						 sum(case when S.position < S.val_f_bet_aggressor_pos then 1 else 0 end) \
 						 as ActionOpportunities2 \
-				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
 				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%' AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 						S.id_action_r = m.id_action AND \
 						S.id_action_t = l.id_action AND \
 						l.action like '%C' AND \
 						S.amt_r_bet_facing > 0 AND \
 						((S.val_t_bet_aggressor_pos = S.val_r_bet_aggressor_pos AND S.val_t_bet_aggressor_pos != -1 AND S.val_t_raise_aggressor_pos = -1) \
 						 OR(S.val_t_raise_aggressor_pos = S.val_r_bet_aggressor_pos AND S.val_t_raise_aggressor_pos != -1))) foo",
-						 // stat_group
-						 pt_group_advanced
+				// stat_group
+				pt_group_advanced
 	},
 #endif
 
 #if PT4_QUERY_SUPPORT__RIVER_RAISE_CBET
-	// PT4  query to get raise cbet on RIVER 
+				// PT4  query to get raise cbet on RIVER 
 	{
 		PT4_QUERY_SUPPORT__RIVER_RAISE_CBET,
 		// name
@@ -2271,31 +2404,33 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						 as ActionCount2, \
 						 sum(case when S.position < S.val_f_bet_aggressor_pos then 1 else 0 end) \
 						 as ActionOpportunities2 \
-				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
 				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%' AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 						S.id_action_r = m.id_action AND \
 						S.id_action_t = l.id_action AND \
 						l.action like '%C' AND \
 						S.amt_r_bet_facing > 0 AND \
 						((S.val_t_bet_aggressor_pos = S.val_r_bet_aggressor_pos AND S.val_t_bet_aggressor_pos != -1 AND S.val_t_raise_aggressor_pos = -1) \
 						 OR(S.val_t_raise_aggressor_pos = S.val_r_bet_aggressor_pos AND S.val_t_raise_aggressor_pos != -1))) foo",
-						 // stat_group
-						 pt_group_advanced
+				// stat_group
+				pt_group_advanced
 	},
 #endif
 
 #if PT4_QUERY_SUPPORT__RIVER_DONKBET
-	// PT4  query to get RIVER donk 
+				// PT4  query to get RIVER donkbet 
 	{
 		PT4_QUERY_SUPPORT__RIVER_DONKBET,
 		// name
 		{ "river_donkbet" },
 		// description_for_editor
-		{ "Poker Tracker donk river" },
+		{ "Poker Tracker donkbet river" },
 		// query
 		"SELECT (case when ActionOpportunities = 0 then -1 \
 				 else cast(ActionCount as real) / ActionOpportunities \
@@ -2304,59 +2439,48 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						 as ActionCount, \
 						sum(case when true then 1 else 0 end) \
 						 as ActionOpportunities \
-				 FROM	player as P, %TYPE%_hand_summary as HSum, %TYPE%_hand_player_statistics as S, lookup_actions l \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, %TYPE%_hand_summary H \
 				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
-						HSum.id_hand = S.id_hand AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%' AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 						l.action LIKE '%C' AND \
 						((S.val_t_raise_aggressor_pos != -1 AND S.val_t_raise_aggressor_pos < S.position) \
 						OR (S.val_t_raise_aggressor_pos = -1 AND S.val_t_bet_aggressor_pos < S.position)) AND \
 						S.id_action_t = l.id_action AND \
 						S.flg_r_open_opp) foo",
-						// stat_group
-						pt_group_advanced
+				// stat_group
+				pt_group_advanced
 	},
 #endif
 
 #if PT4_QUERY_SUPPORT__RIVER_FOLD_TO_DONKBET
-	// PT4  query to get RIVER fold to donkbet
-		{
-			PT4_QUERY_SUPPORT__RIVER_FOLD_TO_DONKBET,
-			// name
-			{ "river_fold_to_donkbet_op", "river_fold_to_donkbet_cp", "river_fold_to_donkbet_ip" },
-			// description_for_editor
-			{ "Poker Tracker river fold to donkbet OP","Poker Tracker river fold to donkbet CP","Poker Tracker fold to donkbet IP" },
-			// query
-			"SELECT (case when ActionOpportunities1 = 0 then -1 \
+				// PT4  query to get RIVER fold to donkbet
+	{
+		PT4_QUERY_SUPPORT__RIVER_FOLD_TO_DONKBET,
+		// name
+		{ "river_fold_to_donkbet" },
+		// description_for_editor
+		{ "Poker Tracker river fold to donkbet" },
+		// query
+		"SELECT (case when ActionOpportunities1 = 0 then -1 \
 				 else cast(ActionCount1 as real) / ActionOpportunities1 \
-				 end) as result1, ActionOpportunities1, \
-				(case when ActionOpportunities2 = 0 then -1 \
-				 else cast(ActionCount2 as real) / ActionOpportunities2 \
-				 end) as result2, ActionOpportunities2, \
-				(case when ActionOpportunities3 = 0 then -1 \
-				 else cast(ActionCount3 as real) / ActionOpportunities3 \
-				 end) as result3, ActionOpportunities3 \
-		 FROM	(SELECT	sum(case when l.action like '%C' AND S.position > S.val_r_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
+				 end) as result1, ActionOpportunities1 \
+		 FROM	(SELECT	sum(case when l.action like '%C' AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
 						 as ActionCount1, \
-						sum(case when l.action like '%C' AND S.position > S.val_r_bet_aggressor_pos then 1 else 0 end) \
-						 as ActionOpportunities1, \
-						 sum(case when (l.action like '%R' OR l.action like '%B') AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
-						 as ActionCount2, \
-						 sum(case when (l.action like '%R' OR l.action like '%B') then 1 else 0 end) \
-						 as ActionOpportunities2, \
-						 sum(case when l.action like '%C' AND S.position < S.val_r_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
-						 as ActionCount3, \
-						 sum(case when l.action like '%C' AND S.position < S.val_r_bet_aggressor_pos then 1 else 0 end) \
-						 as ActionOpportunities3 \
-				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m \
+						sum(case when l.action like '%C' then 1 else 0 end) \
+						 as ActionOpportunities1 \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
 				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%' AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 						S.id_action_r = m.id_action AND \
 						S.id_action_t = l.id_action AND \
 						amt_r_bet_facing > 0 AND \
@@ -2365,47 +2489,35 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						 OR(l.action like '%B' AND S.position < S.val_r_bet_aggressor_pos) \
 						 OR(l.action like '%C' AND S.val_t_bet_aggressor_pos < S.val_r_bet_aggressor_pos AND S.val_t_bet_aggressor_pos != -1 AND S.val_t_raise_aggressor_pos = -1) \
 						 OR(l.action like '%C' AND S.val_t_raise_aggressor_pos < S.val_r_bet_aggressor_pos AND S.val_t_raise_aggressor_pos != -1))) foo",
-						 // stat_group
-						 pt_group_advanced
-		},
+				// stat_group
+				pt_group_advanced
+	},
 #endif
 
 #if PT4_QUERY_SUPPORT__RIVER_RAISE_DONKBET
-		// PT4  query to get raise donkbet on RIVER 
-		{
-			PT4_QUERY_SUPPORT__RIVER_RAISE_DONKBET,
-			// name
-			{ "river_raise_donkbet_op", "river_raise_donkbet_cp", "river_raise_donkbet_ip" },
-			// description_for_editor
-			{ "Poker Tracker river raise donkbet OP","Poker Tracker river raise donkbet CP","Poker Tracker raise donkbet IP" },
-			// query
-			"SELECT (case when ActionOpportunities1 = 0 then -1 \
+				// PT4  query to get raise donkbet on RIVER 
+	{
+		PT4_QUERY_SUPPORT__RIVER_RAISE_DONKBET,
+		// name
+		{ "river_raise_donkbet" },
+		// description_for_editor
+		{ "Poker Tracker river raise donkbet" },
+		// query
+		"SELECT (case when ActionOpportunities1 = 0 then -1 \
 				 else cast(ActionCount1 as real) / ActionOpportunities1 \
-				 end) as result1, ActionOpportunities1, \
-				(case when ActionOpportunities2 = 0 then -1 \
-				 else cast(ActionCount2 as real) / ActionOpportunities2 \
-				 end) as result2, ActionOpportunities2, \
-				(case when ActionOpportunities3 = 0 then -1 \
-				 else cast(ActionCount3 as real) / ActionOpportunities3 \
-				 end) as result3, ActionOpportunities3 \
-		 FROM	(SELECT	sum(case when l.action like '%C' AND S.position > S.val_r_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
+				 end) as result1, ActionOpportunities1 \
+		 FROM	(SELECT	sum(case when l.action like '%C' AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
 						 as ActionCount1, \
-						sum(case when l.action like '%C' AND S.position > S.val_r_bet_aggressor_pos then 1 else 0 end) \
-						 as ActionOpportunities1, \
-						 sum(case when (l.action like '%R' OR l.action like '%B') AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
-						 as ActionCount2, \
-						 sum(case when (l.action like '%R' OR l.action like '%B') then 1 else 0 end) \
-						 as ActionOpportunities2, \
-						 sum(case when l.action like '%C' AND S.position < S.val_r_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
-						 as ActionCount3, \
-						 sum(case when l.action like '%C' AND S.position < S.val_r_bet_aggressor_pos then 1 else 0 end) \
-						 as ActionOpportunities3 \
-				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m \
+						sum(case when l.action like '%C' then 1 else 0 end) \
+						 as ActionOpportunities1 \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
 				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%' AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 						S.id_action_r = m.id_action AND \
 						S.id_action_t = l.id_action AND \
 						amt_r_bet_facing > 0 AND \
@@ -2414,13 +2526,13 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						 OR(l.action like '%B' AND S.position < S.val_r_bet_aggressor_pos) \
 						 OR(l.action like '%C' AND S.val_t_bet_aggressor_pos < S.val_r_bet_aggressor_pos AND S.val_t_bet_aggressor_pos != -1 AND S.val_t_raise_aggressor_pos = -1) \
 						 OR(l.action like '%C' AND S.val_t_raise_aggressor_pos < S.val_r_bet_aggressor_pos AND S.val_t_raise_aggressor_pos != -1))) foo",
-						 // stat_group
-						 pt_group_advanced
-		},
+				// stat_group
+				pt_group_advanced
+	},
 #endif
 
 #if PT4_QUERY_SUPPORT__RIVER_FLOAT
-		// PT4  query to get river float 
+				// PT4  query to get river float 
 	{
 		PT4_QUERY_SUPPORT__RIVER_FLOAT,
 		// name
@@ -2435,118 +2547,1111 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						 as ActionCount, \
 						sum(case when true then 1 else 0 end) \
 						 as ActionOpportunities \
-				 FROM	player as P, %TYPE%_hand_summary as HSum, %TYPE%_hand_player_statistics as S, lookup_actions l \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, %TYPE%_hand_summary H \
 				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
-						HSum.id_hand = S.id_hand AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%' AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 						l.action LIKE '%C' AND \
 						((S.val_t_raise_aggressor_pos != -1 AND S.val_t_raise_aggressor_pos > S.position) \
 						OR (S.val_t_raise_aggressor_pos = -1 AND S.val_t_bet_aggressor_pos > S.position)) AND \
 						S.id_action_t = l.id_action AND \
 						S.flg_r_open_opp) foo",
-						// stat_group
-						pt_group_advanced
+				// stat_group
+				pt_group_advanced
 	},
 #endif
 
 #if PT4_QUERY_SUPPORT__RIVER_FOLD_TO_FLOAT
-	// PT4  query to get RIVER fold to float
+				// PT4  query to get RIVER fold to float
 	{
 		PT4_QUERY_SUPPORT__RIVER_FOLD_TO_FLOAT,
 		// name
-		{ "river_fold_to_float_op", "river_fold_to_float_cp", "river_fold_to_float_ip" },
+		{ "river_fold_to_float" },
 		// description_for_editor
-		{ "Poker Tracker river fold to float OP","Poker Tracker river fold to float CP","Poker Tracker fold to float IP" },
+		{ "Poker Tracker river fold to float" },
 		// query
 		"SELECT (case when ActionOpportunities1 = 0 then -1 \
 				else cast(ActionCount1 as real) / ActionOpportunities1 \
-				end) as result1, ActionOpportunities1, \
-			(case when ActionOpportunities2 = 0 then -1 \
-				else cast(ActionCount2 as real) / ActionOpportunities2 \
-				end) as result2, ActionOpportunities2, \
-			(case when ActionOpportunities3 = 0 then -1 \
-				else cast(ActionCount3 as real) / ActionOpportunities3 \
-				end) as result3, ActionOpportunities3 \
-		FROM	(SELECT	sum(case when l.action like '%C' AND S.position > S.val_r_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
+				end) as result1, ActionOpportunities1 \
+		FROM	(SELECT	sum(case when l.action like '%C' AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
 						as ActionCount1, \
-						sum(case when l.action like '%C' AND S.position > S.val_r_bet_aggressor_pos then 1 else 0 end) \
-						as ActionOpportunities1, \
-						sum(case when (l.action like '%R' OR l.action like '%B') AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
-						as ActionCount2, \
-						sum(case when (l.action like '%R' OR l.action like '%B') then 1 else 0 end) \
-						as ActionOpportunities2, \
-						sum(case when l.action like '%C' AND S.position < S.val_r_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
-						as ActionCount3, \
-						sum(case when l.action like '%C' AND S.position < S.val_r_bet_aggressor_pos then 1 else 0 end) \
-						as ActionOpportunities3 \
-				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m \
+						sum(case when l.action like '%C' then 1 else 0 end) \
+						as ActionOpportunities1 \
+				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
 				WHERE	S.id_player = P.id_player AND \
-					NOT S.flg_hero AND \
-					S.id_gametype = %GAMETYPE% AND \
-					P.id_site = %SITEID% AND \
-					P.player_name LIKE '%SCREENNAME%' AND \
-					S.id_action_r = m.id_action AND \
-					S.id_action_t = l.id_action AND \
-					amt_r_bet_facing > 0 AND \
-					(flg_t_bet OR cnt_t_raise > 0 OR cnt_t_call > 0) AND \
-					((l.action like '%R' AND S.position > S.val_r_bet_aggressor_pos) \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_r = 2 AND \
+						NOT S.flg_hero AND \
+						S.id_gametype = %GAMETYPE% AND \
+						P.id_site = %SITEID% AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
+						S.id_action_r = m.id_action AND \
+						S.id_action_t = l.id_action AND \
+						amt_r_bet_facing > 0 AND \
+						(flg_t_bet OR cnt_t_raise > 0 OR cnt_t_call > 0) AND \
+						((l.action like '%R' AND S.position > S.val_r_bet_aggressor_pos) \
 						OR(l.action like '%B' AND S.position > S.val_r_bet_aggressor_pos) \
 						OR(l.action like '%C' AND S.val_t_bet_aggressor_pos > S.val_r_bet_aggressor_pos AND S.val_t_bet_aggressor_pos != -1 AND S.val_t_raise_aggressor_pos = -1) \
 						OR(l.action like '%C' AND S.val_t_raise_aggressor_pos > S.val_r_bet_aggressor_pos AND S.val_t_raise_aggressor_pos != -1))) foo",
-						// stat_group
-						pt_group_advanced
+				// stat_group
+				pt_group_advanced
 	},
 #endif
 
 #if PT4_QUERY_SUPPORT__RIVER_RAISE_FLOAT
-	// PT4  query to get raise float on RIVER 
+				// PT4  query to get raise float on RIVER 
 	{
 		PT4_QUERY_SUPPORT__RIVER_RAISE_FLOAT,
 		// name
-		{ "river_raise_float_op", "river_raise_float_cp", "river_raise_float_ip" },
+		{ "river_raise_float" },
 		// description_for_editor
-		{ "Poker Tracker river raise float OP","Poker Tracker river raise float CP","Poker Tracker raise float IP" },
+		{ "Poker Tracker river raise float" },
+		// query
+		"SELECT (case when ActionOpportunities1 = 0 then -1 \
+				else cast(ActionCount1 as real) / ActionOpportunities1 \
+				end) as result1, ActionOpportunities1 \
+		FROM	(SELECT	sum(case when l.action like '%C' AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
+						as ActionCount1, \
+						sum(case when l.action like '%C' then 1 else 0 end) \
+						as ActionOpportunities1 \
+				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
+				WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_r = 2 AND \
+						NOT S.flg_hero AND \
+						S.id_gametype = %GAMETYPE% AND \
+						P.id_site = %SITEID% AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
+						S.id_action_r = m.id_action AND \
+						S.id_action_t = l.id_action AND \
+						amt_r_bet_facing > 0 AND \
+						(flg_t_bet OR cnt_t_raise > 0 OR cnt_t_call > 0) AND \
+						((l.action like '%R' AND S.position > S.val_r_bet_aggressor_pos) \
+						OR(l.action like '%B' AND S.position > S.val_r_bet_aggressor_pos) \
+						OR(l.action like '%C' AND S.val_t_bet_aggressor_pos > S.val_r_bet_aggressor_pos AND S.val_t_bet_aggressor_pos != -1 AND S.val_t_raise_aggressor_pos = -1) \
+						OR(l.action like '%C' AND S.val_t_raise_aggressor_pos > S.val_r_bet_aggressor_pos AND S.val_t_raise_aggressor_pos != -1))) foo",
+				// stat_group
+				pt_group_advanced
+	},
+#endif
+
+
+#if PT4_QUERY_SUPPORT__FLOP_CBET_MW
+			// PT4  query to get cbet mw on FLOP 
+	{
+		PT4_QUERY_SUPPORT__FLOP_CBET_MW,
+		// name
+		{ "flop_cbet_mw" },
+		// description_for_editor
+		{ "Poker Tracker flop cbet mw" },
+		// query
+		"SELECT (case when ActionOpportunities1 = 0 then -1 \
+				 else cast(ActionCount1 as real) / ActionOpportunities1 \
+				 end) as result1, ActionOpportunities1 \
+		 FROM	(SELECT	sum(case when l.action LIKE '%R' AND flg_f_open_opp AND flg_f_bet then 1 else 0 end) \
+						 as ActionCount1, \
+						sum(case when l.action LIKE '%R' AND flg_f_open_opp then 1 else 0 end) \
+						 as ActionOpportunities1 \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, %TYPE%_hand_summary H \
+				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_f > 2 AND \
+						NOT S.flg_hero AND \
+						S.id_gametype = %GAMETYPE% AND \
+						P.id_site = %SITEID% AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
+						S.id_action_p = l.id_action) foo",
+			// stat_group
+			pt_group_advanced
+	},
+#endif
+
+#if PT4_QUERY_SUPPORT__FLOP_FOLD_TO_CBET_MW
+			// PT4  query to get FLOP fold to cbet mw 
+	{
+		PT4_QUERY_SUPPORT__FLOP_FOLD_TO_CBET_MW,
+		// name
+		{ "flop_fold_to_cbet_mw" },
+		// description_for_editor
+		{ "Poker Tracker flop fold to cbet mw" },
+		// query
+		"SELECT (case when ActionOpportunities1 = 0 then -1 \
+				 else cast(ActionCount1 as real) / ActionOpportunities1 \
+				 end) as result1, ActionOpportunities1 \
+		 FROM	(SELECT	sum(case when (m.action = 'XF' or m.action = 'F') then 1 else 0 end) \
+						 as ActionCount1, \
+						count(*) \
+						 as ActionOpportunities1 \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions m, %TYPE%_hand_summary H \
+				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_f > 2 AND \
+						NOT S.flg_hero AND \
+						S.id_gametype = %GAMETYPE% AND \
+						P.id_site = %SITEID% AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
+						S.id_action_f = m.id_action AND \
+						S.val_p_raise_aggressor_pos = S.val_f_bet_aggressor_pos AND \
+						S.val_f_bet_aggressor_pos != -1 AND \
+						S.amt_f_raise_facing = 0) foo",
+			// stat_group
+			pt_group_advanced
+	},
+#endif
+
+#if PT4_QUERY_SUPPORT__FLOP_RAISE_CBET_MW
+			// PT4  query to get raise cbet mw on FLOP 
+	{
+		PT4_QUERY_SUPPORT__FLOP_RAISE_CBET_MW,
+		// name
+		{ "flop_raise_cbet_mw" },
+		// description_for_editor
+		{ "Poker Tracker flop raise cbet mw" },
+		// query
+		"SELECT (case when ActionOpportunities1 = 0 then -1 \
+				 else cast(ActionCount1 as real) / ActionOpportunities1 \
+				 end) as result1, ActionOpportunities1 \
+		 FROM	(SELECT	sum(case when (substring(m.action from 1 for 1) = 'R' or substring(m.action from 1 for 2) = 'XR') then 1 else 0 end) \
+						 as ActionCount1, \
+						count(*) \
+						 as ActionOpportunities12 \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions m, %TYPE%_hand_summary H \
+				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_f > 2 AND \
+						NOT S.flg_hero AND \
+						S.id_gametype = %GAMETYPE% AND \
+						P.id_site = %SITEID% AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
+						S.id_action_f = m.id_action AND \
+						S.val_p_raise_aggressor_pos = S.val_f_bet_aggressor_pos AND \
+						S.val_f_bet_aggressor_pos != -1 AND \
+						S.amt_f_raise_facing = 0) foo",
+			// stat_group
+			pt_group_advanced
+	},
+#endif
+
+#if PT4_QUERY_SUPPORT__FLOP_DONKBET_MW
+			// PT4  query to get FLOP donkbet mw 
+	{
+		PT4_QUERY_SUPPORT__FLOP_DONKBET_MW,
+		// name
+		{ "flop_donkbet_mw" },
+		// description_for_editor
+		{ "Poker Tracker donkbet mw flop" },
+		// query
+		"SELECT (case when ActionOpportunities = 0 then -1 \
+				 else cast(ActionCount as real) / ActionOpportunities \
+				 end) as result, ActionOpportunities \
+		 FROM	(SELECT	sum(case when flg_f_bet then 1 else 0 end) \
+						 as ActionCount, \
+						sum(case when true then 1 else 0 end) \
+						 as ActionOpportunities \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, %TYPE%_hand_summary H \
+				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_f > 2 AND \
+						NOT S.flg_hero AND \
+						S.id_gametype = %GAMETYPE% AND \
+						P.id_site = %SITEID% AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
+						S.val_p_raise_aggressor_pos < S.position AND \
+						S.val_p_raise_aggressor_pos != -1 AND \
+						l.action LIKE '%C' AND \
+						S.id_action_p = l.id_action AND \
+						S.flg_f_open_opp) foo",
+			// stat_group
+			pt_group_advanced
+	},
+#endif
+
+#if PT4_QUERY_SUPPORT__FLOP_FOLD_TO_DONKBET_MW
+			// PT4  query to get FLOP fold to donkbet mw
+	{
+		PT4_QUERY_SUPPORT__FLOP_FOLD_TO_DONKBET_MW,
+		// name
+		{ "flop_fold_to_donkbet_mw_op", "flop_fold_to_donkbet_mw_ip" },
+		// description_for_editor
+		{ "Poker Tracker flop fold to donkbet mw OP", "Poker Tracker fold to donkbet mw IP" },
+		// query
+		"SELECT (case when ActionOpportunities1 = 0 then -1 \
+				 else cast(ActionCount1 as real) / ActionOpportunities1 \
+				 end) as result1, ActionOpportunities1, \
+				(case when ActionOpportunities2 = 0 then -1 \
+				 else cast(ActionCount2 as real) / ActionOpportunities2 \
+				 end) as result2, ActionOpportunities2 \
+		 FROM	(SELECT	sum(case when S.position > S.val_f_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
+						 as ActionCount1, \
+						sum(case when S.position > S.val_f_bet_aggressor_pos then 1 else 0 end) \
+						 as ActionOpportunities1, \
+						 sum(case when S.position < S.val_f_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
+						 as ActionCount2, \
+						 sum(case when S.position < S.val_f_bet_aggressor_pos then 1 else 0 end) \
+						 as ActionOpportunities2 \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions m, %TYPE%_hand_summary H \
+				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_f > 2 AND \
+						NOT S.flg_hero AND \
+						S.id_gametype = %GAMETYPE% AND \
+						P.id_site = %SITEID% AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
+						S.id_action_f = m.id_action AND \
+						amt_f_bet_facing > 0 AND \
+						(flg_p_first_raise OR flg_p_face_raise) AND \
+						((S.val_p_raise_aggressor_pos < S.val_f_bet_aggressor_pos AND S.val_p_raise_aggressor_pos != -1) \
+						 OR (S.position < S.val_f_bet_aggressor_pos AND S.val_p_raise_aggressor_pos = -1))) foo",
+			// stat_group
+			pt_group_advanced
+	},
+#endif
+
+#if PT4_QUERY_SUPPORT__FLOP_RAISE_DONKBET_MW
+			// PT4  query to get raise donkbet mw on FLOP 
+	{
+		PT4_QUERY_SUPPORT__FLOP_RAISE_DONKBET_MW,
+		// name
+		{ "flop_raise_donkbet_mw_op", "flop_raise_donkbet_mw_ip" },
+		// description_for_editor
+		{ "Poker Tracker flop raise donkbet mw OP", "Poker Tracker raise donkbet mw IP" },
+		// query
+		"SELECT (case when ActionOpportunities1 = 0 then -1 \
+				 else cast(ActionCount1 as real) / ActionOpportunities1 \
+				 end) as result1, ActionOpportunities1, \
+				(case when ActionOpportunities2 = 0 then -1 \
+				 else cast(ActionCount2 as real) / ActionOpportunities2 \
+				 end) as result2, ActionOpportunities2 \
+		 FROM	(SELECT	sum(case when S.position > S.val_f_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
+						 as ActionCount1, \
+						sum(case when S.position > S.val_f_bet_aggressor_pos then 1 else 0 end) \
+						 as ActionOpportunities1, \
+						 sum(case when S.position < S.val_f_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
+						 as ActionCount2, \
+						 sum(case when S.position < S.val_f_bet_aggressor_pos then 1 else 0 end) \
+						 as ActionOpportunities2 \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions m, %TYPE%_hand_summary H \
+				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_f > 2 AND \
+						NOT S.flg_hero AND \
+						S.id_gametype = %GAMETYPE% AND \
+						P.id_site = %SITEID% AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
+						S.id_action_f = m.id_action AND \
+						amt_f_bet_facing > 0 AND \
+						(flg_p_first_raise OR flg_p_face_raise) AND \
+						((S.val_p_raise_aggressor_pos < S.val_f_bet_aggressor_pos AND S.val_p_raise_aggressor_pos != -1) \
+						 OR (S.position < S.val_f_bet_aggressor_pos AND S.val_p_raise_aggressor_pos = -1))) foo",
+			pt_group_advanced
+	},
+#endif
+
+#if PT4_QUERY_SUPPORT__FLOP_FLOAT_MW
+			// PT4  query to get flop float mw 
+	{
+		PT4_QUERY_SUPPORT__FLOP_FLOAT_MW,
+		// name
+		{ "flop_float_mw" },
+		// description_for_editor
+		{ "Poker Tracker flop float mw" },
+		// query
+		"SELECT (case when ActionOpportunities = 0 then -1 \
+				 else cast(ActionCount as real) / ActionOpportunities \
+				 end) as result, ActionOpportunities \
+		 FROM	(SELECT	sum(case when flg_f_bet then 1 else 0 end) \
+						 as ActionCount, \
+						sum(case when true then 1 else 0 end) \
+						 as ActionOpportunities \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, %TYPE%_hand_summary H \
+				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_f > 2 AND \
+						NOT S.flg_hero AND \
+						S.id_gametype = %GAMETYPE% AND \
+						P.id_site = %SITEID% AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
+						S.val_p_raise_aggressor_pos > S.position AND \
+						S.val_p_raise_aggressor_pos != -1 AND \
+						l.action LIKE '%C' AND \
+						S.id_action_p = l.id_action AND \
+						S.flg_f_open_opp) foo",
+			// stat_group
+			pt_group_advanced
+	},
+#endif
+
+#if PT4_QUERY_SUPPORT__FLOP_FOLD_TO_FLOAT_MW
+			// PT4  query to get FLOP fold to float mw
+	{
+		PT4_QUERY_SUPPORT__FLOP_FOLD_TO_FLOAT_MW,
+		// name
+		{ "flop_fold_to_float_mw_op", "flop_fold_to_float_mw_ip" },
+		// description_for_editor
+		{ "Poker Tracker flop fold to float mw OP", "Poker Tracker fold to float mw IP" },
+		// query
+		"SELECT (case when ActionOpportunities1 = 0 then -1 \
+				 else cast(ActionCount1 as real) / ActionOpportunities1 \
+				 end) as result1, ActionOpportunities1, \
+				(case when ActionOpportunities2 = 0 then -1 \
+				 else cast(ActionCount2 as real) / ActionOpportunities2 \
+				 end) as result2, ActionOpportunities2 \
+		 FROM	(SELECT	sum(case when S.position > S.val_f_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
+						 as ActionCount1, \
+						sum(case when S.position > S.val_f_bet_aggressor_pos then 1 else 0 end) \
+						 as ActionOpportunities1, \
+						 sum(case when S.position < S.val_f_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
+						 as ActionCount2, \
+						 sum(case when S.position < S.val_f_bet_aggressor_pos then 1 else 0 end) \
+						 as ActionOpportunities2 \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions m, %TYPE%_hand_summary H \
+				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_f > 2 AND \
+						NOT S.flg_hero AND \
+						S.id_gametype = %GAMETYPE% AND \
+						P.id_site = %SITEID% AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
+						S.id_action_f = m.id_action AND \
+						amt_f_bet_facing > 0 AND \
+						(flg_p_first_raise OR flg_p_face_raise) AND \
+						((S.val_p_raise_aggressor_pos > S.val_f_bet_aggressor_pos AND S.val_p_raise_aggressor_pos != -1) \
+						 OR (S.position > S.val_f_bet_aggressor_pos AND S.val_p_raise_aggressor_pos = -1))) foo",
+			// stat_group
+			pt_group_advanced
+	},
+#endif
+
+#if PT4_QUERY_SUPPORT__FLOP_RAISE_FLOAT_MW
+			// PT4  query to get raise float mw on FLOP 
+	{
+		PT4_QUERY_SUPPORT__FLOP_RAISE_FLOAT_MW,
+		// name
+		{ "flop_raise_float_mw_op", "flop_raise_float_mw_ip" },
+		// description_for_editor
+		{ "Poker Tracker flop raise float mw OP", "Poker Tracker raise float mw IP" },
 		// query
 		"SELECT (case when ActionOpportunities1 = 0 then -1 \
 				else cast(ActionCount1 as real) / ActionOpportunities1 \
 				end) as result1, ActionOpportunities1, \
 			(case when ActionOpportunities2 = 0 then -1 \
 				else cast(ActionCount2 as real) / ActionOpportunities2 \
-				end) as result2, ActionOpportunities2, \
-			(case when ActionOpportunities3 = 0 then -1 \
-				else cast(ActionCount3 as real) / ActionOpportunities3 \
-				end) as result3, ActionOpportunities3 \
+				end) as result2, ActionOpportunities2 \
+		FROM	(SELECT	sum(case when S.position > S.val_f_bet_aggressor_pos AND (substring(m.action from 1 for 1) = 'R' OR substring(m.action from 1 for 2) = 'XR') then 1 else 0 end) \
+						as ActionCount1, \
+					sum(case when S.position > S.val_f_bet_aggressor_pos then 1 else 0 end) \
+						as ActionOpportunities1, \
+						sum(case when S.position < S.val_f_bet_aggressor_pos AND (substring(m.action from 1 for 1) = 'R' OR substring(m.action from 1 for 2) = 'XR') then 1 else 0 end) \
+						as ActionCount3, \
+						sum(case when S.position < S.val_f_bet_aggressor_pos then 1 else 0 end) \
+						as ActionOpportunities3 \
+				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions m, %TYPE%_hand_summary H \
+				WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_f > 2 AND \
+						NOT S.flg_hero AND \
+						S.id_gametype = %GAMETYPE% AND \
+						P.id_site = %SITEID% AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
+						S.id_action_f = m.id_action AND \
+						amt_f_bet_facing > 0 AND \
+						(flg_p_first_raise OR flg_p_face_raise) AND \
+						((S.val_p_raise_aggressor_pos > S.val_f_bet_aggressor_pos AND S.val_p_raise_aggressor_pos != -1) \
+						OR (S.position > S.val_f_bet_aggressor_pos AND S.val_p_raise_aggressor_pos = -1))) foo",
+			// stat_group
+			pt_group_advanced
+	},
+#endif
+
+#if PT4_QUERY_SUPPORT__TURN_CBET_MW
+			// PT4  query to get cbet mw on TURN 
+	{
+		PT4_QUERY_SUPPORT__TURN_CBET_MW,
+		// name
+		{ "turn_cbet_mw" },
+		// description_for_editor
+		{ "Poker Tracker turn cbet mw" },
+		// query
+		"SELECT (case when ActionOpportunities1 = 0 then -1 \
+				 else cast(ActionCount1 as real) / ActionOpportunities1 \
+				 end) as result1, ActionOpportunities1 \
+		 FROM	(SELECT	sum(case when (l.action LIKE '%B' OR l.action LIKE '%R') AND flg_t_open_opp AND flg_t_bet then 1 else 0 end) \
+						 as ActionCount1, \
+						sum(case when (l.action LIKE '%B' OR l.action LIKE '%R') AND flg_t_open_opp then 1 else 0 end) \
+						 as ActionOpportunities1 \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, %TYPE%_hand_summary H \
+				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_t > 2 AND \
+						NOT S.flg_hero AND \
+						S.id_gametype = %GAMETYPE% AND \
+						P.id_site = %SITEID% AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
+						S.id_action_f = l.id_action) foo",
+			// stat_group
+			pt_group_advanced
+	},
+#endif
+
+#if PT4_QUERY_SUPPORT__TURN_FOLD_TO_CBET_MW
+			// PT4  query to get TURN fold to cbet mw 
+	{
+		PT4_QUERY_SUPPORT__TURN_FOLD_TO_CBET_MW,
+		// name
+		{ "turn_fold_to_cbet_mw" },
+		// description_for_editor
+		{ "Poker Tracker turn fold to cbet mw" },
+		// query
+		"SELECT (case when ActionOpportunities1 = 0 then -1 \
+				 else cast(ActionCount1 as real) / ActionOpportunities1 \
+				 end) as result1, ActionOpportunities1 \
+		 FROM	(SELECT	sum(case when (m.action = 'XF' or m.action = 'F') then 1 else 0 end) \
+						 as ActionCount1, \
+						count(*) \
+						 as ActionOpportunities1 \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
+				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_t > 2 AND \
+						NOT S.flg_hero AND \
+						S.id_gametype = %GAMETYPE% AND \
+						P.id_site = %SITEID% AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
+						S.id_action_t = m.id_action AND \
+						S.id_action_f = l.id_action AND \
+						l.action like '%C' AND \
+						S.amt_t_bet_facing > 0 AND \
+						((S.val_f_bet_aggressor_pos = S.val_t_bet_aggressor_pos AND S.val_f_bet_aggressor_pos != -1 AND S.val_f_raise_aggressor_pos = -1) \
+						 OR(S.val_f_raise_aggressor_pos = S.val_t_bet_aggressor_pos AND S.val_f_raise_aggressor_pos != -1))) foo",
+			// stat_group
+			pt_group_advanced
+	},
+#endif
+
+#if PT4_QUERY_SUPPORT__TURN_RAISE_CBET_MW
+			// PT4  query to get raise cbet mw on TURN 
+	{
+		PT4_QUERY_SUPPORT__TURN_RAISE_CBET_MW,
+		// name
+		{ "turn_raise_cbet_mw" },
+		// description_for_editor
+		{ "Poker Tracker turn raise cbet mw" },
+		// query
+		"SELECT (case when ActionOpportunities1 = 0 then -1 \
+				 else cast(ActionCount1 as real) / ActionOpportunities1 \
+				 end) as result1, ActionOpportunities1 \
+		 FROM	(SELECT	sum(case when (substring(m.action from 1 for 1) = 'R' or substring(m.action from 1 for 2) = 'XR') then 1 else 0 end) \
+						 as ActionCount1, \
+						count(*) \
+						 as ActionOpportunities1 \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
+				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_t > 2 AND \
+						NOT S.flg_hero AND \
+						S.id_gametype = %GAMETYPE% AND \
+						P.id_site = %SITEID% AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
+						S.id_action_t = m.id_action AND \
+						S.id_action_f = l.id_action AND \
+						l.action like '%C' AND \
+						S.amt_t_bet_facing > 0 AND \
+						((S.val_f_bet_aggressor_pos = S.val_t_bet_aggressor_pos AND S.val_f_bet_aggressor_pos != -1 AND S.val_f_raise_aggressor_pos = -1) \
+						 OR(S.val_f_raise_aggressor_pos = S.val_t_bet_aggressor_pos AND S.val_f_raise_aggressor_pos != -1))) foo",
+			// stat_group
+			pt_group_advanced
+	},
+#endif
+
+#if PT4_QUERY_SUPPORT__TURN_DONKBET_MW
+			// PT4  query to get TURN donkbet mw 
+	{
+		PT4_QUERY_SUPPORT__TURN_DONKBET_MW,
+		// name
+		{ "turn_donkbet_mw" },
+		// description_for_editor
+		{ "Poker Tracker donkbet mw turn" },
+		// query
+		"SELECT (case when ActionOpportunities = 0 then -1 \
+				 else cast(ActionCount as real) / ActionOpportunities \
+				 end) as result, ActionOpportunities \
+		 FROM	(SELECT	sum(case when flg_t_bet then 1 else 0 end) \
+						 as ActionCount, \
+						sum(case when true then 1 else 0 end) \
+						 as ActionOpportunities \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, %TYPE%_hand_summary H \
+				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_t > 2 AND \
+						NOT S.flg_hero AND \
+						S.id_gametype = %GAMETYPE% AND \
+						P.id_site = %SITEID% AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
+						l.action LIKE '%C' AND \
+						((S.val_f_raise_aggressor_pos != -1 AND S.val_f_raise_aggressor_pos < S.position) \
+						OR (S.val_f_raise_aggressor_pos = -1 AND S.val_f_bet_aggressor_pos < S.position)) AND \
+						S.id_action_f = l.id_action AND \
+						S.flg_t_open_opp) foo",
+			// stat_group
+			pt_group_advanced
+	},
+#endif
+
+#if PT4_QUERY_SUPPORT__TURN_FOLD_TO_DONKBET_MW
+			// PT4  query to get TURN fold to donkbet mw
+	{
+		PT4_QUERY_SUPPORT__TURN_FOLD_TO_DONKBET_MW,
+		// name
+		{ "turn_fold_to_donkbet_mw_op", "turn_fold_to_donkbet_mw_ip" },
+		// description_for_editor
+		{ "Poker Tracker turn fold to donkbet mw OP", "Poker Tracker fold to donkbet mw IP" },
+		// query
+		"SELECT (case when ActionOpportunities1 = 0 then -1 \
+				 else cast(ActionCount1 as real) / ActionOpportunities1 \
+				 end) as result1, ActionOpportunities1, \
+				(case when ActionOpportunities2 = 0 then -1 \
+				 else cast(ActionCount2 as real) / ActionOpportunities2 \
+				 end) as result2, ActionOpportunities2 \
+		 FROM	(SELECT	sum(case when l.action like '%C' AND S.position > S.val_t_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
+						 as ActionCount1, \
+						sum(case when l.action like '%C' AND S.position > S.val_t_bet_aggressor_pos then 1 else 0 end) \
+						 as ActionOpportunities1, \
+						 sum(case when l.action like '%C' AND S.position < S.val_t_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
+						 as ActionCount2, \
+						 sum(case when l.action like '%C' AND S.position < S.val_t_bet_aggressor_pos then 1 else 0 end) \
+						 as ActionOpportunities2 \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
+				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_t > 2 AND \
+						NOT S.flg_hero AND \
+						S.id_gametype = %GAMETYPE% AND \
+						P.id_site = %SITEID% AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
+						S.id_action_t = m.id_action AND \
+						S.id_action_f = l.id_action AND \
+						amt_t_bet_facing > 0 AND \
+						(flg_f_bet OR cnt_f_raise > 0 OR cnt_f_call > 0) AND \
+						((l.action like '%R' AND S.position < S.val_t_bet_aggressor_pos) \
+						 OR(l.action like '%B' AND S.position < S.val_t_bet_aggressor_pos) \
+						 OR(l.action like '%C' AND S.val_f_bet_aggressor_pos < S.val_t_bet_aggressor_pos AND S.val_f_bet_aggressor_pos != -1 AND S.val_f_raise_aggressor_pos = -1) \
+						 OR(l.action like '%C' AND S.val_f_raise_aggressor_pos < S.val_t_bet_aggressor_pos AND S.val_f_raise_aggressor_pos != -1))) foo",
+			// stat_group
+			pt_group_advanced
+	},
+#endif
+
+#if PT4_QUERY_SUPPORT__TURN_RAISE_DONKBET_MW
+			// PT4  query to get raise donkbet mw on TURN 
+	{
+		PT4_QUERY_SUPPORT__TURN_RAISE_DONKBET_MW,
+		// name
+		{ "turn_raise_donkbet_mw_op", "turn_raise_donkbet_mw_ip" },
+		// description_for_editor
+		{ "Poker Tracker turn raise donkbet mw OP", "Poker Tracker raise donkbet mw IP" },
+		// query
+		"SELECT (case when ActionOpportunities1 = 0 then -1 \
+				 else cast(ActionCount1 as real) / ActionOpportunities1 \
+				 end) as result1, ActionOpportunities1, \
+				(case when ActionOpportunities2 = 0 then -1 \
+				 else cast(ActionCount2 as real) / ActionOpportunities2 \
+				 end) as result2, ActionOpportunities2 \
+		 FROM	(SELECT	sum(case when l.action like '%C' AND S.position > S.val_t_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
+						 as ActionCount1, \
+						sum(case when l.action like '%C' AND S.position > S.val_t_bet_aggressor_pos then 1 else 0 end) \
+						 as ActionOpportunities1, \
+						 sum(case when l.action like '%C' AND S.position < S.val_t_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
+						 as ActionCount3, \
+						 sum(case when l.action like '%C' AND S.position < S.val_t_bet_aggressor_pos then 1 else 0 end) \
+						 as ActionOpportunities3 \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
+				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_t > 2 AND \
+						NOT S.flg_hero AND \
+						S.id_gametype = %GAMETYPE% AND \
+						P.id_site = %SITEID% AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
+						S.id_action_t = m.id_action AND \
+						S.id_action_f = l.id_action AND \
+						amt_t_bet_facing > 0 AND \
+						(flg_f_bet OR cnt_f_raise > 0 OR cnt_f_call > 0) AND \
+						((l.action like '%R' AND S.position < S.val_t_bet_aggressor_pos) \
+						 OR(l.action like '%B' AND S.position < S.val_t_bet_aggressor_pos) \
+						 OR(l.action like '%C' AND S.val_f_bet_aggressor_pos < S.val_t_bet_aggressor_pos AND S.val_f_bet_aggressor_pos != -1 AND S.val_f_raise_aggressor_pos = -1) \
+						 OR(l.action like '%C' AND S.val_f_raise_aggressor_pos < S.val_t_bet_aggressor_pos AND S.val_f_raise_aggressor_pos != -1))) foo",
+			// stat_group
+			pt_group_advanced
+	},
+#endif
+
+#if PT4_QUERY_SUPPORT__TURN_FLOAT_MW
+			// PT4  query to get turn float mw 
+	{
+		PT4_QUERY_SUPPORT__TURN_FLOAT_MW,
+		// name
+		{ "turn_float_mw" },
+		// description_for_editor
+		{ "Poker Tracker turn float mw" },
+		// query
+		"SELECT (case when ActionOpportunities = 0 then -1 \
+				 else cast(ActionCount as real) / ActionOpportunities \
+				 end) as result, ActionOpportunities \
+		 FROM	(SELECT	sum(case when flg_t_bet then 1 else 0 end) \
+						 as ActionCount, \
+						sum(case when true then 1 else 0 end) \
+						 as ActionOpportunities \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, %TYPE%_hand_summary H \
+				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_t > 2 AND \
+						NOT S.flg_hero AND \
+						S.id_gametype = %GAMETYPE% AND \
+						P.id_site = %SITEID% AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
+						l.action LIKE '%C' AND \
+						((S.val_f_raise_aggressor_pos != -1 AND S.val_f_raise_aggressor_pos > S.position) \
+						OR (S.val_f_raise_aggressor_pos = -1 AND S.val_f_bet_aggressor_pos > S.position)) AND \
+						S.id_action_f = l.id_action AND \
+						S.flg_t_open_opp) foo",
+			// stat_group
+			pt_group_advanced
+	},
+#endif
+
+#if PT4_QUERY_SUPPORT__TURN_FOLD_TO_FLOAT_MW
+			// PT4  query to get TURN fold to float mw
+	{
+		PT4_QUERY_SUPPORT__TURN_FOLD_TO_FLOAT_MW,
+		// name
+		{ "turn_fold_to_float_mw_op", "turn_fold_to_float_mw_ip" },
+		// description_for_editor
+		{ "Poker Tracker turn fold to float mw OP", "Poker Tracker fold to float mw IP" },
+		// query
+		"SELECT (case when ActionOpportunities1 = 0 then -1 \
+				else cast(ActionCount1 as real) / ActionOpportunities1 \
+				end) as result1, ActionOpportunities1, \
+			(case when ActionOpportunities2 = 0 then -1 \
+				else cast(ActionCount2 as real) / ActionOpportunities2 \
+				end) as result2, ActionOpportunities2 \
+		FROM	(SELECT	sum(case when l.action like '%C' AND S.position > S.val_t_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
+						as ActionCount1, \
+						sum(case when l.action like '%C' AND S.position > S.val_t_bet_aggressor_pos then 1 else 0 end) \
+						as ActionOpportunities1, \
+						sum(case when l.action like '%C' AND S.position < S.val_t_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
+						as ActionCount2, \
+						sum(case when l.action like '%C' AND S.position < S.val_t_bet_aggressor_pos then 1 else 0 end) \
+						as ActionOpportunities2 \
+				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
+				WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_t > 2 AND \
+					NOT S.flg_hero AND \
+					S.id_gametype = %GAMETYPE% AND \
+					P.id_site = %SITEID% AND \
+					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
+					S.id_action_t = m.id_action AND \
+					S.id_action_f = l.id_action AND \
+					amt_t_bet_facing > 0 AND \
+					(flg_f_bet OR cnt_f_raise > 0 OR cnt_f_call > 0) AND \
+					((l.action like '%R' AND S.position > S.val_t_bet_aggressor_pos) \
+						OR(l.action like '%B' AND S.position > S.val_t_bet_aggressor_pos) \
+						OR(l.action like '%C' AND S.val_f_bet_aggressor_pos > S.val_t_bet_aggressor_pos AND S.val_f_bet_aggressor_pos != -1 AND S.val_f_raise_aggressor_pos = -1) \
+						OR(l.action like '%C' AND S.val_f_raise_aggressor_pos > S.val_t_bet_aggressor_pos AND S.val_f_raise_aggressor_pos != -1))) foo",
+			// stat_group
+			pt_group_advanced
+	},
+#endif
+
+#if PT4_QUERY_SUPPORT__TURN_RAISE_FLOAT_MW
+			// PT4  query to get raise float mw on TURN 
+	{
+		PT4_QUERY_SUPPORT__TURN_RAISE_FLOAT_MW,
+		// name
+		{ "turn_raise_float_mw_op", "turn_raise_float_mw_ip" },
+		// description_for_editor
+		{ "Poker Tracker turn raise float mw OP", "Poker Tracker raise float mw IP" },
+		// query
+		"SELECT (case when ActionOpportunities1 = 0 then -1 \
+				else cast(ActionCount1 as real) / ActionOpportunities1 \
+				end) as result1, ActionOpportunities1, \
+			(case when ActionOpportunities2 = 0 then -1 \
+				else cast(ActionCount2 as real) / ActionOpportunities2 \
+				end) as result2, ActionOpportunities2 \
+		FROM	(SELECT	sum(case when l.action like '%C' AND S.position > S.val_t_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
+						as ActionCount1, \
+						sum(case when l.action like '%C' AND S.position > S.val_t_bet_aggressor_pos then 1 else 0 end) \
+						as ActionOpportunities1, \
+						sum(case when l.action like '%C' AND S.position < S.val_t_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
+						as ActionCount2, \
+						sum(case when l.action like '%C' AND S.position < S.val_t_bet_aggressor_pos then 1 else 0 end) \
+						as ActionOpportunities2 \
+				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
+				WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_t > 2 AND \
+						NOT S.flg_hero AND \
+						S.id_gametype = %GAMETYPE% AND \
+						P.id_site = %SITEID% AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
+						S.id_action_t = m.id_action AND \
+						S.id_action_f = l.id_action AND \
+						amt_t_bet_facing > 0 AND \
+						(flg_f_bet OR cnt_f_raise > 0 OR cnt_f_call > 0) AND \
+						((l.action like '%R' AND S.position > S.val_t_bet_aggressor_pos) \
+						OR(l.action like '%B' AND S.position > S.val_t_bet_aggressor_pos) \
+						OR(l.action like '%C' AND S.val_f_bet_aggressor_pos > S.val_t_bet_aggressor_pos AND S.val_f_bet_aggressor_pos != -1 AND S.val_f_raise_aggressor_pos = -1) \
+						OR(l.action like '%C' AND S.val_f_raise_aggressor_pos > S.val_t_bet_aggressor_pos AND S.val_f_raise_aggressor_pos != -1))) foo",
+			// stat_group
+			pt_group_advanced
+	},
+#endif
+
+#if PT4_QUERY_SUPPORT__RIVER_CBET_MW
+			// PT4  query to get cbet mw on RIVER 
+	{
+		PT4_QUERY_SUPPORT__RIVER_CBET_MW,
+		// name
+		{ "river_cbet_mw" },
+		// description_for_editor
+		{ "Poker Tracker river cbet mw" },
+		// query
+		"SELECT (case when ActionOpportunities1 = 0 then -1 \
+				 else cast(ActionCount1 as real) / ActionOpportunities1 \
+				 end) as result1, ActionOpportunities1 \
+		 FROM	(SELECT	sum(case when (l.action LIKE '%B' OR l.action LIKE '%R') AND flg_r_open_opp AND flg_r_bet then 1 else 0 end) \
+						 as ActionCount1, \
+						sum(case when (l.action LIKE '%B' OR l.action LIKE '%R') AND flg_r_open_opp then 1 else 0 end) \
+						 as ActionOpportunities1 \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, %TYPE%_hand_summary H \
+				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_r > 2 AND \
+						NOT S.flg_hero AND \
+						S.id_gametype = %GAMETYPE% AND \
+						P.id_site = %SITEID% AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
+						S.id_action_t = l.id_action) foo",
+			// stat_group
+			pt_group_advanced
+	},
+#endif
+
+#if PT4_QUERY_SUPPORT__RIVER_FOLD_TO_CBET_MW
+			// PT4  query to get RIVER fold to cbet mw 
+	{
+		PT4_QUERY_SUPPORT__RIVER_FOLD_TO_CBET_MW,
+		// name
+		{ "river_fold_to_cbet_mw" },
+		// description_for_editor
+		{ "Poker Tracker river fold to cbet mw" },
+		// query
+		"SELECT (case when ActionOpportunities1 = 0 then -1 \
+				 else cast(ActionCount1 as real) / ActionOpportunities1 \
+				 end) as result1, ActionOpportunities1 \
+		 FROM	(SELECT	sum(case when (m.action = 'XF' or m.action = 'F') then 1 else 0 end) \
+						 as ActionCount1, \
+						count(*) \
+						 as ActionOpportunities1 \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
+				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_r > 2 AND \
+						NOT S.flg_hero AND \
+						S.id_gametype = %GAMETYPE% AND \
+						P.id_site = %SITEID% AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
+						S.id_action_r = m.id_action AND \
+						S.id_action_t = l.id_action AND \
+						l.action like '%C' AND \
+						S.amt_r_bet_facing > 0 AND \
+						((S.val_t_bet_aggressor_pos = S.val_r_bet_aggressor_pos AND S.val_t_bet_aggressor_pos != -1 AND S.val_t_raise_aggressor_pos = -1) \
+						 OR(S.val_t_raise_aggressor_pos = S.val_r_bet_aggressor_pos AND S.val_t_raise_aggressor_pos != -1))) foo",
+			// stat_group
+			pt_group_advanced
+	},
+#endif
+
+#if PT4_QUERY_SUPPORT__RIVER_RAISE_CBET_MW
+			// PT4  query to get raise cbet mw on RIVER 
+	{
+		PT4_QUERY_SUPPORT__RIVER_RAISE_CBET_MW,
+		// name
+		{ "river_raise_cbet_mw" },
+		// description_for_editor
+		{ "Poker Tracker river raise cbet mw" },
+		// query
+		"SELECT (case when ActionOpportunities1 = 0 then -1 \
+				 else cast(ActionCount1 as real) / ActionOpportunities1 \
+				 end) as result1, ActionOpportunities1 \
+		 FROM	(SELECT	sum(case when (substring(m.action from 1 for 1) = 'R' or substring(m.action from 1 for 2) = 'XR') then 1 else 0 end) \
+						 as ActionCount1, \
+						count(*) \
+						 as ActionOpportunities1 \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
+				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_r > 2 AND \
+						NOT S.flg_hero AND \
+						S.id_gametype = %GAMETYPE% AND \
+						P.id_site = %SITEID% AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
+						S.id_action_r = m.id_action AND \
+						S.id_action_t = l.id_action AND \
+						l.action like '%C' AND \
+						S.amt_r_bet_facing > 0 AND \
+						((S.val_t_bet_aggressor_pos = S.val_r_bet_aggressor_pos AND S.val_t_bet_aggressor_pos != -1 AND S.val_t_raise_aggressor_pos = -1) \
+						 OR(S.val_t_raise_aggressor_pos = S.val_r_bet_aggressor_pos AND S.val_t_raise_aggressor_pos != -1))) foo",
+			// stat_group
+			pt_group_advanced
+	},
+#endif
+
+#if PT4_QUERY_SUPPORT__RIVER_DONKBET_MW
+			// PT4  query to get RIVER donkbet mw 
+	{
+		PT4_QUERY_SUPPORT__RIVER_DONKBET_MW,
+		// name
+		{ "river_donkbet_mw" },
+		// description_for_editor
+		{ "Poker Tracker donkbet mw river" },
+		// query
+		"SELECT (case when ActionOpportunities = 0 then -1 \
+				 else cast(ActionCount as real) / ActionOpportunities \
+				 end) as result, ActionOpportunities \
+		 FROM	(SELECT	sum(case when flg_r_bet then 1 else 0 end) \
+						 as ActionCount, \
+						sum(case when true then 1 else 0 end) \
+						 as ActionOpportunities \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, %TYPE%_hand_summary H \
+				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_r > 2 AND \
+						NOT S.flg_hero AND \
+						S.id_gametype = %GAMETYPE% AND \
+						P.id_site = %SITEID% AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
+						l.action LIKE '%C' AND \
+						((S.val_t_raise_aggressor_pos != -1 AND S.val_t_raise_aggressor_pos < S.position) \
+						OR (S.val_t_raise_aggressor_pos = -1 AND S.val_t_bet_aggressor_pos < S.position)) AND \
+						S.id_action_t = l.id_action AND \
+						S.flg_r_open_opp) foo",
+			// stat_group
+			pt_group_advanced
+	},
+#endif
+
+#if PT4_QUERY_SUPPORT__RIVER_FOLD_TO_DONKBET_MW
+			// PT4  query to get RIVER fold to donkbet mw
+	{
+		PT4_QUERY_SUPPORT__RIVER_FOLD_TO_DONKBET_MW,
+		// name
+		{ "river_fold_to_donkbet_mw_op", "river_fold_to_donkbet_mw_ip" },
+		// description_for_editor
+		{ "Poker Tracker river fold to donkbet mw OP", "Poker Tracker fold to donkbet mw IP" },
+		// query
+		"SELECT (case when ActionOpportunities1 = 0 then -1 \
+				 else cast(ActionCount1 as real) / ActionOpportunities1 \
+				 end) as result1, ActionOpportunities1, \
+				(case when ActionOpportunities2 = 0 then -1 \
+				 else cast(ActionCount2 as real) / ActionOpportunities2 \
+				 end) as result2, ActionOpportunities2 \
+		 FROM	(SELECT	sum(case when l.action like '%C' AND S.position > S.val_r_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
+						 as ActionCount1, \
+						sum(case when l.action like '%C' AND S.position > S.val_r_bet_aggressor_pos then 1 else 0 end) \
+						 as ActionOpportunities1, \
+						 sum(case when l.action like '%C' AND S.position < S.val_r_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
+						 as ActionCount2, \
+						 sum(case when l.action like '%C' AND S.position < S.val_r_bet_aggressor_pos then 1 else 0 end) \
+						 as ActionOpportunities2 \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
+				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_r > 2 AND \
+						NOT S.flg_hero AND \
+						S.id_gametype = %GAMETYPE% AND \
+						P.id_site = %SITEID% AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
+						S.id_action_r = m.id_action AND \
+						S.id_action_t = l.id_action AND \
+						amt_r_bet_facing > 0 AND \
+						(flg_t_bet OR cnt_t_raise > 0 OR cnt_t_call > 0) AND \
+						((l.action like '%R' AND S.position < S.val_r_bet_aggressor_pos) \
+						 OR(l.action like '%B' AND S.position < S.val_r_bet_aggressor_pos) \
+						 OR(l.action like '%C' AND S.val_t_bet_aggressor_pos < S.val_r_bet_aggressor_pos AND S.val_t_bet_aggressor_pos != -1 AND S.val_t_raise_aggressor_pos = -1) \
+						 OR(l.action like '%C' AND S.val_t_raise_aggressor_pos < S.val_r_bet_aggressor_pos AND S.val_t_raise_aggressor_pos != -1))) foo",
+			// stat_group
+			pt_group_advanced
+	},
+#endif
+
+#if PT4_QUERY_SUPPORT__RIVER_RAISE_DONKBET_MW
+			// PT4  query to get raise donkbet mw on RIVER 
+	{
+		PT4_QUERY_SUPPORT__RIVER_RAISE_DONKBET_MW,
+		// name
+		{ "river_raise_donkbet_mw_op", "river_raise_donkbet_mw_ip" },
+		// description_for_editor
+		{ "Poker Tracker river raise donkbet mw OP", "Poker Tracker raise donkbet mw IP" },
+		// query
+		"SELECT (case when ActionOpportunities1 = 0 then -1 \
+				 else cast(ActionCount1 as real) / ActionOpportunities1 \
+				 end) as result1, ActionOpportunities1, \
+				(case when ActionOpportunities2 = 0 then -1 \
+				 else cast(ActionCount2 as real) / ActionOpportunities2 \
+				 end) as result2, ActionOpportunities2 \
+		 FROM	(SELECT	sum(case when l.action like '%C' AND S.position > S.val_r_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
+						 as ActionCount1, \
+						sum(case when l.action like '%C' AND S.position > S.val_r_bet_aggressor_pos then 1 else 0 end) \
+						 as ActionOpportunities1, \
+						 sum(case when l.action like '%C' AND S.position < S.val_r_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
+						 as ActionCount2, \
+						 sum(case when l.action like '%C' AND S.position < S.val_r_bet_aggressor_pos then 1 else 0 end) \
+						 as ActionOpportunities2 \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
+				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_r > 2 AND \
+						NOT S.flg_hero AND \
+						S.id_gametype = %GAMETYPE% AND \
+						P.id_site = %SITEID% AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
+						S.id_action_r = m.id_action AND \
+						S.id_action_t = l.id_action AND \
+						amt_r_bet_facing > 0 AND \
+						(flg_t_bet OR cnt_t_raise > 0 OR cnt_t_call > 0) AND \
+						((l.action like '%R' AND S.position < S.val_r_bet_aggressor_pos) \
+						 OR(l.action like '%B' AND S.position < S.val_r_bet_aggressor_pos) \
+						 OR(l.action like '%C' AND S.val_t_bet_aggressor_pos < S.val_r_bet_aggressor_pos AND S.val_t_bet_aggressor_pos != -1 AND S.val_t_raise_aggressor_pos = -1) \
+						 OR(l.action like '%C' AND S.val_t_raise_aggressor_pos < S.val_r_bet_aggressor_pos AND S.val_t_raise_aggressor_pos != -1))) foo",
+			// stat_group
+			pt_group_advanced
+	},
+#endif
+
+#if PT4_QUERY_SUPPORT__RIVER_FLOAT_MW
+			// PT4  query to get river float mw 
+	{
+		PT4_QUERY_SUPPORT__RIVER_FLOAT_MW,
+		// name
+		{ "river_float_mw" },
+		// description_for_editor
+		{ "Poker Tracker river float mw" },
+		// query
+		"SELECT (case when ActionOpportunities = 0 then -1 \
+				 else cast(ActionCount as real) / ActionOpportunities \
+				 end) as result, ActionOpportunities \
+		 FROM	(SELECT	sum(case when flg_r_bet then 1 else 0 end) \
+						 as ActionCount, \
+						sum(case when true then 1 else 0 end) \
+						 as ActionOpportunities \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, %TYPE%_hand_summary H \
+				 WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_r > 2 AND \
+						NOT S.flg_hero AND \
+						S.id_gametype = %GAMETYPE% AND \
+						P.id_site = %SITEID% AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
+						l.action LIKE '%C' AND \
+						((S.val_t_raise_aggressor_pos != -1 AND S.val_t_raise_aggressor_pos > S.position) \
+						OR (S.val_t_raise_aggressor_pos = -1 AND S.val_t_bet_aggressor_pos > S.position)) AND \
+						S.id_action_t = l.id_action AND \
+						S.flg_r_open_opp) foo",
+			// stat_group
+			pt_group_advanced
+	},
+#endif
+
+#if PT4_QUERY_SUPPORT__RIVER_FOLD_TO_FLOAT_MW
+			// PT4  query to get RIVER fold to float mw
+	{
+		PT4_QUERY_SUPPORT__RIVER_FOLD_TO_FLOAT_MW,
+		// name
+		{ "river_fold_to_float_mw_op", "river_fold_to_float_mw_ip" },
+		// description_for_editor
+		{ "Poker Tracker river fold to float mw OP", "Poker Tracker fold to float mw IP" },
+		// query
+		"SELECT (case when ActionOpportunities1 = 0 then -1 \
+				else cast(ActionCount1 as real) / ActionOpportunities1 \
+				end) as result1, ActionOpportunities1, \
+			(case when ActionOpportunities2 = 0 then -1 \
+				else cast(ActionCount2 as real) / ActionOpportunities2 \
+				end) as result2, ActionOpportunities2 \
+		FROM	(SELECT	sum(case when l.action like '%C' AND S.position > S.val_r_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
+						as ActionCount1, \
+						sum(case when l.action like '%C' AND S.position > S.val_r_bet_aggressor_pos then 1 else 0 end) \
+						as ActionOpportunities1, \
+						sum(case when l.action like '%C' AND S.position < S.val_r_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
+						as ActionCount2, \
+						sum(case when l.action like '%C' AND S.position < S.val_r_bet_aggressor_pos then 1 else 0 end) \
+						as ActionOpportunities2 \
+				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
+				WHERE	S.id_player = P.id_player AND \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_r > 2 AND \
+						NOT S.flg_hero AND \
+						S.id_gametype = %GAMETYPE% AND \
+						P.id_site = %SITEID% AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
+						S.id_action_r = m.id_action AND \
+						S.id_action_t = l.id_action AND \
+						amt_r_bet_facing > 0 AND \
+						(flg_t_bet OR cnt_t_raise > 0 OR cnt_t_call > 0) AND \
+						((l.action like '%R' AND S.position > S.val_r_bet_aggressor_pos) \
+						OR(l.action like '%B' AND S.position > S.val_r_bet_aggressor_pos) \
+						OR(l.action like '%C' AND S.val_t_bet_aggressor_pos > S.val_r_bet_aggressor_pos AND S.val_t_bet_aggressor_pos != -1 AND S.val_t_raise_aggressor_pos = -1) \
+						OR(l.action like '%C' AND S.val_t_raise_aggressor_pos > S.val_r_bet_aggressor_pos AND S.val_t_raise_aggressor_pos != -1))) foo",
+			// stat_group
+			pt_group_advanced
+	},
+#endif
+
+#if PT4_QUERY_SUPPORT__RIVER_RAISE_FLOAT_MW
+			// PT4  query to get raise float mw on RIVER 
+	{
+		PT4_QUERY_SUPPORT__RIVER_RAISE_FLOAT_MW,
+		// name
+		{ "river_raise_float_mw_op", "river_raise_float_mw_ip" },
+		// description_for_editor
+		{ "Poker Tracker river raise float mw OP", "Poker Tracker raise float mw IP" },
+		// query
+		"SELECT (case when ActionOpportunities1 = 0 then -1 \
+				else cast(ActionCount1 as real) / ActionOpportunities1 \
+				end) as result1, ActionOpportunities1, \
+			(case when ActionOpportunities2 = 0 then -1 \
+				else cast(ActionCount2 as real) / ActionOpportunities2 \
+				end) as result2, ActionOpportunities2 \
 		FROM	(SELECT	sum(case when l.action like '%C' AND S.position > S.val_r_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
 						as ActionCount1, \
 						sum(case when l.action like '%C' AND S.position > S.val_r_bet_aggressor_pos then 1 else 0 end) \
 						as ActionOpportunities1, \
-						sum(case when (l.action like '%R' OR l.action like '%B') AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
-						as ActionCount2, \
-						sum(case when (l.action like '%R' OR l.action like '%B') then 1 else 0 end) \
-						as ActionOpportunities2, \
 						sum(case when l.action like '%C' AND S.position < S.val_r_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
-						as ActionCount3, \
+						as ActionCount2, \
 						sum(case when l.action like '%C' AND S.position < S.val_r_bet_aggressor_pos then 1 else 0 end) \
-						as ActionOpportunities3 \
-				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m \
+						as ActionOpportunities2 \
+				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
 				WHERE	S.id_player = P.id_player AND \
-					NOT S.flg_hero AND \
-					S.id_gametype = %GAMETYPE% AND \
-					P.id_site = %SITEID% AND \
-					P.player_name LIKE '%SCREENNAME%' AND \
-					S.id_action_r = m.id_action AND \
-					S.id_action_t = l.id_action AND \
-					amt_r_bet_facing > 0 AND \
-					(flg_t_bet OR cnt_t_raise > 0 OR cnt_t_call > 0) AND \
-					((l.action like '%R' AND S.position > S.val_r_bet_aggressor_pos) \
+						H.id_hand = S.id_hand AND \
+						H.cnt_players_r > 2 AND \
+						NOT S.flg_hero AND \
+						S.id_gametype = %GAMETYPE% AND \
+						P.id_site = %SITEID% AND \
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
+						S.id_action_r = m.id_action AND \
+						S.id_action_t = l.id_action AND \
+						amt_r_bet_facing > 0 AND \
+						(flg_t_bet OR cnt_t_raise > 0 OR cnt_t_call > 0) AND \
+						((l.action like '%R' AND S.position > S.val_r_bet_aggressor_pos) \
 						OR(l.action like '%B' AND S.position > S.val_r_bet_aggressor_pos) \
 						OR(l.action like '%C' AND S.val_t_bet_aggressor_pos > S.val_r_bet_aggressor_pos AND S.val_t_bet_aggressor_pos != -1 AND S.val_t_raise_aggressor_pos = -1) \
 						OR(l.action like '%C' AND S.val_t_raise_aggressor_pos > S.val_r_bet_aggressor_pos AND S.val_t_raise_aggressor_pos != -1))) foo",
-						// stat_group
-						pt_group_advanced
+			// stat_group
+			pt_group_advanced
 	},
 #endif
 
@@ -2571,7 +3676,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%') foo",
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
 		// stat_group
 		pt_group_advanced
 	},
@@ -2605,7 +3710,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 							NOT S.flg_hero AND \
 							S.id_gametype = %GAMETYPE% AND \
 							P.id_site = %SITEID% AND \
-							P.player_name LIKE '%SCREENNAME%' AND \
+							REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 							S.flg_f_face_raise AND \
 							l.action NOT LIKE '%R%' AND \
 							S.id_action_f = l.id_action) foo",
@@ -2642,7 +3747,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 							NOT S.flg_hero AND \
 							S.id_gametype = %GAMETYPE% AND \
 							P.id_site = %SITEID% AND \
-							P.player_name LIKE '%SCREENNAME%' AND \
+							REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 							NOT flg_f_4bet_opp) foo",
 			// stat_group
 			pt_group_advanced
@@ -2677,7 +3782,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%') foo",
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
 	// stat_group
 	pt_group_advanced
 },
@@ -2711,7 +3816,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 							NOT S.flg_hero AND \
 							S.id_gametype = %GAMETYPE% AND \
 							P.id_site = %SITEID% AND \
-							P.player_name LIKE '%SCREENNAME%') foo",
+							REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
 			// stat_group
 			pt_group_advanced
 		},
@@ -2736,7 +3841,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				 WHERE	S.id_player = P.id_player AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%') foo",
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
 		pt_group_advanced
 	},
 #endif
@@ -2769,7 +3874,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 							NOT S.flg_hero AND \
 							S.id_gametype = %GAMETYPE% AND \
 							P.id_site = %SITEID% AND \
-							P.player_name LIKE '%SCREENNAME%' AND \
+							REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 							S.flg_t_face_raise AND \
 							l.action NOT LIKE '%R%' AND \
 							S.id_action_t = l.id_action) foo",
@@ -2806,7 +3911,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 							NOT S.flg_hero AND \
 							S.id_gametype = %GAMETYPE% AND \
 							P.id_site = %SITEID% AND \
-							P.player_name LIKE '%SCREENNAME%' AND \
+							REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 							NOT flg_t_4bet_opp) foo",
 							// stat_group
 							pt_group_advanced
@@ -2841,7 +3946,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%') foo",
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
 						// stat_group
 						pt_group_advanced
 },
@@ -2875,7 +3980,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 							NOT S.flg_hero AND \
 							S.id_gametype = %GAMETYPE% AND \
 							P.id_site = %SITEID% AND \
-							P.player_name LIKE '%SCREENNAME%') foo",
+							REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
 							// stat_group
 							pt_group_advanced
 		},
@@ -2900,7 +4005,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				 WHERE	S.id_player = P.id_player AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%') foo",
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
 		// stat_group
 		pt_group_advanced
 	},
@@ -2934,10 +4039,10 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 							NOT S.flg_hero AND \
 							S.id_gametype = %GAMETYPE% AND \
 							P.id_site = %SITEID% AND \
-							P.player_name LIKE '%SCREENNAME%' AND \
+							REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 							S.flg_r_face_raise AND \
 							l.action NOT LIKE '%R%' AND \
-							S.id_action_t = l.id_action) foo",
+							S.id_action_r = l.id_action) foo",
 							// stat_group
 							pt_group_advanced
 		},
@@ -2971,7 +4076,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 							NOT S.flg_hero AND \
 							S.id_gametype = %GAMETYPE% AND \
 							P.id_site = %SITEID% AND \
-							P.player_name LIKE '%SCREENNAME%' AND \
+							REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
 							NOT flg_r_4bet_opp) foo",
 							// stat_group
 							pt_group_advanced
@@ -3006,7 +4111,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						NOT S.flg_hero AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%') foo",
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
 						// stat_group
 						pt_group_advanced
 },
@@ -3040,7 +4145,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 							NOT S.flg_hero AND \
 							S.id_gametype = %GAMETYPE% AND \
 							P.id_site = %SITEID% AND \
-							P.player_name LIKE '%SCREENNAME%') foo",
+							REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
 							// stat_group
 							pt_group_advanced
 		},
@@ -3065,7 +4170,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				 WHERE	S.id_player = P.id_player AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
-						P.player_name LIKE '%SCREENNAME%') foo",
+						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
 						// stat_group
 						pt_group_advanced
 	},
