@@ -76,39 +76,49 @@ void CSymbolEngineHandrank::ResetOnHandreset()
 	_handrank1326 = 0;
 	_handrank1000 = 0;
 	_handrankp    = 0;
+
+	lastCard0 = kUndefined;
+	lastCard1 = kUndefined;
 }
 
 void CSymbolEngineHandrank::ResetOnNewRound()
 {}
 
 void CSymbolEngineHandrank::ResetOnMyTurn() {
-	char		cardstr[10] = {0};
-
-	// Get name string containing the players' current cards
-	GetCardstring(cardstr, 
-    p_table_state->User()->hole_cards(0)->GetValue(),
-		p_table_state->User()->hole_cards(1)->GetValue());
-
-	// if nopponents<1 or >9 then default to a sane value
-	int _nopponents = p_symbol_engine_prwin->nopponents_for_prwin();
-		
-	for (int i=0; i<kNumberOfStartingHands; i++)
-	{
-		if (strcmp(cardstr, handrank_table_169[_nopponents-1][i])==0)
-		{
-			_handrank169  = i + 1;													
-			_handrank2652 = handrank_table_2652[_nopponents-1][i];								
-			break;
-		}
-	}
-
-	_handrank1326 = _handrank2652 / 2;											
-	_handrank1000 = 1000 * _handrank2652 / 2652;									
-	_handrankp    = 2652.0 / (1.0 + (double)_nopponents);	
 }
 
 void CSymbolEngineHandrank::ResetOnHeartbeat()
-{}
+{
+	if (lastCard0 != p_table_state->User()->hole_cards(0)->GetValue() || lastCard1 != p_table_state->User()->hole_cards(1)->GetValue())
+	{
+		char		cardstr[10] = { 0 };
+
+		// Get name string containing the players' current cards
+		GetCardstring(cardstr,
+			p_table_state->User()->hole_cards(0)->GetValue(),
+			p_table_state->User()->hole_cards(1)->GetValue());
+
+		// if nopponents<1 or >9 then default to a sane value
+		int _nopponents = p_symbol_engine_prwin->nopponents_for_prwin();
+
+		for (int i = 0; i<kNumberOfStartingHands; i++)
+		{
+			if (strcmp(cardstr, handrank_table_169[_nopponents - 1][i]) == 0)
+			{
+				_handrank169 = i + 1;
+				_handrank2652 = handrank_table_2652[_nopponents - 1][i];
+				break;
+			}
+		}
+
+		_handrank1326 = _handrank2652 / 2;
+		_handrank1000 = 1000 * _handrank2652 / 2652;
+		_handrankp = 2652.0 / (1.0 + (double)_nopponents);
+
+		lastCard0 = p_table_state->User()->hole_cards(0)->GetValue();
+		lastCard1 = p_table_state->User()->hole_cards(1)->GetValue();
+	}
+}
 
 void CSymbolEngineHandrank::GetCardstring(char *c, unsigned int c0, unsigned int c1)
 {

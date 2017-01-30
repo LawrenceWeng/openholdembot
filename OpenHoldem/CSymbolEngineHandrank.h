@@ -47,6 +47,9 @@ private:
 	double _handrank1326;
 	double _handrank1000;
 	double _handrankp;
+
+	int lastCard0;
+	int lastCard1;
 };
 
 extern CSymbolEngineHandrank *p_symbol_engine_handrank;

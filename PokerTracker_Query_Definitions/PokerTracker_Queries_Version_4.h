@@ -1530,7 +1530,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
                         + sum(S.cnt_t_call) + sum(case when S.flg_t_fold then 1 else 0 end) \
                         + sum(S.cnt_r_call) + sum(case when S.flg_r_fold then 1 else 0 end) \
 						   as PassiveCount5 \
-				 FROM	player as P, %TYPE%_hand_player_statistics as S, cash_hand_player_statistics as H \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, %TYPE%_hand_player_statistics as H \
 				 WHERE	H.id_player = P.id_player AND \
 						S.flg_hero AND \
 						S.id_hand = H.id_hand AND \
@@ -1591,7 +1591,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
                         + sum(S.cnt_t_call) + sum(S.cnt_t_raise) \
                         + sum(S.cnt_r_call) + sum(S.cnt_r_raise) \
 						   as PlayCount5 \
-				 FROM	player as P, %TYPE%_hand_player_statistics as S, cash_hand_player_statistics as H \
+				 FROM	player as P, %TYPE%_hand_player_statistics as S, %TYPE%_hand_player_statistics as H \
 				 WHERE	H.id_player = P.id_player AND \
 						S.flg_hero AND \
 						S.id_hand = H.id_hand AND \
@@ -1835,7 +1835,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 	{
 		PT4_QUERY_SUPPORT__FLOP_RAISE_DONKBET,
 		// name
-		{ "flop_raise_donkbet_op" },
+		{ "flop_raise_donkbet" },
 		// description_for_editor
 		{ "Poker Tracker flop raise donkbet" },
 		// query
@@ -2132,9 +2132,9 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 		"SELECT (case when ActionOpportunities1 = 0 then -1 \
 				 else cast(ActionCount1 as real) / ActionOpportunities1 \
 				 end) as result1, ActionOpportunities1 \
-		 FROM	(SELECT	sum(case when l.action like '%C' AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
+		 FROM	(SELECT	sum(case when (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
 						 as ActionCount1, \
-						sum(case when l.action like '%C' then 1 else 0 end) \
+						count(*) \
 						 as ActionOpportunities1 \
 				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
 				 WHERE	S.id_player = P.id_player AND \
@@ -2149,9 +2149,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						amt_t_bet_facing > 0 AND \
 						(flg_f_bet OR cnt_f_raise > 0 OR cnt_f_call > 0) AND \
 						((l.action like '%R' AND S.position < S.val_t_bet_aggressor_pos) \
-						 OR(l.action like '%B' AND S.position < S.val_t_bet_aggressor_pos) \
-						 OR(l.action like '%C' AND S.val_f_bet_aggressor_pos < S.val_t_bet_aggressor_pos AND S.val_f_bet_aggressor_pos != -1 AND S.val_f_raise_aggressor_pos = -1) \
-						 OR(l.action like '%C' AND S.val_f_raise_aggressor_pos < S.val_t_bet_aggressor_pos AND S.val_f_raise_aggressor_pos != -1))) foo",
+						 OR(l.action like '%B' AND S.position < S.val_t_bet_aggressor_pos))) foo",
 				// stat_group
 				pt_group_advanced
 	},
@@ -2169,9 +2167,9 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 		"SELECT (case when ActionOpportunities1 = 0 then -1 \
 				 else cast(ActionCount1 as real) / ActionOpportunities1 \
 				 end) as result1, ActionOpportunities1 \
-		 FROM	(SELECT	sum(case when l.action like '%C' AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
+		 FROM	(SELECT	sum(case when (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
 						 as ActionCount1, \
-						sum(case when l.action like '%C' then 1 else 0 end) \
+						count(*) \
 						 as ActionOpportunities1 \
 				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
 				 WHERE	S.id_player = P.id_player AND \
@@ -2186,9 +2184,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						amt_t_bet_facing > 0 AND \
 						(flg_f_bet OR cnt_f_raise > 0 OR cnt_f_call > 0) AND \
 						((l.action like '%R' AND S.position < S.val_t_bet_aggressor_pos) \
-						 OR(l.action like '%B' AND S.position < S.val_t_bet_aggressor_pos) \
-						 OR(l.action like '%C' AND S.val_f_bet_aggressor_pos < S.val_t_bet_aggressor_pos AND S.val_f_bet_aggressor_pos != -1 AND S.val_f_raise_aggressor_pos = -1) \
-						 OR(l.action like '%C' AND S.val_f_raise_aggressor_pos < S.val_t_bet_aggressor_pos AND S.val_f_raise_aggressor_pos != -1))) foo",
+						 OR(l.action like '%B' AND S.position < S.val_t_bet_aggressor_pos))) foo",
 				// stat_group
 				pt_group_advanced
 	},
@@ -2240,9 +2236,9 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 		"SELECT (case when ActionOpportunities1 = 0 then -1 \
 				else cast(ActionCount1 as real) / ActionOpportunities1 \
 				end) as result1, ActionOpportunities1 \
-		FROM	(SELECT	sum(case when l.action like '%C' AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
+		FROM	(SELECT	sum(case when (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
 						as ActionCount1, \
-						sum(case when l.action like '%C' then 1 else 0 end) \
+						count(*) \
 						as ActionOpportunities1 \
 				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
 				WHERE	S.id_player = P.id_player AND \
@@ -2257,9 +2253,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					amt_t_bet_facing > 0 AND \
 					(flg_f_bet OR cnt_f_raise > 0 OR cnt_f_call > 0) AND \
 					((l.action like '%R' AND S.position > S.val_t_bet_aggressor_pos) \
-						OR(l.action like '%B' AND S.position > S.val_t_bet_aggressor_pos) \
-						OR(l.action like '%C' AND S.val_f_bet_aggressor_pos > S.val_t_bet_aggressor_pos AND S.val_f_bet_aggressor_pos != -1 AND S.val_f_raise_aggressor_pos = -1) \
-						OR(l.action like '%C' AND S.val_f_raise_aggressor_pos > S.val_t_bet_aggressor_pos AND S.val_f_raise_aggressor_pos != -1))) foo",
+						OR(l.action like '%B' AND S.position > S.val_t_bet_aggressor_pos))) foo",
 				// stat_group
 				pt_group_advanced
 	},
@@ -2277,9 +2271,9 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 		"SELECT (case when ActionOpportunities1 = 0 then -1 \
 				else cast(ActionCount1 as real) / ActionOpportunities1 \
 				end) as result1, ActionOpportunities1 \
-		FROM	(SELECT	sum(case when l.action like '%C' AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
+		FROM	(SELECT	sum(case when (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
 						as ActionCount1, \
-						sum(case when l.action like '%C' then 1 else 0 end) \
+						count(*) \
 						as ActionOpportunities1 \
 				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
 				WHERE	S.id_player = P.id_player AND \
@@ -2294,9 +2288,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					amt_t_bet_facing > 0 AND \
 					(flg_f_bet OR cnt_f_raise > 0 OR cnt_f_call > 0) AND \
 					((l.action like '%R' AND S.position > S.val_t_bet_aggressor_pos) \
-						OR(l.action like '%B' AND S.position > S.val_t_bet_aggressor_pos) \
-						OR(l.action like '%C' AND S.val_f_bet_aggressor_pos > S.val_t_bet_aggressor_pos AND S.val_f_bet_aggressor_pos != -1 AND S.val_f_raise_aggressor_pos = -1) \
-						OR(l.action like '%C' AND S.val_f_raise_aggressor_pos > S.val_t_bet_aggressor_pos AND S.val_f_raise_aggressor_pos != -1))) foo",
+						OR(l.action like '%B' AND S.position > S.val_t_bet_aggressor_pos))) foo",
 				// stat_group
 				pt_group_advanced
 	},
@@ -2469,9 +2461,9 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 		"SELECT (case when ActionOpportunities1 = 0 then -1 \
 				 else cast(ActionCount1 as real) / ActionOpportunities1 \
 				 end) as result1, ActionOpportunities1 \
-		 FROM	(SELECT	sum(case when l.action like '%C' AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
+		 FROM	(SELECT	sum(case when (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
 						 as ActionCount1, \
-						sum(case when l.action like '%C' then 1 else 0 end) \
+						count(*) \
 						 as ActionOpportunities1 \
 				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
 				 WHERE	S.id_player = P.id_player AND \
@@ -2486,9 +2478,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						amt_r_bet_facing > 0 AND \
 						(flg_t_bet OR cnt_t_raise > 0 OR cnt_t_call > 0) AND \
 						((l.action like '%R' AND S.position < S.val_r_bet_aggressor_pos) \
-						 OR(l.action like '%B' AND S.position < S.val_r_bet_aggressor_pos) \
-						 OR(l.action like '%C' AND S.val_t_bet_aggressor_pos < S.val_r_bet_aggressor_pos AND S.val_t_bet_aggressor_pos != -1 AND S.val_t_raise_aggressor_pos = -1) \
-						 OR(l.action like '%C' AND S.val_t_raise_aggressor_pos < S.val_r_bet_aggressor_pos AND S.val_t_raise_aggressor_pos != -1))) foo",
+						 OR(l.action like '%B' AND S.position < S.val_r_bet_aggressor_pos))) foo",
 				// stat_group
 				pt_group_advanced
 	},
@@ -2506,9 +2496,9 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 		"SELECT (case when ActionOpportunities1 = 0 then -1 \
 				 else cast(ActionCount1 as real) / ActionOpportunities1 \
 				 end) as result1, ActionOpportunities1 \
-		 FROM	(SELECT	sum(case when l.action like '%C' AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
+		 FROM	(SELECT	sum(case when (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
 						 as ActionCount1, \
-						sum(case when l.action like '%C' then 1 else 0 end) \
+						count(*) \
 						 as ActionOpportunities1 \
 				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
 				 WHERE	S.id_player = P.id_player AND \
@@ -2523,9 +2513,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						amt_r_bet_facing > 0 AND \
 						(flg_t_bet OR cnt_t_raise > 0 OR cnt_t_call > 0) AND \
 						((l.action like '%R' AND S.position < S.val_r_bet_aggressor_pos) \
-						 OR(l.action like '%B' AND S.position < S.val_r_bet_aggressor_pos) \
-						 OR(l.action like '%C' AND S.val_t_bet_aggressor_pos < S.val_r_bet_aggressor_pos AND S.val_t_bet_aggressor_pos != -1 AND S.val_t_raise_aggressor_pos = -1) \
-						 OR(l.action like '%C' AND S.val_t_raise_aggressor_pos < S.val_r_bet_aggressor_pos AND S.val_t_raise_aggressor_pos != -1))) foo",
+						 OR(l.action like '%B' AND S.position < S.val_r_bet_aggressor_pos))) foo",
 				// stat_group
 				pt_group_advanced
 	},
@@ -2577,9 +2565,9 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 		"SELECT (case when ActionOpportunities1 = 0 then -1 \
 				else cast(ActionCount1 as real) / ActionOpportunities1 \
 				end) as result1, ActionOpportunities1 \
-		FROM	(SELECT	sum(case when l.action like '%C' AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
+		FROM	(SELECT	sum(case when (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
 						as ActionCount1, \
-						sum(case when l.action like '%C' then 1 else 0 end) \
+						count(*) \
 						as ActionOpportunities1 \
 				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
 				WHERE	S.id_player = P.id_player AND \
@@ -2594,9 +2582,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						amt_r_bet_facing > 0 AND \
 						(flg_t_bet OR cnt_t_raise > 0 OR cnt_t_call > 0) AND \
 						((l.action like '%R' AND S.position > S.val_r_bet_aggressor_pos) \
-						OR(l.action like '%B' AND S.position > S.val_r_bet_aggressor_pos) \
-						OR(l.action like '%C' AND S.val_t_bet_aggressor_pos > S.val_r_bet_aggressor_pos AND S.val_t_bet_aggressor_pos != -1 AND S.val_t_raise_aggressor_pos = -1) \
-						OR(l.action like '%C' AND S.val_t_raise_aggressor_pos > S.val_r_bet_aggressor_pos AND S.val_t_raise_aggressor_pos != -1))) foo",
+						OR(l.action like '%B' AND S.position > S.val_r_bet_aggressor_pos))) foo",
 				// stat_group
 				pt_group_advanced
 	},
@@ -2614,9 +2600,9 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 		"SELECT (case when ActionOpportunities1 = 0 then -1 \
 				else cast(ActionCount1 as real) / ActionOpportunities1 \
 				end) as result1, ActionOpportunities1 \
-		FROM	(SELECT	sum(case when l.action like '%C' AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
+		FROM	(SELECT	sum(case when (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
 						as ActionCount1, \
-						sum(case when l.action like '%C' then 1 else 0 end) \
+						count(*) \
 						as ActionOpportunities1 \
 				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
 				WHERE	S.id_player = P.id_player AND \
@@ -2631,9 +2617,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						amt_r_bet_facing > 0 AND \
 						(flg_t_bet OR cnt_t_raise > 0 OR cnt_t_call > 0) AND \
 						((l.action like '%R' AND S.position > S.val_r_bet_aggressor_pos) \
-						OR(l.action like '%B' AND S.position > S.val_r_bet_aggressor_pos) \
-						OR(l.action like '%C' AND S.val_t_bet_aggressor_pos > S.val_r_bet_aggressor_pos AND S.val_t_bet_aggressor_pos != -1 AND S.val_t_raise_aggressor_pos = -1) \
-						OR(l.action like '%C' AND S.val_t_raise_aggressor_pos > S.val_r_bet_aggressor_pos AND S.val_t_raise_aggressor_pos != -1))) foo",
+						OR(l.action like '%B' AND S.position > S.val_r_bet_aggressor_pos))) foo",
 				// stat_group
 				pt_group_advanced
 	},
@@ -3116,13 +3100,13 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				(case when ActionOpportunities2 = 0 then -1 \
 				 else cast(ActionCount2 as real) / ActionOpportunities2 \
 				 end) as result2, ActionOpportunities2 \
-		 FROM	(SELECT	sum(case when l.action like '%C' AND S.position > S.val_t_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
+		 FROM	(SELECT	sum(case when S.position > S.val_t_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
 						 as ActionCount1, \
-						sum(case when l.action like '%C' AND S.position > S.val_t_bet_aggressor_pos then 1 else 0 end) \
+						sum(case when S.position > S.val_t_bet_aggressor_pos then 1 else 0 end) \
 						 as ActionOpportunities1, \
-						 sum(case when l.action like '%C' AND S.position < S.val_t_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
+						sum(case when S.position < S.val_t_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
 						 as ActionCount2, \
-						 sum(case when l.action like '%C' AND S.position < S.val_t_bet_aggressor_pos then 1 else 0 end) \
+						sum(case when S.position < S.val_t_bet_aggressor_pos then 1 else 0 end) \
 						 as ActionOpportunities2 \
 				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
 				 WHERE	S.id_player = P.id_player AND \
@@ -3160,13 +3144,13 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				(case when ActionOpportunities2 = 0 then -1 \
 				 else cast(ActionCount2 as real) / ActionOpportunities2 \
 				 end) as result2, ActionOpportunities2 \
-		 FROM	(SELECT	sum(case when l.action like '%C' AND S.position > S.val_t_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
+		 FROM	(SELECT	sum(case when S.position > S.val_t_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
 						 as ActionCount1, \
-						sum(case when l.action like '%C' AND S.position > S.val_t_bet_aggressor_pos then 1 else 0 end) \
+						sum(case when S.position > S.val_t_bet_aggressor_pos then 1 else 0 end) \
 						 as ActionOpportunities1, \
-						 sum(case when l.action like '%C' AND S.position < S.val_t_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
+						 sum(case when S.position < S.val_t_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
 						 as ActionCount3, \
-						 sum(case when l.action like '%C' AND S.position < S.val_t_bet_aggressor_pos then 1 else 0 end) \
+						 sum(case when S.position < S.val_t_bet_aggressor_pos then 1 else 0 end) \
 						 as ActionOpportunities3 \
 				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
 				 WHERE	S.id_player = P.id_player AND \
@@ -3238,13 +3222,13 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 			(case when ActionOpportunities2 = 0 then -1 \
 				else cast(ActionCount2 as real) / ActionOpportunities2 \
 				end) as result2, ActionOpportunities2 \
-		FROM	(SELECT	sum(case when l.action like '%C' AND S.position > S.val_t_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
+		FROM	(SELECT	sum(case when S.position > S.val_t_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
 						as ActionCount1, \
-						sum(case when l.action like '%C' AND S.position > S.val_t_bet_aggressor_pos then 1 else 0 end) \
+						sum(case when S.position > S.val_t_bet_aggressor_pos then 1 else 0 end) \
 						as ActionOpportunities1, \
-						sum(case when l.action like '%C' AND S.position < S.val_t_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
+						sum(case when S.position < S.val_t_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
 						as ActionCount2, \
-						sum(case when l.action like '%C' AND S.position < S.val_t_bet_aggressor_pos then 1 else 0 end) \
+						sum(case when S.position < S.val_t_bet_aggressor_pos then 1 else 0 end) \
 						as ActionOpportunities2 \
 				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
 				WHERE	S.id_player = P.id_player AND \
@@ -3282,13 +3266,13 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 			(case when ActionOpportunities2 = 0 then -1 \
 				else cast(ActionCount2 as real) / ActionOpportunities2 \
 				end) as result2, ActionOpportunities2 \
-		FROM	(SELECT	sum(case when l.action like '%C' AND S.position > S.val_t_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
+		FROM	(SELECT	sum(case when S.position > S.val_t_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
 						as ActionCount1, \
-						sum(case when l.action like '%C' AND S.position > S.val_t_bet_aggressor_pos then 1 else 0 end) \
+						sum(case when S.position > S.val_t_bet_aggressor_pos then 1 else 0 end) \
 						as ActionOpportunities1, \
-						sum(case when l.action like '%C' AND S.position < S.val_t_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
+						sum(case when S.position < S.val_t_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
 						as ActionCount2, \
-						sum(case when l.action like '%C' AND S.position < S.val_t_bet_aggressor_pos then 1 else 0 end) \
+						sum(case when S.position < S.val_t_bet_aggressor_pos then 1 else 0 end) \
 						as ActionOpportunities2 \
 				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
 				WHERE	S.id_player = P.id_player AND \
@@ -3460,13 +3444,13 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				(case when ActionOpportunities2 = 0 then -1 \
 				 else cast(ActionCount2 as real) / ActionOpportunities2 \
 				 end) as result2, ActionOpportunities2 \
-		 FROM	(SELECT	sum(case when l.action like '%C' AND S.position > S.val_r_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
+		 FROM	(SELECT	sum(case when S.position > S.val_r_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
 						 as ActionCount1, \
-						sum(case when l.action like '%C' AND S.position > S.val_r_bet_aggressor_pos then 1 else 0 end) \
+						sum(case when S.position > S.val_r_bet_aggressor_pos then 1 else 0 end) \
 						 as ActionOpportunities1, \
-						 sum(case when l.action like '%C' AND S.position < S.val_r_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
+						sum(case when S.position < S.val_r_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
 						 as ActionCount2, \
-						 sum(case when l.action like '%C' AND S.position < S.val_r_bet_aggressor_pos then 1 else 0 end) \
+						sum(case when S.position < S.val_r_bet_aggressor_pos then 1 else 0 end) \
 						 as ActionOpportunities2 \
 				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
 				 WHERE	S.id_player = P.id_player AND \
@@ -3504,13 +3488,13 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				(case when ActionOpportunities2 = 0 then -1 \
 				 else cast(ActionCount2 as real) / ActionOpportunities2 \
 				 end) as result2, ActionOpportunities2 \
-		 FROM	(SELECT	sum(case when l.action like '%C' AND S.position > S.val_r_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
+		 FROM	(SELECT	sum(case when S.position > S.val_r_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
 						 as ActionCount1, \
-						sum(case when l.action like '%C' AND S.position > S.val_r_bet_aggressor_pos then 1 else 0 end) \
+						sum(case when S.position > S.val_r_bet_aggressor_pos then 1 else 0 end) \
 						 as ActionOpportunities1, \
-						 sum(case when l.action like '%C' AND S.position < S.val_r_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
+						sum(case when S.position < S.val_r_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
 						 as ActionCount2, \
-						 sum(case when l.action like '%C' AND S.position < S.val_r_bet_aggressor_pos then 1 else 0 end) \
+						sum(case when S.position < S.val_r_bet_aggressor_pos then 1 else 0 end) \
 						 as ActionOpportunities2 \
 				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
 				 WHERE	S.id_player = P.id_player AND \
@@ -3582,13 +3566,13 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 			(case when ActionOpportunities2 = 0 then -1 \
 				else cast(ActionCount2 as real) / ActionOpportunities2 \
 				end) as result2, ActionOpportunities2 \
-		FROM	(SELECT	sum(case when l.action like '%C' AND S.position > S.val_r_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
+		FROM	(SELECT	sum(case when S.position > S.val_r_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
 						as ActionCount1, \
-						sum(case when l.action like '%C' AND S.position > S.val_r_bet_aggressor_pos then 1 else 0 end) \
+						sum(case when S.position > S.val_r_bet_aggressor_pos then 1 else 0 end) \
 						as ActionOpportunities1, \
-						sum(case when l.action like '%C' AND S.position < S.val_r_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
+						sum(case when S.position < S.val_r_bet_aggressor_pos AND (m.action = 'F' OR m.action = 'XF') then 1 else 0 end) \
 						as ActionCount2, \
-						sum(case when l.action like '%C' AND S.position < S.val_r_bet_aggressor_pos then 1 else 0 end) \
+						sum(case when S.position < S.val_r_bet_aggressor_pos then 1 else 0 end) \
 						as ActionOpportunities2 \
 				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
 				WHERE	S.id_player = P.id_player AND \
@@ -3626,13 +3610,13 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 			(case when ActionOpportunities2 = 0 then -1 \
 				else cast(ActionCount2 as real) / ActionOpportunities2 \
 				end) as result2, ActionOpportunities2 \
-		FROM	(SELECT	sum(case when l.action like '%C' AND S.position > S.val_r_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
+		FROM	(SELECT	sum(case when S.position > S.val_r_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
 						as ActionCount1, \
-						sum(case when l.action like '%C' AND S.position > S.val_r_bet_aggressor_pos then 1 else 0 end) \
+						sum(case when S.position > S.val_r_bet_aggressor_pos then 1 else 0 end) \
 						as ActionOpportunities1, \
-						sum(case when l.action like '%C' AND S.position < S.val_r_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
+						sum(case when S.position < S.val_r_bet_aggressor_pos AND (m.action = 'R' OR m.action = 'XR') then 1 else 0 end) \
 						as ActionCount2, \
-						sum(case when l.action like '%C' AND S.position < S.val_r_bet_aggressor_pos then 1 else 0 end) \
+						sum(case when S.position < S.val_r_bet_aggressor_pos then 1 else 0 end) \
 						as ActionOpportunities2 \
 				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l, lookup_actions m, %TYPE%_hand_summary H \
 				WHERE	S.id_player = P.id_player AND \
