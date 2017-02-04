@@ -89,6 +89,10 @@ void CSymbolEngineHandrank::ResetOnMyTurn() {
 
 void CSymbolEngineHandrank::ResetOnHeartbeat()
 {
+	int _nopponents = p_symbol_engine_prwin->nopponents_for_prwin();
+	if (_nopponents < 1 || _nopponents > kMaxNumberOfOpponentsAtFullRingTable)
+		return;
+
 	if (lastCard0 != p_table_state->User()->hole_cards(0)->GetValue() || lastCard1 != p_table_state->User()->hole_cards(1)->GetValue())
 	{
 		char		cardstr[10] = { 0 };
@@ -97,9 +101,6 @@ void CSymbolEngineHandrank::ResetOnHeartbeat()
 		GetCardstring(cardstr,
 			p_table_state->User()->hole_cards(0)->GetValue(),
 			p_table_state->User()->hole_cards(1)->GetValue());
-
-		// if nopponents<1 or >9 then default to a sane value
-		int _nopponents = p_symbol_engine_prwin->nopponents_for_prwin();
 
 		for (int i = 0; i<kNumberOfStartingHands; i++)
 		{

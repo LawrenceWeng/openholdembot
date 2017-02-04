@@ -65,6 +65,9 @@ void CSymbolEnginePrwin::ResetOnMyTurn() {
 }
 
 void CSymbolEnginePrwin::ResetOnHeartbeat() {
+	if (_nopponents_for_prwin < 1 ||_nopponents_for_prwin > MAX_OPPONENTS) {
+		CalculateNOpponents();
+	}
 }
 
 void CSymbolEnginePrwin::CalculateNhands() {

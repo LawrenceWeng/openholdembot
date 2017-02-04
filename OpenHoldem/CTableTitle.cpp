@@ -61,6 +61,9 @@ CString CTableTitle::Title() {
 }
 
 CString CTableTitle::PreprocessedTitle() {
+	if (_preprocessed_title == "")
+		UpdateTitle();
+
   return _preprocessed_title;
 }
 

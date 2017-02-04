@@ -895,19 +895,24 @@ void CScraper::ScrapeLimits() {
     if (l_buyin != kUndefined) {
 			p_table_state->_s_limit_info._buyin.SetValue(Number2CString(l_buyin));
     }
+
     CString result;
     // r$c0smallblind
     EvaluateRegion("c0smallblind", &result);
-    p_table_state->_s_limit_info._sblind.SetValue(result);
+	if (result != "")
+		p_table_state->_s_limit_info._sblind.SetValue(result);
 		// r$c0bigblind
     EvaluateRegion("c0bigblind", &result);
-    p_table_state->_s_limit_info._bblind.SetValue(result);
+	if (result != "")
+		p_table_state->_s_limit_info._bblind.SetValue(result);
 		// r$c0bigbet
     EvaluateRegion("c0bigbet", &result);
-    p_table_state->_s_limit_info._bbet.SetValue(result);
+	if (result != "")
+		p_table_state->_s_limit_info._bbet.SetValue(result);
 		// r$c0ante
-    EvaluateRegion("c0ante", &result);
-    p_table_state->_s_limit_info._ante.SetValue(result);
+		EvaluateRegion("c0ante", &result);
+	if (result != "")
+		p_table_state->_s_limit_info._ante.SetValue(result);
 		// r$c0isfinaltable
     EvaluateTrueFalseRegion(&p_table_state->_s_limit_info._is_final_table, "c0isfinaltable");
 	}
