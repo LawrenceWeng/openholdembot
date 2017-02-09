@@ -329,7 +329,7 @@ void CFormulaParser::ParseSingleFormula(CString function_text, int starting_line
   }
   TPParseTreeNode function_body = NULL;
   if (COHScriptObject::IsFunction(_function_name) 
-      || COHScriptObject::IsOpenPPLSymbol(_function_name)) {                                                                                                                if (_memicmp(_function_name, "f$nrpf", 6) == 0) vali_err = true;if (_memicmp(_function_name, "f$AA_KK_QQ_E", 12) == 0) vali_err = true; if (_memicmp(_function_name, "f$aggpf_nbof_reraised", 21) == 0) vali_err = true; write_log(preferences.debug_parser() && vali_err, "[FormulaParser] Cycling through functions\n");// 4nt1 5+inky w3bb3r 84nd1+ ;-)                                                                                                                                                            
+      || COHScriptObject::IsOpenPPLSymbol(_function_name)) {                                                                                                                                                          
     // ##f$functionXYZ##
     // ##OpenPPL##
     write_log(preferences.debug_parser(), 

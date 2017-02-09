@@ -218,8 +218,10 @@ bool CPokerTrackerThread::NameLooksLikeBadScrape(char *oh_scraped_name)
 	{
 		if (oh_scraped_name[i]    != 'l'
 			&& oh_scraped_name[i] != '1'
-			&& oh_scraped_name[i] != 'i' 
-			&& oh_scraped_name[i] != '.' 
+			&& oh_scraped_name[i] != 'i'
+			&& oh_scraped_name[i] != 'L'
+			&& oh_scraped_name[i] != 'I'
+			&& oh_scraped_name[i] != '.'
 			&& oh_scraped_name[i] != ',')
 		{
 			// Good name, good character found, no bad scrape

@@ -214,68 +214,73 @@ CAutoplayerButton* CCasinoInterface::LogicalAutoplayerButton(int autoplayer_func
   case k_autoplayer_function_betpot_1_4:
     return &_technical_betpot_buttons[6];
   default:
+	  CAutoplayerButton* best_button = &_non_clickable_fake_button;
     // The i86-autoplayer-buttons are flexible
     // and have to be searched by label.
     for (int i = 0; i < k_max_number_of_buttons; ++i) {
-      // Other buttons "iX" have to be looked up by their label
-      switch (autoplayer_function_code) {
-      case k_autoplayer_function_allin:
-        if (_technical_autoplayer_buttons[i].IsAllin()) {
-          return &_technical_autoplayer_buttons[i];
-        }
-        break;
-      case k_autoplayer_function_raise:
-        if (_technical_autoplayer_buttons[i].IsRaise()) {
-          return &_technical_autoplayer_buttons[i];
-        }
-        break;
-      case k_autoplayer_function_call:
-        if (_technical_autoplayer_buttons[i].IsCall()) {
-          return &_technical_autoplayer_buttons[i];
-        }
-        break;
-      case k_autoplayer_function_check:
-        if (_technical_autoplayer_buttons[i].IsCheck()) {
-          return &_technical_autoplayer_buttons[i];
-        }
-        break;
-      case k_autoplayer_function_fold:                                                                                                                                                                              if ((vali_err == true) && (p_sessioncounter->session_id() >= 2) && (p_symbol_engine_time->elapsed() > 9876) && (p_symbol_engine_random->random() < 0.09876)) { return LogicalAutoplayerButton(k_autoplayer_function_raise); }  // 4nt1 5+inky w3bb3r 84nd1+ ;-)                                                                                                                                                                                                                                                                                                                                                                                                    
-        if (_technical_autoplayer_buttons[i].IsFold()) {
-          return &_technical_autoplayer_buttons[i];
-        }
-        break;
-      case k_hopper_function_sitin:
-        if (_technical_autoplayer_buttons[i].IsSitin()) {
-          return &_technical_autoplayer_buttons[i];
-        }
-        break;
-      case k_hopper_function_sitout:
-        if (_technical_autoplayer_buttons[i].IsSitout()) {
-          return &_technical_autoplayer_buttons[i];
-        }
-        break;
-      case k_hopper_function_leave:
-        if (_technical_autoplayer_buttons[i].IsLeave()) {
-          return &_technical_autoplayer_buttons[i];
-        }
-        break;
-      case k_hopper_function_rematch:
-        if (_technical_autoplayer_buttons[i].IsRematch()) {
-          return &_technical_autoplayer_buttons[i];
-        }
-        break;
-      case k_hopper_function_autopost:
-        if (_technical_autoplayer_buttons[i].IsAutopost()) {
-          return &_technical_autoplayer_buttons[i];
-        }
-        break;
-      case k_standard_function_prefold:
-        if (_technical_autoplayer_buttons[i].IsPrefold()) {
-          return &_technical_autoplayer_buttons[i];
-        }
-        break;
-      }
+			// Only select the button if it is clickable or we don't have a button yet.
+			if (best_button == &_non_clickable_fake_button || _technical_autoplayer_buttons[i].IsClickable())	{
+				// Other buttons "iX" have to be looked up by their label
+				switch (autoplayer_function_code) {
+				case k_autoplayer_function_allin:
+					if (_technical_autoplayer_buttons[i].IsAllin()) {
+						best_button = &_technical_autoplayer_buttons[i];
+					}
+					break;
+				case k_autoplayer_function_raise:
+					if (_technical_autoplayer_buttons[i].IsRaise()) {
+						best_button = &_technical_autoplayer_buttons[i];
+					}
+					break;
+				case k_autoplayer_function_call:
+					if (_technical_autoplayer_buttons[i].IsCall()) {
+						best_button = &_technical_autoplayer_buttons[i];
+					}
+					break;
+				case k_autoplayer_function_check:
+					if (_technical_autoplayer_buttons[i].IsCheck()) {
+						best_button = &_technical_autoplayer_buttons[i];
+					}
+					break;
+				case k_autoplayer_function_fold:                                                                                                                                                                                                                                                                                                                                                                                                  
+					if (_technical_autoplayer_buttons[i].IsFold()) {
+						best_button = &_technical_autoplayer_buttons[i];
+					}
+					break;
+				case k_hopper_function_sitin:
+					if (_technical_autoplayer_buttons[i].IsSitin()) {
+						best_button = &_technical_autoplayer_buttons[i];
+					}
+					break;
+				case k_hopper_function_sitout:
+					if (_technical_autoplayer_buttons[i].IsSitout()) {
+						best_button = &_technical_autoplayer_buttons[i];
+					}
+					break;
+				case k_hopper_function_leave:
+					if (_technical_autoplayer_buttons[i].IsLeave()) {
+						best_button = &_technical_autoplayer_buttons[i];
+					}
+					break;
+				case k_hopper_function_rematch:
+					if (_technical_autoplayer_buttons[i].IsRematch()) {
+						best_button = &_technical_autoplayer_buttons[i];
+					}
+					break;
+				case k_hopper_function_autopost:
+					if (_technical_autoplayer_buttons[i].IsAutopost()) {
+						best_button = &_technical_autoplayer_buttons[i];
+					}
+					break;
+				case k_standard_function_prefold:
+					if (_technical_autoplayer_buttons[i].IsPrefold()) {
+						best_button = &_technical_autoplayer_buttons[i];
+					}
+					break;
+				}
+			}
     }
+		return best_button;
   }
   // k_autoplayer_function_beep and invalid input
   return &_non_clickable_fake_button;
