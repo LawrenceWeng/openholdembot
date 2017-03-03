@@ -170,7 +170,7 @@ double CSymbolEngineVersus::ExpectedWinHandVsHand(int betround, int plCard0, int
 	// FLOP, TURN, RIVER
 	else if (betround >= kBetroundFlop)
 	{
-		CardMask		plCards, oppCards, deadCards, comCardsScrape, comCardsEnum, comCardsAll, usedCards;
+		CardMask		plCards, oppCards, deadCards, comCardsScrape, comCardsEnum, comCardsAll, usedCardsForPl, usedCardsForOpp;
 
 		// Common cards
 		CardMask_RESET(comCardsScrape);
@@ -185,17 +185,19 @@ double CSymbolEngineVersus::ExpectedWinHandVsHand(int betround, int plCard0, int
 		CardMask_SET(plCards, plCard0);
 		CardMask_SET(plCards, plCard1);
 
+		CardMask_RESET(oppCards);
+		CardMask_SET(oppCards, oppCard0);
+		CardMask_SET(oppCards, oppCard1);
+
 		// all used cards
-		CardMask_OR(usedCards, comCardsScrape, plCards);
+		CardMask_OR(usedCardsForOpp, comCardsScrape, plCards);
+		CardMask_OR(usedCardsForPl, comCardsScrape, oppCards);
 
-		if (!CardMask_CARD_IS_SET(usedCards, oppCard0) && !CardMask_CARD_IS_SET(usedCards, oppCard1))
+		if (!CardMask_CARD_IS_SET(usedCardsForOpp, oppCard0) && !CardMask_CARD_IS_SET(usedCardsForOpp, oppCard1) &&
+			!CardMask_CARD_IS_SET(usedCardsForPl, plCard0) && !CardMask_CARD_IS_SET(usedCardsForPl, plCard1))
 		{
-			CardMask_RESET(oppCards);
-			CardMask_SET(oppCards, oppCard0);
-			CardMask_SET(oppCards, oppCard1);
-
 			// Enumerate through all possible river situations (exclude player cards and opponent cards)
-			CardMask_OR(deadCards, usedCards, oppCards);
+			CardMask_OR(deadCards, usedCardsForOpp, oppCards);
 			wintemp = tietemp = lostemp = 0;
 
 			if (betround == kBetroundFlop || betround == kBetroundTurn)
