@@ -1,5 +1,7 @@
 LIBRARY	OpenHoldem
 ExpectedWinHandVsHand
+ResetRMSData
+GetRMSData
 EXPORTS
 GetSymbol
 GetPrw1326

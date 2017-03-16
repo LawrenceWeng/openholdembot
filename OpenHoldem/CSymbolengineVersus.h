@@ -16,6 +16,8 @@
 
 #include "CVirtualSymbolEngine.h"
 
+#define MAX_RMSDATA (46*47)
+
 const int card0_offset[52] = { 0, 62475, 123725, 183750, 242550, 300125, 356475, 411600, 465500, 518175, 569625,
 	619850, 668850, 716625, 763175, 808500, 852600, 895475, 937125, 977550, 1016750,
 	1054725, 1091475, 1127000, 1161300, 1194375, 1226225, 1256850, 1286250, 1314425,
@@ -44,7 +46,9 @@ class CSymbolEngineVersus: public CVirtualSymbolEngine {
   bool VersusBinLoaded()  { return !_versus_bin_not_loaded; }
  public:
   bool GetCounts();
-  double ExpectedWinHandVsHand(int betround, int plCard0, int plCard1, int oppCard0, int oppCard1, int iterations);
+  double ExpectedWinHandVsHand(int betround, int plCard0, int plCard1, int oppCard0, int oppCard1, double weight, int iterations);
+  void ResetRMSData();
+  double GetRMSData(int index);
  private:
   void DoCalc(const CardMask plCards, const CardMask oppCards, const CardMask comCards, 
 	  unsigned int *wintemp, unsigned int *tietemp, unsigned int *lostemp);
@@ -73,9 +77,13 @@ private:
   int _n_tie_against_hand[kNumberOfCardsPerDeck][kNumberOfCardsPerDeck];
   int _n_los_against_hand[kNumberOfCardsPerDeck][kNumberOfCardsPerDeck];
  private:
-  
   int card_player[kNumberOfCardsPerPlayer];
   int card_common[kNumberOfCommunityCards];
+private:
+	//RMS data
+	double RMSWins[MAX_RMSDATA];
+	double RMSTies[MAX_RMSDATA];
+	double RMSLosses[MAX_RMSDATA];
 };
 
 extern CSymbolEngineVersus *p_symbol_engine_versus;

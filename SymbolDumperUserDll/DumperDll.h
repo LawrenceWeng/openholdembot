@@ -63,10 +63,11 @@ double process_query(const char* pquery);
 #ifndef OH_2
 // Functions exported by OpenHoldem
 extern "C" __declspec(dllimport) char*  __stdcall GetPlayerName(int chair);
-extern "C" __declspec(dllimport) double __stdcall ExpectedWinHandVsHand(int betround, int plCard0, int plCard1, int oppCard0, int oppCard1, int iterations = 0);
+extern "C" __declspec(dllimport) double __stdcall ExpectedWinHandVsHand(int betround, int plCard0, int plCard1, int oppCard0, int oppCard1, double weight, int iterations = 0);
+extern "C" __declspec(dllimport) void   __stdcall ResetRMSData();
+extern "C" __declspec(dllimport) double __stdcall GetRMSData(int index);
 extern "C" __declspec(dllimport) double __stdcall GetSymbol(const char* name);
 extern "C" __declspec(dllimport) void   __stdcall SendChatMessage(const char *msg);
-extern "C" __declspec(dllimport) void*  __stdcall GetPhl1k();
 extern "C" __declspec(dllimport) void*  __stdcall GetPrw1326();
 extern "C" __declspec(dllimport) void   __stdcall WriteLog(char* fmt, ...);
 extern "C" __declspec(dllimport) char*  __stdcall GetHandnumber();

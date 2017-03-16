@@ -112,7 +112,24 @@ void CSymbolEngineVersus::ClearWinTieLosData() {
   }
 }
 
-double CSymbolEngineVersus::ExpectedWinHandVsHand(int betround, int plCard0, int plCard1, int oppCard0, int oppCard1, int iterations = 0) {
+void CSymbolEngineVersus::ResetRMSData() {
+	for (int i = 0; i < MAX_RMSDATA; i++) {
+		RMSWins[i] = kUndefined;
+		RMSTies[i] = kUndefined;
+		RMSLosses[i] = kUndefined;
+	}
+}
+
+double CSymbolEngineVersus::GetRMSData(int index) {
+	if (index >= MAX_RMSDATA || index < 0)
+		return kUndefined;
+	else
+	{
+		return (RMSWins[index] + RMSTies[index] / 2.0) / (RMSWins[index] + RMSTies[index] + RMSLosses[index]);
+	}
+}
+
+double CSymbolEngineVersus::ExpectedWinHandVsHand(int betround, int plCard0, int plCard1, int oppCard0, int oppCard1, double weight, int iterations = 0) {
 	long pos = 0;
 	unsigned int wintemp = 0, tietemp = 0, lostemp = 0;
 	int nwin = 0, ntie = 0, nlos = 0;
@@ -216,11 +233,16 @@ double CSymbolEngineVersus::ExpectedWinHandVsHand(int betround, int plCard0, int
 				}
 				else
 				{
+					int RMScount = 0;
 					//(cards_var, n_cards, dead_cards,action)
 					ENUMERATE_N_CARDS_D(comCardsEnum, (betround == kBetroundFlop ? 2 : betround == kBetroundTurn ? 1 : 0), deadCards,
 						{
 							CardMask_OR(comCardsAll, comCardsScrape, comCardsEnum);
 							DoCalc(plCards, oppCards, comCardsAll, &wintemp, &tietemp, &lostemp);
+							RMSWins[RMScount] += wintemp*weight;
+							RMSTies[RMScount] += tietemp*weight;
+							RMSLosses[RMScount] += lostemp*weight;
+							RMScount++;
 						});
 				}
 			}

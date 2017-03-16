@@ -50,8 +50,26 @@ void PlayKeyboardEvent(int vkey, int bscan)
 	keybd_event(VK_SHIFT,   0, (bscan & Shift)   ? 0 : KEYEVENTF_KEYUP, 0);
 	keybd_event(VK_MENU,    0, (bscan & Alt)     ? 0 : KEYEVENTF_KEYUP, 0);
 
-	keybd_event(vkey,  bscan,  0, 0);
-	keybd_event(vkey,  bscan,  KEYEVENTF_KEYUP, 0);
+	/*keybd_event(vkey,  bscan,  0, 0);
+	keybd_event(vkey,  bscan,  KEYEVENTF_KEYUP, 0);*/
+
+	INPUT input[2];
+	int input_count = 0;
+	ZeroMemory(&input[input_count], sizeof(INPUT));
+	input[input_count].type = INPUT_KEYBOARD;
+	input[input_count].ki.wVk = vkey;
+	input[input_count].ki.wScan = MapVirtualKey(vkey, 0);
+	input_count++;
+
+	ZeroMemory(&input[input_count], sizeof(INPUT));
+	input[input_count].type = INPUT_KEYBOARD;
+	input[input_count].ki.wVk = vkey;
+	input[input_count].ki.wScan = MapVirtualKey(vkey, 0);
+	input[input_count].ki.dwFlags = KEYEVENTF_KEYUP;
+	input_count++;
+
+	// Send input
+	SendInput(input_count, input, sizeof(INPUT));
 
 	if (bscan & Control)
 		keybd_event(VK_CONTROL, 0, KEYEVENTF_KEYUP, 0);
@@ -105,19 +123,22 @@ KEYBOARDDLL_API int SendString(const HWND hwnd, const RECT rect, const CString s
 	SendInput(input_count, input, sizeof(INPUT));
 
 	// Send each character of the string via PlayKeyboardEvent
-	char ch_str[100];
-	sprintf_s(ch_str, 100, "%s", s.GetString());
+	//char ch_str[100];
+	char chr;
+	//sprintf_s(ch_str, 100, "%s", s.GetString());
 
 	int	vkey = 0;
 
-	int i = 0, strlength = (int)strlen(ch_str);
+	//int i = 0, strlength = (int)strlen(ch_str);
+	int i = 0, strlength = s.GetLength();
 	short KeyScan;
 	for (int i=0; i<strlength; i++)
 	{
 		Sleep(20);
-		if (use_comma && ch_str[i]=='.')
-			ch_str[i] = ',';
-		KeyScan = VkKeyScan(ch_str[i]);
+		chr = s[i];
+		if (use_comma && s[i] == '.')
+			chr = ',';
+		KeyScan = VkKeyScan(chr);
 		PlayKeyboardEvent(LOBYTE(KeyScan), HIBYTE(KeyScan));
 	}
 	Sleep(20);
@@ -162,11 +183,13 @@ KEYBOARDDLL_API int SendKey(const HWND hwnd, const RECT rect, UINT vkey)
 	ZeroMemory(&input[input_count],sizeof(INPUT));
 	input[input_count].type = INPUT_KEYBOARD;
 	input[input_count].ki.wVk = vkey;
+	input[input_count].ki.wScan = MapVirtualKey(vkey, 0);
 	input_count++;
 
 	ZeroMemory(&input[input_count],sizeof(INPUT));
 	input[input_count].type = INPUT_KEYBOARD;
 	input[input_count].ki.wVk = vkey;
+	input[input_count].ki.wScan = MapVirtualKey(vkey, 0);
 	input[input_count].ki.dwFlags = KEYEVENTF_KEYUP;
 	input_count++;
 

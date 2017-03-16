@@ -107,9 +107,17 @@ bool CDllExtension::IsLoaded() {
 	// return _hmod_dll != NULL;
 }
 
-/*EXE_IMPLEMENTS*/ double __stdcall ExpectedWinHandVsHand(int betround, int plCard0, int plCard1, int oppCard0, int oppCard1, int iterations)
+/*EXE_IMPLEMENTS*/ double __stdcall ExpectedWinHandVsHand(int betround, int plCard0, int plCard1, int oppCard0, int oppCard1, double weight, int iterations)
 {
-	return p_symbol_engine_versus->ExpectedWinHandVsHand(betround, plCard0, plCard1, oppCard0, oppCard1, iterations);
+	return p_symbol_engine_versus->ExpectedWinHandVsHand(betround, plCard0, plCard1, oppCard0, oppCard1, weight, iterations);
+}
+/*EXE_IMPLEMENTS*/ void __stdcall ResetRMSData()
+{
+	return p_symbol_engine_versus->ResetRMSData();
+}
+/*EXE_IMPLEMENTS*/ double __stdcall GetRMSData(int index)
+{
+	return p_symbol_engine_versus->GetRMSData(index);
 }
 
 /*EXE_IMPLEMENTS*/ double __stdcall GetSymbol(const char* name_of_single_symbol__not_expression) {
