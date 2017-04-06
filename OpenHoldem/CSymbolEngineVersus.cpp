@@ -56,12 +56,53 @@ void CSymbolEngineVersus::ResetOnConnection() {
 }
 
 void CSymbolEngineVersus::ResetOnHandreset() {
+	for (int i = 0; i < kMaxNumberOfPlayers; i++)
+		lastCurrentBet[i] = kUndefined;
+	for (int i = 0; i < kNumberOfCardsPerPlayer; i++)
+		lastPCard[i] = kUndefined;
+	for (int i = 0; i < kNumberOfCommunityCards; i++)
+		lastCCard[i] = kUndefined;
 }
 
 void CSymbolEngineVersus::ResetOnNewRound() {
 }
 
 void CSymbolEngineVersus::ResetOnMyTurn() {
+
+	//check if new situation
+	bool newSit = false;
+	for (int i = 0; i < kMaxNumberOfPlayers; i++)
+	{
+		if (lastCurrentBet[i] != p_table_state->Player(i)->_bet.GetValue())
+			newSit = true;
+	}
+		
+	for (int i = 0; i < kNumberOfCardsPerPlayer; i++)
+	{
+		if (lastPCard[i] != p_table_state->User()->hole_cards(i)->GetValue())
+			newSit = true;
+	}
+		
+	for (int i = 0; i < kNumberOfCommunityCards; i++)
+	{
+		if (lastCCard[i] != p_table_state->CommonCards(i)->GetValue())
+			newSit = true;
+	}
+
+	if (newSit == false)
+		return;
+
+	//reset shouldbet values
+	for (int i = 0; i < kNumberOfCommunityCards; i++)
+		card_common_shouldbet[i] = kUndefined;
+
+	//set to new values
+	for (int i = 0; i < kMaxNumberOfPlayers; i++)
+		lastCurrentBet[i] = p_table_state->Player(i)->_bet.GetValue();
+	for (int i = 0; i < kNumberOfCardsPerPlayer; i++)
+		lastPCard[i] = p_table_state->User()->hole_cards(i)->GetValue();
+	for (int i = 0; i < kNumberOfCommunityCards; i++)
+		lastCCard[i] = p_table_state->CommonCards(i)->GetValue();
 }
 
 void CSymbolEngineVersus::ResetOnHeartbeat() {
@@ -129,6 +170,16 @@ double CSymbolEngineVersus::GetRMSData(int index) {
 	}
 }
 
+int CSymbolEngineVersus::GetRandomUnusedCard(CardMask usedCards)
+{
+	int card = kUndefined;
+	do
+	{
+		card = RANDOM() % StdDeck_N_CARDS;
+	} while (StdDeck_CardMask_CARD_IS_SET(usedCards, card));
+	return card;
+}
+
 double CSymbolEngineVersus::ExpectedWinHandVsHand(int betround, int plCard0, int plCard1, int oppCard0, int oppCard1, double weight, int iterations = 0) {
 	long pos = 0;
 	unsigned int wintemp = 0, tietemp = 0, lostemp = 0;
@@ -144,7 +195,7 @@ double CSymbolEngineVersus::ExpectedWinHandVsHand(int betround, int plCard0, int
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// PREFLOP
-	if (betround == kBetroundPreflop) {
+	if (betround == kBetroundPreflop && iterations!= -1) {
 		// figure out offset into file
 		unsigned int offset = 0;
 		//for (int i=1; i<card_player[0]; i++)  offset += (52-i)*1225;
@@ -185,18 +236,19 @@ double CSymbolEngineVersus::ExpectedWinHandVsHand(int betround, int plCard0, int
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// FLOP, TURN, RIVER
-	else if (betround >= kBetroundFlop)
+	else if (betround >= kBetroundFlop || iterations == -1)
 	{
 		CardMask		plCards, oppCards, deadCards, comCardsScrape, comCardsEnum, comCardsAll, usedCardsForPl, usedCardsForOpp;
 
 		// Common cards
 		CardMask_RESET(comCardsScrape);
+
 		if (betround >= kBetroundFlop)  CardMask_SET(comCardsScrape, card_common[0]);
 		if (betround >= kBetroundFlop)  CardMask_SET(comCardsScrape, card_common[1]);
 		if (betround >= kBetroundFlop)  CardMask_SET(comCardsScrape, card_common[2]);
 		if (betround >= kBetroundTurn)  CardMask_SET(comCardsScrape, card_common[3]);
 		if (betround >= kBetroundRiver) CardMask_SET(comCardsScrape, card_common[4]);
-
+		
 		// player cards
 		CardMask_RESET(plCards);
 		CardMask_SET(plCards, plCard0);
@@ -209,12 +261,69 @@ double CSymbolEngineVersus::ExpectedWinHandVsHand(int betround, int plCard0, int
 		// all used cards
 		CardMask_OR(usedCardsForOpp, comCardsScrape, plCards);
 		CardMask_OR(usedCardsForPl, comCardsScrape, oppCards);
+		CardMask_OR(deadCards, usedCardsForOpp, oppCards);
+
+		if (iterations == -1)
+		{
+			if (betround < kBetroundRiver)
+			{
+				if (card_common_shouldbet[4] == kUndefined)
+				{
+					card_common_shouldbet[4] = GetRandomUnusedCard(deadCards);
+				}
+				CardMask_SET(comCardsScrape, card_common_shouldbet[4]);
+				CardMask_SET(usedCardsForOpp, card_common_shouldbet[4]);
+				CardMask_SET(usedCardsForPl, card_common_shouldbet[4]);
+				CardMask_SET(deadCards, card_common_shouldbet[4]);
+
+				if (betround < kBetroundTurn)
+				{
+					if (card_common_shouldbet[3] == kUndefined)
+					{
+						card_common_shouldbet[3] = GetRandomUnusedCard(deadCards);
+					}
+					CardMask_SET(comCardsScrape, card_common_shouldbet[3]);
+					CardMask_SET(usedCardsForOpp, card_common_shouldbet[3]);
+					CardMask_SET(usedCardsForPl, card_common_shouldbet[3]);
+					CardMask_SET(deadCards, card_common_shouldbet[3]);
+
+					if (betround < kBetroundFlop)
+					{
+						if (card_common_shouldbet[2] == kUndefined)
+						{
+							card_common_shouldbet[2] = GetRandomUnusedCard(deadCards);
+						}
+						CardMask_SET(comCardsScrape, card_common_shouldbet[2]);
+						CardMask_SET(usedCardsForOpp, card_common_shouldbet[2]);
+						CardMask_SET(usedCardsForPl, card_common_shouldbet[2]);
+						CardMask_SET(deadCards, card_common_shouldbet[2]);
+						if (card_common_shouldbet[1] == kUndefined)
+						{
+							card_common_shouldbet[1] = GetRandomUnusedCard(deadCards);
+						}
+						CardMask_SET(comCardsScrape, card_common_shouldbet[1]);
+						CardMask_SET(usedCardsForOpp, card_common_shouldbet[1]);
+						CardMask_SET(usedCardsForPl, card_common_shouldbet[1]);
+						CardMask_SET(deadCards, card_common_shouldbet[1]);
+						if (card_common_shouldbet[0] == kUndefined)
+						{
+							card_common_shouldbet[0] = GetRandomUnusedCard(deadCards);
+						}
+						CardMask_SET(comCardsScrape, card_common_shouldbet[0]);
+						CardMask_SET(usedCardsForOpp, card_common_shouldbet[0]);
+						CardMask_SET(usedCardsForPl, card_common_shouldbet[0]);
+						CardMask_SET(deadCards, card_common_shouldbet[0]);
+					}
+				}
+			}
+
+			betround = kBetroundRiver;
+		}
 
 		if (!CardMask_CARD_IS_SET(usedCardsForOpp, oppCard0) && !CardMask_CARD_IS_SET(usedCardsForOpp, oppCard1) &&
 			!CardMask_CARD_IS_SET(usedCardsForPl, plCard0) && !CardMask_CARD_IS_SET(usedCardsForPl, plCard1))
 		{
 			// Enumerate through all possible river situations (exclude player cards and opponent cards)
-			CardMask_OR(deadCards, usedCardsForOpp, oppCards);
 			wintemp = tietemp = lostemp = 0;
 
 			if (betround == kBetroundFlop || betround == kBetroundTurn)

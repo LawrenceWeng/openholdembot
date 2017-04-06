@@ -84,6 +84,14 @@ private:
 	double RMSWins[MAX_RMSDATA];
 	double RMSTies[MAX_RMSDATA];
 	double RMSLosses[MAX_RMSDATA];
+private:
+	//one future possible outcome for shouldbet
+	int GetRandomUnusedCard(CardMask usedCards);
+	int card_common_shouldbet[kNumberOfCommunityCards];
+
+	double lastCurrentBet[kMaxNumberOfPlayers];
+	int lastPCard[kNumberOfCardsPerPlayer];
+	int lastCCard[kNumberOfCommunityCards];
 };
 
 extern CSymbolEngineVersus *p_symbol_engine_versus;
