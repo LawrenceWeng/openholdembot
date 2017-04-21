@@ -47,6 +47,7 @@ class CSymbolEngineVersus: public CVirtualSymbolEngine {
  public:
   bool GetCounts();
   double ExpectedWinHandVsHand(int betround, int plCard0, int plCard1, int oppCard0, int oppCard1, double weight, int iterations);
+  void ResetShouldBetCommonCards();
   void ResetRMSData();
   double GetRMSData(int index);
  private:

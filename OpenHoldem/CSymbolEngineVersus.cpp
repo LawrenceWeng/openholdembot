@@ -50,6 +50,8 @@ CSymbolEngineVersus::~CSymbolEngineVersus() {
 }
 
 void CSymbolEngineVersus::InitOnStartup() {
+	// Seed the RNG
+	srand((unsigned)GetTickCount());
 }
 
 void CSymbolEngineVersus::ResetOnConnection() {
@@ -92,9 +94,7 @@ void CSymbolEngineVersus::ResetOnMyTurn() {
 	if (newSit == false)
 		return;
 
-	//reset shouldbet values
-	for (int i = 0; i < kNumberOfCommunityCards; i++)
-		card_common_shouldbet[i] = kUndefined;
+	ResetShouldBetCommonCards();
 
 	//set to new values
 	for (int i = 0; i < kMaxNumberOfPlayers; i++)
@@ -161,6 +161,12 @@ void CSymbolEngineVersus::ResetRMSData() {
 	}
 }
 
+void CSymbolEngineVersus::ResetShouldBetCommonCards() {
+	//reset shouldbet values
+	for (int i = 0; i < kNumberOfCommunityCards; i++)
+		card_common_shouldbet[i] = kUndefined;
+}
+
 double CSymbolEngineVersus::GetRMSData(int index) {
 	if (index >= MAX_RMSDATA || index < 0)
 		return kUndefined;
@@ -181,6 +187,9 @@ int CSymbolEngineVersus::GetRandomUnusedCard(CardMask usedCards)
 }
 
 double CSymbolEngineVersus::ExpectedWinHandVsHand(int betround, int plCard0, int plCard1, int oppCard0, int oppCard1, double weight, int iterations = 0) {
+	if (iterations < -1)
+		ResetShouldBetCommonCards();
+
 	long pos = 0;
 	unsigned int wintemp = 0, tietemp = 0, lostemp = 0;
 	int nwin = 0, ntie = 0, nlos = 0;
@@ -195,7 +204,7 @@ double CSymbolEngineVersus::ExpectedWinHandVsHand(int betround, int plCard0, int
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// PREFLOP
-	if (betround == kBetroundPreflop && iterations!= -1) {
+	if (betround == kBetroundPreflop && iterations >= 0) {
 		// figure out offset into file
 		unsigned int offset = 0;
 		//for (int i=1; i<card_player[0]; i++)  offset += (52-i)*1225;
@@ -236,7 +245,7 @@ double CSymbolEngineVersus::ExpectedWinHandVsHand(int betround, int plCard0, int
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// FLOP, TURN, RIVER
-	else if (betround >= kBetroundFlop || iterations == -1)
+	else if (betround >= kBetroundFlop || iterations < 0)
 	{
 		CardMask		plCards, oppCards, deadCards, comCardsScrape, comCardsEnum, comCardsAll, usedCardsForPl, usedCardsForOpp;
 
@@ -263,7 +272,7 @@ double CSymbolEngineVersus::ExpectedWinHandVsHand(int betround, int plCard0, int
 		CardMask_OR(usedCardsForPl, comCardsScrape, oppCards);
 		CardMask_OR(deadCards, usedCardsForOpp, oppCards);
 
-		if (iterations == -1)
+		if (iterations < 0)
 		{
 			if (betround < kBetroundRiver)
 			{
