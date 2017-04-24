@@ -15,6 +15,30 @@
 #define INC_POKERTRACKER_QUERIES_VERSION_4_H
 
 #define MAX_STATS_PER_TYPE 5
+#define GAMETYPE_MAX_PLAYERS 6
+//2=headsup, 6=6max, 10=fullring
+#if GAMETYPE_MAX_PLAYERS == 2
+#define EARLYPOSITIONS "-1"
+#define MIDDLEPOSITIONS "-1"
+#define LATEPOSITIONS "-1"
+#define BLINDPOSITIONS "8,9"
+#define MIN_PLAYERS_AT_TABLE 2
+#define MAX_PLAYERS_AT_TABLE 2
+#elif GAMETYPE_MAX_PLAYERS == 6
+#define EARLYPOSITIONS "2,3"
+#define MIDDLEPOSITIONS "1"
+#define LATEPOSITIONS "0"
+#define BLINDPOSITIONS "8,9"
+#define MIN_PLAYERS_AT_TABLE 3
+#define MAX_PLAYERS_AT_TABLE 6
+#else
+#define EARLYPOSITIONS "5,6,7"
+#define MIDDLEPOSITIONS "2,3,4"
+#define LATEPOSITIONS "0,1"
+#define BLINDPOSITIONS "8,9"
+#define MIN_PLAYERS_AT_TABLE 7
+#define MAX_PLAYERS_AT_TABLE 10
+#endif
 
 // GENERAL STATS
 // ICON disabled, as not supported by PT 4.
@@ -794,21 +818,21 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 			(case	when ActionOpportunities4 = 0 then - 1 \
 			else cast(ActionCount4 as real) / ActionOpportunities4 \
 			end) as result4, ActionOpportunities4 \
-			FROM(SELECT	sum(case when l.absolute_position in(5,6,7) AND flg_vpip then 1 else 0 end) \
+			FROM(SELECT	sum(case when l.absolute_position in(" EARLYPOSITIONS ") AND flg_vpip then 1 else 0 end) \
 			as ActionCount1, \
-			sum(case when l.absolute_position in(5,6,7) then 1 else 0 end) \
+			sum(case when l.absolute_position in(" EARLYPOSITIONS ") then 1 else 0 end) \
 			as ActionOpportunities1, \
-			sum(case when l.absolute_position in(2,3,4) AND flg_vpip then 1 else 0 end) \
+			sum(case when l.absolute_position in(" MIDDLEPOSITIONS ") AND flg_vpip then 1 else 0 end) \
 			as ActionCount2, \
-			sum(case when l.absolute_position in(2,3,4) then 1 else 0 end) \
+			sum(case when l.absolute_position in(" MIDDLEPOSITIONS ") then 1 else 0 end) \
 			as ActionOpportunities2, \
-			sum(case when l.absolute_position in(0,1)  AND flg_vpip then 1 else 0 end) \
+			sum(case when l.absolute_position in(" LATEPOSITIONS ")  AND flg_vpip then 1 else 0 end) \
 			as ActionCount3, \
-			sum(case when l.absolute_position in(0,1) then 1 else 0 end) \
+			sum(case when l.absolute_position in(" LATEPOSITIONS ") then 1 else 0 end) \
 			as ActionOpportunities3, \
-			sum(case when l.absolute_position in(8,9)  AND flg_vpip then 1 else 0 end) \
+			sum(case when l.absolute_position in(" BLINDPOSITIONS ")  AND flg_vpip then 1 else 0 end) \
 			as ActionCount4, \
-			sum(case when l.absolute_position in(8,9) then 1 else 0 end) \
+			sum(case when l.absolute_position in(" BLINDPOSITIONS ") then 1 else 0 end) \
 			as ActionOpportunities4 \
 				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_positions l \
 				 WHERE	S.id_player = P.id_player AND \
@@ -844,21 +868,21 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				(case	when ActionOpportunities4 = 0 then - 1 \
 				else cast(ActionCount4 as real) / ActionOpportunities4 \
 				end) as result4, ActionOpportunities4 \
-				FROM(SELECT	sum(case when l.absolute_position in(5,6,7) AND cnt_p_raise > 0 then 1 else 0 end) \
+				FROM(SELECT	sum(case when l.absolute_position in(" EARLYPOSITIONS ") AND cnt_p_raise > 0 then 1 else 0 end) \
 							as ActionCount1, \
-							sum(case when l.absolute_position in(5,6,7) then 1 else 0 end) \
+							sum(case when l.absolute_position in(" EARLYPOSITIONS ") then 1 else 0 end) \
 							as ActionOpportunities1, \
-							sum(case when l.absolute_position in(2,3,4) AND cnt_p_raise > 0 then 1 else 0 end) \
+							sum(case when l.absolute_position in(" MIDDLEPOSITIONS ") AND cnt_p_raise > 0 then 1 else 0 end) \
 							as ActionCount2, \
-							sum(case when l.absolute_position in(2,3,4) then 1 else 0 end) \
+							sum(case when l.absolute_position in(" MIDDLEPOSITIONS ") then 1 else 0 end) \
 							as ActionOpportunities2, \
-							sum(case when l.absolute_position in(0,1)  AND cnt_p_raise > 0 then 1 else 0 end) \
+							sum(case when l.absolute_position in(" LATEPOSITIONS ")  AND cnt_p_raise > 0 then 1 else 0 end) \
 							as ActionCount3, \
-							sum(case when l.absolute_position in(0,1) then 1 else 0 end) \
+							sum(case when l.absolute_position in(" LATEPOSITIONS ") then 1 else 0 end) \
 							as ActionOpportunities3, \
-							sum(case when l.absolute_position in(8,9)  AND cnt_p_raise > 0 then 1 else 0 end) \
+							sum(case when l.absolute_position in(" BLINDPOSITIONS ")  AND cnt_p_raise > 0 then 1 else 0 end) \
 							as ActionCount4, \
-							sum(case when l.absolute_position in(8,9) then 1 else 0 end) \
+							sum(case when l.absolute_position in(" BLINDPOSITIONS ") then 1 else 0 end) \
 							as ActionOpportunities4 \
 					 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_positions l \
 					 WHERE	S.id_player = P.id_player AND \
@@ -894,21 +918,21 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				(case	when ActionOpportunities4 = 0 then - 1 \
 				else cast(ActionCount4 as real) / ActionOpportunities4 \
 				end) as result4, ActionOpportunities4 \
-				FROM(SELECT	sum(case when l.absolute_position in(5,6,7) AND s.flg_p_open_opp AND s.flg_p_first_raise then 1 else 0 end) \
+				FROM(SELECT	sum(case when l.absolute_position in(" EARLYPOSITIONS ") AND s.flg_p_open_opp AND s.flg_p_first_raise then 1 else 0 end) \
 							as ActionCount1, \
-							sum(case when l.absolute_position in(5,6,7) AND s.flg_p_open_opp then 1 else 0 end) \
+							sum(case when l.absolute_position in(" EARLYPOSITIONS ") AND s.flg_p_open_opp then 1 else 0 end) \
 							as ActionOpportunities1, \
-							sum(case when l.absolute_position in(2,3,4) AND s.flg_p_open_opp AND s.flg_p_first_raise then 1 else 0 end) \
+							sum(case when l.absolute_position in(" MIDDLEPOSITIONS ") AND s.flg_p_open_opp AND s.flg_p_first_raise then 1 else 0 end) \
 							as ActionCount2, \
-							sum(case when l.absolute_position in(2,3,4) AND s.flg_p_open_opp then 1 else 0 end) \
+							sum(case when l.absolute_position in(" MIDDLEPOSITIONS ") AND s.flg_p_open_opp then 1 else 0 end) \
 							as ActionOpportunities2, \
-							sum(case when l.absolute_position in(0,1) AND s.flg_p_open_opp AND s.flg_p_first_raise then 1 else 0 end) \
+							sum(case when l.absolute_position in(" LATEPOSITIONS ") AND s.flg_p_open_opp AND s.flg_p_first_raise then 1 else 0 end) \
 							as ActionCount3, \
-							sum(case when l.absolute_position in(0,1) AND s.flg_p_open_opp then 1 else 0 end) \
+							sum(case when l.absolute_position in(" LATEPOSITIONS ") AND s.flg_p_open_opp then 1 else 0 end) \
 							as ActionOpportunities3, \
-							sum(case when l.absolute_position in(8,9) AND s.flg_p_open_opp AND s.flg_p_first_raise then 1 else 0 end) \
+							sum(case when l.absolute_position in(" BLINDPOSITIONS ") AND s.flg_p_open_opp AND s.flg_p_first_raise then 1 else 0 end) \
 							as ActionCount4, \
-							sum(case when l.absolute_position in(8,9) AND s.flg_p_open_opp then 1 else 0 end) \
+							sum(case when l.absolute_position in(" BLINDPOSITIONS ") AND s.flg_p_open_opp then 1 else 0 end) \
 							as ActionOpportunities4 \
 					 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_positions l \
 					 WHERE	S.id_player = P.id_player AND \
@@ -1223,21 +1247,21 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				(case	when ActionOpportunities4 = 0 then - 1 \
 				else cast(ActionCount4 as real) / ActionOpportunities4 \
 				end) as result4, ActionOpportunities4 \
-			FROM(SELECT	sum(case when l.absolute_position in(5,6,7) AND NOT flg_p_face_raise AND s.flg_p_first_raise then 1 else 0 end) \
+			FROM(SELECT	sum(case when l.absolute_position in(" EARLYPOSITIONS ") AND NOT flg_p_face_raise AND s.flg_p_first_raise then 1 else 0 end) \
 						as ActionCount1, \
-						sum(case when l.absolute_position in(5,6,7) AND NOT flg_p_face_raise then 1 else 0 end) \
+						sum(case when l.absolute_position in(" EARLYPOSITIONS ") AND NOT flg_p_face_raise then 1 else 0 end) \
 						as ActionOpportunities1, \
-						sum(case when l.absolute_position in(2,3,4) AND NOT flg_p_face_raise AND s.flg_p_first_raise then 1 else 0 end) \
+						sum(case when l.absolute_position in(" MIDDLEPOSITIONS ") AND NOT flg_p_face_raise AND s.flg_p_first_raise then 1 else 0 end) \
 						as ActionCount2, \
-						sum(case when l.absolute_position in(2,3,4) AND NOT flg_p_face_raise then 1 else 0 end) \
+						sum(case when l.absolute_position in(" MIDDLEPOSITIONS ") AND NOT flg_p_face_raise then 1 else 0 end) \
 						as ActionOpportunities2, \
-						sum(case when l.absolute_position in(0,1) AND NOT flg_p_face_raise AND s.flg_p_first_raise then 1 else 0 end) \
+						sum(case when l.absolute_position in(" LATEPOSITIONS ") AND NOT flg_p_face_raise AND s.flg_p_first_raise then 1 else 0 end) \
 						as ActionCount3, \
-						sum(case when l.absolute_position in(0,1) AND NOT flg_p_face_raise then 1 else 0 end) \
+						sum(case when l.absolute_position in(" LATEPOSITIONS ") AND NOT flg_p_face_raise then 1 else 0 end) \
 						as ActionOpportunities3, \
-						sum(case when l.absolute_position in(8,9) AND NOT flg_p_face_raise AND s.flg_p_first_raise then 1 else 0 end) \
+						sum(case when l.absolute_position in(" BLINDPOSITIONS ") AND NOT flg_p_face_raise AND s.flg_p_first_raise then 1 else 0 end) \
 						as ActionCount4, \
-						sum(case when l.absolute_position in(8,9) AND NOT flg_p_face_raise then 1 else 0 end) \
+						sum(case when l.absolute_position in(" BLINDPOSITIONS ") AND NOT flg_p_face_raise then 1 else 0 end) \
 						as ActionOpportunities4 \
 				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_positions l \
 				WHERE	S.id_player = P.id_player AND \
@@ -1273,21 +1297,21 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				(case	when ActionOpportunities4 = 0 then - 1 \
 				else cast(ActionCount4 as real) / ActionOpportunities4 \
 				end) as result4, ActionOpportunities4 \
-			FROM(SELECT	sum(case when l.absolute_position in(5,6,7) AND cnt_p_call = 0 AND cnt_p_raise = 0 then 1 else 0 end) \
+			FROM(SELECT	sum(case when l.absolute_position in(" EARLYPOSITIONS ") AND cnt_p_call = 0 AND cnt_p_raise = 0 then 1 else 0 end) \
 						as ActionCount1, \
-						sum(case when l.absolute_position in(5,6,7) then 1 else 0 end) \
+						sum(case when l.absolute_position in(" EARLYPOSITIONS ") then 1 else 0 end) \
 						as ActionOpportunities1, \
-						sum(case when l.absolute_position in(2,3,4) AND cnt_p_call = 0 AND cnt_p_raise = 0 then 1 else 0 end) \
+						sum(case when l.absolute_position in(" MIDDLEPOSITIONS ") AND cnt_p_call = 0 AND cnt_p_raise = 0 then 1 else 0 end) \
 						as ActionCount2, \
-						sum(case when l.absolute_position in(2,3,4) then 1 else 0 end) \
+						sum(case when l.absolute_position in(" MIDDLEPOSITIONS ") then 1 else 0 end) \
 						as ActionOpportunities2, \
-						sum(case when l.absolute_position in(0,1) AND cnt_p_call = 0 AND cnt_p_raise = 0 then 1 else 0 end) \
+						sum(case when l.absolute_position in(" LATEPOSITIONS ") AND cnt_p_call = 0 AND cnt_p_raise = 0 then 1 else 0 end) \
 						as ActionCount3, \
-						sum(case when l.absolute_position in(0,1) then 1 else 0 end) \
+						sum(case when l.absolute_position in(" LATEPOSITIONS ") then 1 else 0 end) \
 						as ActionOpportunities3, \
-						sum(case when l.absolute_position in(8,9) AND cnt_p_call = 0 AND cnt_p_raise = 0 then 1 else 0 end) \
+						sum(case when l.absolute_position in(" BLINDPOSITIONS ") AND cnt_p_call = 0 AND cnt_p_raise = 0 then 1 else 0 end) \
 						as ActionCount4, \
-						sum(case when l.absolute_position in(8,9) then 1 else 0 end) \
+						sum(case when l.absolute_position in(" BLINDPOSITIONS ") then 1 else 0 end) \
 						as ActionOpportunities4 \
 				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_positions l \
 				WHERE	S.id_player = P.id_player AND \
@@ -1324,21 +1348,21 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				(case	when ActionOpportunities4 = 0 then - 1 \
 				else cast(ActionCount4 as real) / ActionOpportunities4 \
 				end) as result4, ActionOpportunities4 \
-			FROM(SELECT	sum(case when l.absolute_position in(5,6,7) AND flg_p_limp then 1 else 0 end) \
+			FROM(SELECT	sum(case when l.absolute_position in(" EARLYPOSITIONS ") AND flg_p_limp then 1 else 0 end) \
 						as ActionCount1, \
-						sum(case when l.absolute_position in(5,6,7) then 1 else 0 end) \
+						sum(case when l.absolute_position in(" EARLYPOSITIONS ") then 1 else 0 end) \
 						as ActionOpportunities1, \
-						sum(case when l.absolute_position in(2,3,4) AND flg_p_limp then 1 else 0 end) \
+						sum(case when l.absolute_position in(" MIDDLEPOSITIONS ") AND flg_p_limp then 1 else 0 end) \
 						as ActionCount2, \
-						sum(case when l.absolute_position in(2,3,4) then 1 else 0 end) \
+						sum(case when l.absolute_position in(" MIDDLEPOSITIONS ") then 1 else 0 end) \
 						as ActionOpportunities2, \
-						sum(case when l.absolute_position in(0,1) AND flg_p_limp then 1 else 0 end) \
+						sum(case when l.absolute_position in(" LATEPOSITIONS ") AND flg_p_limp then 1 else 0 end) \
 						as ActionCount3, \
-						sum(case when l.absolute_position in(0,1) then 1 else 0 end) \
+						sum(case when l.absolute_position in(" LATEPOSITIONS ") then 1 else 0 end) \
 						as ActionOpportunities3, \
-						sum(case when l.absolute_position in(8,9) AND flg_p_limp then 1 else 0 end) \
+						sum(case when l.absolute_position in(" BLINDPOSITIONS ") AND flg_p_limp then 1 else 0 end) \
 						as ActionCount4, \
-						sum(case when l.absolute_position in(8,9) then 1 else 0 end) \
+						sum(case when l.absolute_position in(" BLINDPOSITIONS ") then 1 else 0 end) \
 						as ActionOpportunities4 \
 				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_positions l \
 				WHERE	S.id_player = P.id_player AND \
@@ -1375,21 +1399,21 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				(case	when ActionOpportunities4 = 0 then - 1 \
 				else cast(ActionCount4 as real) / ActionOpportunities4 \
 				end) as result4, ActionOpportunities4 \
-			FROM(SELECT	sum(case when l.absolute_position in(5,6,7) AND cnt_p_call = 1 AND cnt_p_raise = 0 then 1 else 0 end) \
+			FROM(SELECT	sum(case when l.absolute_position in(" EARLYPOSITIONS ") AND cnt_p_call = 1 AND cnt_p_raise = 0 then 1 else 0 end) \
 						as ActionCount1, \
-						sum(case when l.absolute_position in(5,6,7) then 1 else 0 end) \
+						sum(case when l.absolute_position in(" EARLYPOSITIONS ") then 1 else 0 end) \
 						as ActionOpportunities1, \
-						sum(case when l.absolute_position in(2,3,4) AND cnt_p_call = 1 AND cnt_p_raise = 0 then 1 else 0 end) \
+						sum(case when l.absolute_position in(" MIDDLEPOSITIONS ") AND cnt_p_call = 1 AND cnt_p_raise = 0 then 1 else 0 end) \
 						as ActionCount2, \
-						sum(case when l.absolute_position in(2,3,4) then 1 else 0 end) \
+						sum(case when l.absolute_position in(" MIDDLEPOSITIONS ") then 1 else 0 end) \
 						as ActionOpportunities2, \
-						sum(case when l.absolute_position in(0,1) AND cnt_p_call = 1 AND cnt_p_raise = 0 then 1 else 0 end) \
+						sum(case when l.absolute_position in(" LATEPOSITIONS ") AND cnt_p_call = 1 AND cnt_p_raise = 0 then 1 else 0 end) \
 						as ActionCount3, \
-						sum(case when l.absolute_position in(0,1) then 1 else 0 end) \
+						sum(case when l.absolute_position in(" LATEPOSITIONS ") then 1 else 0 end) \
 						as ActionOpportunities3, \
-						sum(case when l.absolute_position in(8,9) AND cnt_p_call = 1 AND cnt_p_raise = 0 then 1 else 0 end) \
+						sum(case when l.absolute_position in(" BLINDPOSITIONS ") AND cnt_p_call = 1 AND cnt_p_raise = 0 then 1 else 0 end) \
 						as ActionCount4, \
-						sum(case when l.absolute_position in(8,9) then 1 else 0 end) \
+						sum(case when l.absolute_position in(" BLINDPOSITIONS ") then 1 else 0 end) \
 						as ActionOpportunities4 \
 				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_positions l \
 				WHERE	S.id_player = P.id_player AND \
@@ -1420,13 +1444,13 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				(case	when ActionOpportunities2 = 0 then - 1 \
 				else cast(ActionCount2 as real) / ActionOpportunities2 \
 				end) as result2, ActionOpportunities2 \
-			FROM(SELECT	sum(case when l.absolute_position in(8,9) AND flg_p_3bet then 1 else 0 end) \
+			FROM(SELECT	sum(case when S.position > S.val_p_raise_aggressor_pos AND flg_p_3bet then 1 else 0 end) \
 						as ActionCount1, \
-						sum(case when l.absolute_position in(8,9) AND flg_p_3bet_opp then 1 else 0 end) \
+						sum(case when S.position > S.val_p_raise_aggressor_pos AND flg_p_3bet_opp then 1 else 0 end) \
 						as ActionOpportunities1, \
-						sum(case when l.absolute_position not in(8,9) AND flg_p_3bet then 1 else 0 end) \
+						sum(case when S.position < S.val_p_raise_aggressor_pos AND flg_p_3bet then 1 else 0 end) \
 						as ActionCount2, \
-						sum(case when l.absolute_position not in(8,9) AND flg_p_3bet_opp then 1 else 0 end) \
+						sum(case when S.position < S.val_p_raise_aggressor_pos AND flg_p_3bet_opp then 1 else 0 end) \
 						as ActionOpportunities2 \
 				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_positions l \
 				WHERE	S.id_player = P.id_player AND \
@@ -1457,13 +1481,13 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				(case	when ActionOpportunities2 = 0 then - 1 \
 				else cast(ActionCount2 as real) / ActionOpportunities2 \
 				end) as result2, ActionOpportunities2 \
-			FROM(SELECT	sum(case when l.absolute_position in(8,9) AND flg_p_3bet then 1 else 0 end) \
+			FROM(SELECT	sum(case when S.position > S.val_p_raise_aggressor_pos AND flg_p_3bet then 1 else 0 end) \
 						as ActionCount1, \
-						sum(case when l.absolute_position in(8,9) AND flg_p_3bet_opp then 1 else 0 end) \
+						sum(case when S.position > S.val_p_raise_aggressor_pos AND flg_p_3bet_opp then 1 else 0 end) \
 						as ActionOpportunities1, \
-						sum(case when l.absolute_position not in(8,9) AND flg_p_3bet then 1 else 0 end) \
+						sum(case when S.position < S.val_p_raise_aggressor_pos AND flg_p_3bet then 1 else 0 end) \
 						as ActionCount2, \
-						sum(case when l.absolute_position not in(8,9) AND flg_p_3bet_opp then 1 else 0 end) \
+						sum(case when S.position < S.val_p_raise_aggressor_pos AND flg_p_3bet_opp then 1 else 0 end) \
 						as ActionOpportunities2 \
 				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_positions l \
 				WHERE	S.id_player = P.id_player AND \
@@ -1529,13 +1553,13 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				(case	when ActionOpportunities2 = 0 then - 1 \
 				else cast(ActionCount2 as real) / ActionOpportunities2 \
 				end) as result2, ActionOpportunities2 \
-			FROM(SELECT	sum(case when l.absolute_position in(8,9) AND flg_p_4bet then 1 else 0 end) \
+			FROM(SELECT	sum(case when S.position > S.val_p_raise_aggressor_pos AND flg_p_4bet then 1 else 0 end) \
 						as ActionCount1, \
-						sum(case when l.absolute_position in(8,9) AND flg_p_4bet_opp then 1 else 0 end) \
+						sum(case when S.position > S.val_p_raise_aggressor_pos AND flg_p_4bet_opp then 1 else 0 end) \
 						as ActionOpportunities1, \
-						sum(case when l.absolute_position not in(8,9) AND flg_p_4bet then 1 else 0 end) \
+						sum(case when S.position < S.val_p_raise_aggressor_pos AND flg_p_4bet then 1 else 0 end) \
 						as ActionCount2, \
-						sum(case when l.absolute_position not in(8,9) AND flg_p_4bet_opp then 1 else 0 end) \
+						sum(case when S.position < S.val_p_raise_aggressor_pos AND flg_p_4bet_opp then 1 else 0 end) \
 						as ActionOpportunities2 \
 				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_positions l \
 				WHERE	S.id_player = P.id_player AND \
@@ -1603,13 +1627,13 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				(case	when ActionOpportunities2 = 0 then - 1 \
 				else cast(ActionCount2 as real) / ActionOpportunities2 \
 				end) as result2, ActionOpportunities2 \
-			FROM(SELECT	sum(case when l.absolute_position in(8,9) AND enum_p_4bet_action = 'R' then 1 else 0 end) \
+			FROM(SELECT	sum(case when S.position > S.val_p_raise_aggressor_pos AND enum_p_4bet_action = 'R' then 1 else 0 end) \
 						as ActionCount1, \
-						sum(case when l.absolute_position in(8,9) AND amt_p_4bet_facing > 0 then 1 else 0 end) \
+						sum(case when S.position > S.val_p_raise_aggressor_pos AND amt_p_4bet_facing > 0 then 1 else 0 end) \
 						as ActionOpportunities1, \
-						sum(case when l.absolute_position not in(8,9) AND enum_p_4bet_action = 'R' then 1 else 0 end) \
+						sum(case when S.position < S.val_p_raise_aggressor_pos AND enum_p_4bet_action = 'R' then 1 else 0 end) \
 						as ActionCount2, \
-						sum(case when l.absolute_position not in(8,9) AND amt_p_4bet_facing > 0 then 1 else 0 end) \
+						sum(case when S.position < S.val_p_raise_aggressor_pos AND amt_p_4bet_facing > 0 then 1 else 0 end) \
 						as ActionOpportunities2 \
 				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_positions l \
 				WHERE	S.id_player = P.id_player AND \
