@@ -24,6 +24,8 @@ const int k_advanced_stat_update_every    =    5;
 const int k_min_hands_for_slower_updates  = 1000;
 const int k_min_name_length_to_skip_lev_dist  = 10;
 
+const std::string misscrapeChars = "1lLiI.,-";
+
 struct SPlayerData 
 {
 	char			scraped_name[kMaxLengthOfPlayername];
@@ -62,7 +64,7 @@ private:
 	void				Connect();
 	void				Reconnect();
 	void				Disconnect();
-	bool				NameLooksLikeBadScrape(char *oh_scraped_name);
+	bool				NameLooksLikeBadScrape(const char *oh_scraped_name);
 	bool				CheckIfNameExistsInDB(int chair);
 	bool				CheckIfNameHasChanged(int chair);
 	int					UpdateStat(const int m_chair, const int stat_type, const int stat);

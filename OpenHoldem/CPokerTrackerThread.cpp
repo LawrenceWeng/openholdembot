@@ -211,12 +211,15 @@ void CPokerTrackerThread::RecalculateDatabaseAverages()
 
 /* A scraped name is "bad" if it consists only of characters 
    like "l", "1", "i", "." and "," */
-bool CPokerTrackerThread::NameLooksLikeBadScrape(char *oh_scraped_name)
+bool CPokerTrackerThread::NameLooksLikeBadScrape(const char *oh_scraped_name)
 {
 	int len = (int) strlen(oh_scraped_name);
 	for (int i=0; i<len; i++)
 	{
-		if (oh_scraped_name[i]    != 'l'
+		if (misscrapeChars.find(oh_scraped_name[i]) == -1)
+			// Good name, good character found, no bad scrape
+			return false;
+		/*if (oh_scraped_name[i]    != 'l'
 			&& oh_scraped_name[i] != '1'
 			&& oh_scraped_name[i] != 'i'
 			&& oh_scraped_name[i] != 'L'
@@ -226,7 +229,7 @@ bool CPokerTrackerThread::NameLooksLikeBadScrape(char *oh_scraped_name)
 		{
 			// Good name, good character found, no bad scrape
 			return false;
-		}
+		}*/
 	}
 	// Bad name, only bad characters found, bad scrape
 	return true;
@@ -310,6 +313,12 @@ bool CPokerTrackerThread::CheckIfNameHasChanged(int chair)
 		  && 0 == strcmp(_player_data[chair].scraped_name, oh_scraped_name)) {
 		return false;
 	}
+	//name looks like current name plus possible misscrape characters
+	size_t find_pos = std::string(oh_scraped_name).find(_player_data[chair].scraped_name);
+	if (find_pos != -1)
+		if (NameLooksLikeBadScrape((std::string(oh_scraped_name).replace(find_pos, std::string(oh_scraped_name).length(),"")).c_str()))
+			return false;
+
 	write_log(preferences.debug_pokertracker(), "[PokerTracker] Name changed for chair [%d] [%s] -> [%s]\n",
 		chair, _player_data[chair].scraped_name, oh_scraped_name);
 	return true;

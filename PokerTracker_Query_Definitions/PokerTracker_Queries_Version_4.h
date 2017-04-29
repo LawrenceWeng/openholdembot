@@ -22,22 +22,22 @@
 #define MIDDLEPOSITIONS "-1"
 #define LATEPOSITIONS "-1"
 #define BLINDPOSITIONS "8,9"
-#define MIN_PLAYERS_AT_TABLE 2
-#define MAX_PLAYERS_AT_TABLE 2
+#define MIN_PLAYERS_AT_TABLE "2"
+#define MAX_PLAYERS_AT_TABLE "2"
 #elif GAMETYPE_MAX_PLAYERS == 6
 #define EARLYPOSITIONS "2,3"
 #define MIDDLEPOSITIONS "1"
 #define LATEPOSITIONS "0"
 #define BLINDPOSITIONS "8,9"
-#define MIN_PLAYERS_AT_TABLE 3
-#define MAX_PLAYERS_AT_TABLE 6
+#define MIN_PLAYERS_AT_TABLE "3"
+#define MAX_PLAYERS_AT_TABLE "6"
 #else
 #define EARLYPOSITIONS "5,6,7"
 #define MIDDLEPOSITIONS "2,3,4"
 #define LATEPOSITIONS "0,1"
 #define BLINDPOSITIONS "8,9"
-#define MIN_PLAYERS_AT_TABLE 7
-#define MAX_PLAYERS_AT_TABLE 10
+#define MIN_PLAYERS_AT_TABLE "7"
+#define MAX_PLAYERS_AT_TABLE "10"
 #endif
 
 // GENERAL STATS
@@ -789,6 +789,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				 FROM	player as P, %TYPE%_hand_player_statistics as S \
 				 WHERE	S.id_player = P.id_player AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
@@ -837,6 +838,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_positions l \
 				 WHERE	S.id_player = P.id_player AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -887,6 +889,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_positions l \
 					 WHERE	S.id_player = P.id_player AND \
 							NOT S.flg_hero AND \
+							S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 							S.id_gametype = %GAMETYPE% AND \
 							P.id_site = %SITEID% AND \
 							REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -937,6 +940,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_positions l \
 					 WHERE	S.id_player = P.id_player AND \
 							NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 							S.id_gametype = %GAMETYPE% AND \
 							P.id_site = %SITEID% AND \
 							REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -966,6 +970,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				 FROM	player as P, %TYPE%_hand_player_statistics as S \
 				 WHERE	S.id_player = P.id_player AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
@@ -993,6 +998,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				 FROM	player as P, %TYPE%_hand_player_statistics as S \
 				 WHERE	S.id_player = P.id_player AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
@@ -1034,6 +1040,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_positions l \
 					 WHERE	S.id_player = P.id_player AND \
 							NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 							S.id_gametype = %GAMETYPE% AND \
 							P.id_site = %SITEID% AND \
 							REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -1070,6 +1077,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					 FROM	player as P, %TYPE%_hand_player_statistics as S \
 					 WHERE	S.id_player = P.id_player AND \
 							NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 							S.id_gametype = %GAMETYPE% AND \
 							P.id_site = %SITEID% AND \
 							REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
@@ -1104,6 +1112,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				 FROM	player as P, %TYPE%_hand_player_statistics as S \
 				 WHERE	S.id_player = P.id_player AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
@@ -1145,6 +1154,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_positions l \
 				WHERE	S.id_player = P.id_player AND \
 					NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
 					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -1188,6 +1198,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_positions l \
 				WHERE	S.id_player = P.id_player AND \
 					NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
 					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -1217,6 +1228,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				 FROM	player as P, %TYPE%_hand_player_statistics as S \
 				 WHERE	S.id_player = P.id_player AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 				 		S.flg_p_face_raise AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
@@ -1266,6 +1278,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_positions l \
 				WHERE	S.id_player = P.id_player AND \
 					NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
 					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -1316,6 +1329,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_positions l \
 				WHERE	S.id_player = P.id_player AND \
 					NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
 					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -1367,6 +1381,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_positions l \
 				WHERE	S.id_player = P.id_player AND \
 					NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
 					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -1418,6 +1433,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_positions l \
 				WHERE	S.id_player = P.id_player AND \
 					NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
 					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -1455,6 +1471,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_positions l \
 				WHERE	S.id_player = P.id_player AND \
 					NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
 					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -1492,6 +1509,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_positions l \
 				WHERE	S.id_player = P.id_player AND \
 					NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
 					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -1529,6 +1547,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				FROM	player as P, %TYPE%_hand_player_statistics as S \
 				WHERE	S.id_player = P.id_player AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -1564,6 +1583,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_positions l \
 				WHERE	S.id_player = P.id_player AND \
 					NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
 					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -1603,6 +1623,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				FROM	player as P, %TYPE%_hand_player_statistics as S \
 				WHERE	S.id_player = P.id_player AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -1638,6 +1659,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_positions l \
 				WHERE	S.id_player = P.id_player AND \
 					NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
 					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -1693,6 +1715,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				 FROM	player as P, %TYPE%_hand_player_statistics as S \
 				 WHERE	S.id_player = P.id_player AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
@@ -1752,6 +1775,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				 FROM	player as P, %TYPE%_hand_player_statistics as S \
 				 WHERE	S.id_player = P.id_player AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
@@ -1811,6 +1835,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				 FROM	player as P, %TYPE%_hand_player_statistics as S \
 				 WHERE	S.id_player = P.id_player AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
@@ -1974,6 +1999,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				 FROM	player as P, %TYPE%_hand_player_statistics as S \
 				 WHERE	S.id_player = P.id_player AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
@@ -2016,6 +2042,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) = 1 AND \
 						H.cnt_players_f = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -2054,6 +2081,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) = 1 AND \
 						H.cnt_players_f = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -2094,6 +2122,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) = 1 AND \
 						H.cnt_players_f = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -2134,6 +2163,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 0 AND \
 						H.cnt_players_t = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -2172,6 +2202,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 0 AND \
 						H.cnt_players_t = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -2214,6 +2245,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 0 AND \
 						H.cnt_players_t = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -2249,6 +2281,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 0 AND \
 						H.cnt_players_t = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -2283,6 +2316,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 0 AND \
 						H.cnt_players_t = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -2319,6 +2353,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 0 AND \
 						H.cnt_players_t = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -2355,6 +2390,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 0 AND \
 						H.cnt_players_t = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -2390,6 +2426,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 0 AND \
 						H.cnt_players_t = 2 AND \
 					NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
 					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -2426,6 +2463,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 0 AND \
 						H.cnt_players_t = 2 AND \
 					NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
 					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -2469,6 +2507,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 0 AND \
 						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -2507,6 +2546,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 0 AND \
 						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -2550,6 +2590,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 0 AND \
 						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -2586,6 +2627,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 0 AND \
 						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -2621,6 +2663,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 0 AND \
 						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -2657,6 +2700,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 0 AND \
 						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -2693,6 +2737,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 0 AND \
 						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -2728,6 +2773,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 0 AND \
 						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -2764,6 +2810,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 0 AND \
 						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -2801,6 +2848,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) = 1 AND \
 						H.cnt_players_f > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -2832,6 +2880,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) = 1 AND \
 						H.cnt_players_f > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -2865,6 +2914,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) = 1 AND \
 						H.cnt_players_f > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -2898,6 +2948,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 0 AND \
 						H.cnt_players_t > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -2929,6 +2980,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 0 AND \
 						H.cnt_players_t > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -2964,6 +3016,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 0 AND \
 						H.cnt_players_t > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -2999,6 +3052,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 0 AND \
 						H.cnt_players_t > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -3041,6 +3095,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 0 AND \
 						H.cnt_players_t > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -3084,6 +3139,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 0 AND \
 						H.cnt_players_t > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -3120,6 +3176,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 0 AND \
 						H.cnt_players_t > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -3162,6 +3219,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 0 AND \
 						H.cnt_players_t > 2 AND \
 					NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
 					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -3205,6 +3263,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 0 AND \
 						H.cnt_players_t > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -3241,6 +3300,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 0 AND \
 						H.cnt_players_r > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -3272,6 +3332,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 0 AND \
 						H.cnt_players_r > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -3308,6 +3369,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 0 AND \
 						H.cnt_players_r > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -3344,6 +3406,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 0 AND \
 						H.cnt_players_r > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -3386,6 +3449,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 0 AND \
 						H.cnt_players_r > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -3431,6 +3495,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 0 AND \
 						H.cnt_players_r > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -3469,6 +3534,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 0 AND \
 						H.cnt_players_r > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -3511,6 +3577,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 0 AND \
 						H.cnt_players_r > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -3556,6 +3623,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 0 AND \
 						H.cnt_players_r > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -3605,6 +3673,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) = 2 AND \
 						H.cnt_players_f = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -3643,6 +3712,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) = 2 AND \
 						H.cnt_players_f = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -3684,6 +3754,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) = 2 AND \
 						H.cnt_players_f = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -3718,6 +3789,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) = 2 AND \
 						H.cnt_players_f = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -3753,6 +3825,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) = 2 AND \
 						H.cnt_players_f = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -3788,6 +3861,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) = 2 AND \
 						H.cnt_players_f = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -3822,6 +3896,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) = 2 AND \
 						H.cnt_players_f = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -3857,6 +3932,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) = 2 AND \
 						H.cnt_players_f = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -3892,6 +3968,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) = 2 AND \
 						H.cnt_players_f = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -3934,6 +4011,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 1 AND \
 						H.cnt_players_t = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -3972,6 +4050,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 1 AND \
 						H.cnt_players_t = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -4015,6 +4094,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 1 AND \
 						H.cnt_players_t = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -4051,6 +4131,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 1 AND \
 						H.cnt_players_t = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -4086,6 +4167,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 1 AND \
 						H.cnt_players_t = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -4122,6 +4204,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 1 AND \
 						H.cnt_players_t = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -4158,6 +4241,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 1 AND \
 						H.cnt_players_t = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -4193,6 +4277,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 1 AND \
 						H.cnt_players_t = 2 AND \
 					NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
 					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -4229,6 +4314,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 1 AND \
 						H.cnt_players_t = 2 AND \
 					NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
 					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -4272,6 +4358,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 1 AND \
 						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -4310,6 +4397,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 1 AND \
 						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -4353,6 +4441,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 1 AND \
 						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -4389,6 +4478,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 1 AND \
 						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -4424,6 +4514,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 1 AND \
 						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -4460,6 +4551,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 1 AND \
 						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -4496,6 +4588,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 1 AND \
 						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -4531,6 +4624,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 1 AND \
 						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -4567,6 +4661,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 1 AND \
 						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -4604,6 +4699,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) = 2 AND \
 						H.cnt_players_f > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -4635,6 +4731,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) = 2 AND \
 						H.cnt_players_f > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -4669,6 +4766,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) = 2 AND \
 						H.cnt_players_f > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -4703,6 +4801,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) = 2 AND \
 						H.cnt_players_f > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -4745,6 +4844,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) = 2 AND \
 						H.cnt_players_f > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -4787,6 +4887,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) = 2 AND \
 						H.cnt_players_f > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -4821,6 +4922,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) = 2 AND \
 						H.cnt_players_f > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -4863,6 +4965,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) = 2 AND \
 						H.cnt_players_f > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -4905,6 +5008,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) = 2 AND \
 						H.cnt_players_f > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -4940,6 +5044,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 1 AND \
 						H.cnt_players_t > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -4971,6 +5076,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 1 AND \
 						H.cnt_players_t > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -5007,6 +5113,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 1 AND \
 						H.cnt_players_t > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -5043,6 +5150,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 1 AND \
 						H.cnt_players_t > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -5085,6 +5193,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 1 AND \
 						H.cnt_players_t > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -5130,6 +5239,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 1 AND \
 						H.cnt_players_t > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -5168,6 +5278,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 1 AND \
 						H.cnt_players_t > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -5210,6 +5321,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 1 AND \
 						H.cnt_players_t > 2 AND \
 					NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
 					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -5255,6 +5367,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) = 1 AND \
 						H.cnt_players_t > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -5293,6 +5406,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 1 AND \
 						H.cnt_players_r > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -5324,6 +5438,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 1 AND \
 						H.cnt_players_r > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -5360,6 +5475,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 1 AND \
 						H.cnt_players_r > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -5396,6 +5512,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 1 AND \
 						H.cnt_players_r > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -5438,6 +5555,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 1 AND \
 						H.cnt_players_r > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -5483,6 +5601,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 1 AND \
 						H.cnt_players_r > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -5521,6 +5640,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 1 AND \
 						H.cnt_players_r > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -5563,6 +5683,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 1 AND \
 						H.cnt_players_r > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -5608,6 +5729,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) = 1 AND \
 						H.cnt_players_r > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -5657,6 +5779,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) >= 3 AND \
 						H.cnt_players_f = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -5695,6 +5818,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) >= 3 AND \
 						H.cnt_players_f = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -5736,6 +5860,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) >= 3 AND \
 						H.cnt_players_f = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -5770,6 +5895,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) >= 3 AND \
 						H.cnt_players_f = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -5805,6 +5931,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) >= 3 AND \
 						H.cnt_players_f = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -5840,6 +5967,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) >= 3 AND \
 						H.cnt_players_f = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -5874,6 +6002,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) >= 3 AND \
 						H.cnt_players_f = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -5909,6 +6038,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) >= 3 AND \
 						H.cnt_players_f = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -5944,6 +6074,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) >= 3 AND \
 						H.cnt_players_f = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -5986,6 +6117,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) >= 2 AND \
 						H.cnt_players_t = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -6024,6 +6156,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) >= 2 AND \
 						H.cnt_players_t = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -6067,6 +6200,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) >= 2 AND \
 						H.cnt_players_t = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -6103,6 +6237,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) >= 2 AND \
 						H.cnt_players_t = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -6138,6 +6273,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) >= 2 AND \
 						H.cnt_players_t = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -6174,6 +6310,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) >= 2 AND \
 						H.cnt_players_t = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -6210,6 +6347,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) >= 2 AND \
 						H.cnt_players_t = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -6245,6 +6383,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) >= 2 AND \
 						H.cnt_players_t = 2 AND \
 					NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
 					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -6281,6 +6420,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) >= 2 AND \
 						H.cnt_players_t = 2 AND \
 					NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
 					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -6324,6 +6464,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) >= 2 AND \
 						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -6362,6 +6503,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) >= 2 AND \
 						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -6405,6 +6547,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) >= 2 AND \
 						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -6441,6 +6584,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) >= 2 AND \
 						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -6476,6 +6620,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) >= 2 AND \
 						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -6512,6 +6657,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) >= 2 AND \
 						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -6548,6 +6694,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) >= 2 AND \
 						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -6583,6 +6730,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) >= 2 AND \
 						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -6619,6 +6767,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) >= 2 AND \
 						H.cnt_players_r = 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -6656,6 +6805,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) >= 3 AND \
 						H.cnt_players_f > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -6687,6 +6837,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) >= 3 AND \
 						H.cnt_players_f > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -6721,6 +6872,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) >= 3 AND \
 						H.cnt_players_f > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -6755,6 +6907,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) >= 3 AND \
 						H.cnt_players_f > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -6797,6 +6950,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) >= 3 AND \
 						H.cnt_players_f > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -6839,6 +6993,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) >= 3 AND \
 						H.cnt_players_f > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -6873,6 +7028,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) >= 3 AND \
 						H.cnt_players_f > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -6915,6 +7071,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) >= 3 AND \
 						H.cnt_players_f > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -6957,6 +7114,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_p) >= 3 AND \
 						H.cnt_players_f > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -6992,6 +7150,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) >= 2 AND \
 						H.cnt_players_t > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -7023,6 +7182,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) >= 2 AND \
 						H.cnt_players_t > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -7059,6 +7219,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) >= 2 AND \
 						H.cnt_players_t > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -7095,6 +7256,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) >= 2 AND \
 						H.cnt_players_t > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -7137,6 +7299,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) >= 2 AND \
 						H.cnt_players_t > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -7182,6 +7345,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) >= 2 AND \
 						H.cnt_players_t > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -7220,6 +7384,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) >= 2 AND \
 						H.cnt_players_t > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -7262,6 +7427,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) >= 2 AND \
 						H.cnt_players_t > 2 AND \
 					NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 					S.id_gametype = %GAMETYPE% AND \
 					P.id_site = %SITEID% AND \
 					REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -7307,6 +7473,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_f) >= 2 AND \
 						H.cnt_players_t > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -7345,6 +7512,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) >= 2 AND \
 						H.cnt_players_r > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -7376,6 +7544,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) >= 2 AND \
 						H.cnt_players_r > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -7412,6 +7581,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) >= 2 AND \
 						H.cnt_players_r > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -7448,6 +7618,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) >= 2 AND \
 						H.cnt_players_r > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -7490,6 +7661,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) >= 2 AND \
 						H.cnt_players_r > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -7535,6 +7707,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) >= 2 AND \
 						H.cnt_players_r > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -7573,6 +7746,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) >= 2 AND \
 						H.cnt_players_r > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -7615,6 +7789,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) >= 2 AND \
 						H.cnt_players_r > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -7660,6 +7835,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 						length(H.str_aggressors_t) >= 2 AND \
 						H.cnt_players_r > 2 AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -7695,6 +7871,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				 FROM	player as P, %TYPE%_hand_player_statistics as S \
 				 WHERE	S.id_player = P.id_player AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
@@ -7729,6 +7906,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l \
 					 WHERE	S.id_player = P.id_player AND \
 							NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 							S.id_gametype = %GAMETYPE% AND \
 							P.id_site = %SITEID% AND \
 							REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -7766,6 +7944,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					 FROM	player as P, %TYPE%_hand_player_statistics as S \
 					 WHERE	S.id_player = P.id_player AND \
 							NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 							S.id_gametype = %GAMETYPE% AND \
 							P.id_site = %SITEID% AND \
 							REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -7801,6 +7980,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				FROM	player as P, %TYPE%_hand_player_statistics as S \
 				WHERE	S.id_player = P.id_player AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
@@ -7835,6 +8015,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					 FROM	player as P, %TYPE%_hand_player_statistics as S \
 					 WHERE	S.id_player = P.id_player AND \
 							NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 							S.id_gametype = %GAMETYPE% AND \
 							P.id_site = %SITEID% AND \
 							REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
@@ -7893,6 +8074,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l \
 					 WHERE	S.id_player = P.id_player AND \
 							NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 							S.id_gametype = %GAMETYPE% AND \
 							P.id_site = %SITEID% AND \
 							REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -7930,6 +8112,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					 FROM	player as P, %TYPE%_hand_player_statistics as S \
 					 WHERE	S.id_player = P.id_player AND \
 							NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 							S.id_gametype = %GAMETYPE% AND \
 							P.id_site = %SITEID% AND \
 							REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -7965,6 +8148,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				FROM	player as P, %TYPE%_hand_player_statistics as S \
 				WHERE	S.id_player = P.id_player AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
@@ -7999,6 +8183,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					 FROM	player as P, %TYPE%_hand_player_statistics as S \
 					 WHERE	S.id_player = P.id_player AND \
 							NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 							S.id_gametype = %GAMETYPE% AND \
 							P.id_site = %SITEID% AND \
 							REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
@@ -8058,6 +8243,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					 FROM	player as P, %TYPE%_hand_player_statistics as S, lookup_actions l \
 					 WHERE	S.id_player = P.id_player AND \
 							NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 							S.id_gametype = %GAMETYPE% AND \
 							P.id_site = %SITEID% AND \
 							REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -8095,6 +8281,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					 FROM	player as P, %TYPE%_hand_player_statistics as S \
 					 WHERE	S.id_player = P.id_player AND \
 							NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 							S.id_gametype = %GAMETYPE% AND \
 							P.id_site = %SITEID% AND \
 							REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%' AND \
@@ -8130,6 +8317,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 				FROM	player as P, %TYPE%_hand_player_statistics as S \
 				WHERE	S.id_player = P.id_player AND \
 						NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 						S.id_gametype = %GAMETYPE% AND \
 						P.id_site = %SITEID% AND \
 						REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
@@ -8164,6 +8352,7 @@ t_QueryDefinition query_definitions[k_number_of_pokertracker_stat_types] =
 					 FROM	player as P, %TYPE%_hand_player_statistics as S \
 					 WHERE	S.id_player = P.id_player AND \
 							NOT S.flg_hero AND \
+						S.cnt_players between " MIN_PLAYERS_AT_TABLE " AND " MAX_PLAYERS_AT_TABLE " AND \
 							S.id_gametype = %GAMETYPE% AND \
 							P.id_site = %SITEID% AND \
 							REPLACE(P.player_name, ' ', '') LIKE '%SCREENNAME%') foo",
